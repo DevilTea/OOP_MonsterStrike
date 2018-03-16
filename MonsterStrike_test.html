@@ -1,0 +1,109 @@
+<script src="./test/qunit-1.15.0.js"></script>
+<script src="../../src/blanket.min.js"></script>
+<script type="text/javascript">
+//陣列和載入JS檔的順序相同, lookFor為在要載入的檔案中, 
+//有用到的全域變數, importJS這個function, 會在找到lookFor的變數後
+//才會繼續loading下一個檔案, 如果沒有需要lookFor, 則以空字串代表
+var _id = 'Test';
+var _isConnectWebSocket = false;  // 2015.12.02 , true -> false
+var _isTestMode = true;
+var _isRecordMode = false;
+
+
+var listScript = 
+[
+    { src: '../../src/loadFramework.js', lookFor: 'loadFrameworkEnd'},
+        { src: 'game_sample/js/define.js', lookFor: 'define' },
+        { src: 'game_sample/js/myMenu.js', lookFor: 'MyMenu' },
+        { src: 'game_sample/js/constants.js', lookFor: 'Constants' },
+        { src: 'game_sample/js/score.js', lookFor: 'Score' },
+        { src: 'game_sample/js/bombMan.js', lookFor: 'BombMan' },
+        { src: 'game_sample/js/monster.js', lookFor: 'Monster' },
+        { src: 'game_sample/js/explore.js', lookFor: 'Explore' },
+        { src: 'game_sample/js/bomb.js', lookFor: 'Bomb' },
+        { src: 'game_sample/js/box.js', lookFor: 'Box' },
+        { src: 'game_sample/js/mapTile.js', lookFor: 'MapTile' },
+        { src: 'game_sample/js/map.js', lookFor: 'Map' },
+        { src: 'game_sample/js/myGameLevel1.js', lookFor: 'MyGame' },
+        { src: 'game_sample/js/level2.js', lookFor: 'Level2' },
+        { src: 'game_sample/js/level2_change.js', lookFor: 'Level2_change' },
+        { src: 'game_sample/js/gameOver.js', lookFor: 'GameOver' },
+        { src: 'game_sample/js/mainGame.js'},
+    { src: 'test/test.js'},
+	{ src: '../../src/FancyWebSocket.js'},
+	{ src: '../../src/SendWebSocket.js'},
+];
+
+
+</script>
+
+<script type="text/javascript" src='../../src/config.js'></script>
+<script type="text/javascript" src='../../src/Record.js'></script>
+<script type="text/javascript" src='../../src/Replay.js'></script>
+<script type="text/javascript" src='../../src/EqualCondition.js'></script>
+<script type="text/javascript" src='../../src/Util.js'></script>
+<script type="text/javascript" src='../../src/core.js'></script>
+<script type="text/javascript" src='../../src/DebugInfo.js'></script>
+<script type="text/javascript" src='../../src/FpsAnalysis.js'></script>
+<script type="text/javascript" src='../../src/Point.js'></script>
+<script type="text/javascript" src='../../src/GameObject.js'></script>
+<script type="text/javascript" src='../../src/Sprite.js'></script>
+<script type="text/javascript" src='../../src/animationSprite.js'></script>
+<script type="text/javascript" src='../../src/Scene.js'></script>
+<script type="text/javascript" src='../../src/ResourceManager.js'></script>
+<script type="text/javascript" src='../../src/level.js'></script>
+<script type="text/javascript" src='../../src/Game.js'></script>
+<script type="text/javascript" src='../../src/MouseManager.js'></script>
+<script type="text/javascript" src='../../src/KeyBoardManager.js'></script>
+<script type="text/javascript" src='../../src/TouchManager.js'></script>
+<script type="text/javascript" src='../../src/gameMainMenu.js'></script>
+<script type="text/javascript" src='../../src/Audio.js'></script>
+<script type="text/javascript" src='../../src/Box2dWeb-2.1.a.3.js'></script>
+<script type="text/javascript" src='../../src/Box2D.js'></script>
+<script type="text/javascript" src='../../src/circleComponent.js'></script>
+<script type="text/javascript" src='../../src/polygonComponent.js'></script>
+<script type="text/javascript" src='../../src/squareComponent.js'></script>
+<script type="text/javascript" src='../../src/triangleComponent.js'></script>
+<!--
+<script src='../../src/loadFramework.js'></script>
+-->
+
+<script  type="text/javascript" src='game_sample/js/define.js' data-cover></script>
+<script  type="text/javascript" src='game_sample/js/myMenu.js' data-cover ></script>
+<script  type="text/javascript" src='game_sample/js/constants.js' data-cover></script>
+<script  type="text/javascript" src='game_sample/js/score.js' data-cover></script>
+<script  type="text/javascript" src='game_sample/js/bombMan.js' data-cover></script>
+<script  type="text/javascript" src='game_sample/js/monster.js' data-cover></script>
+<script  type="text/javascript" src='game_sample/js/explore.js' data-cover></script>
+<script  type="text/javascript" src='game_sample/js/bomb.js' data-cover></script>
+<script  type="text/javascript" src='game_sample/js/box.js' data-cover></script>
+<script  type="text/javascript" src='game_sample/js/mapTile.js' data-cover></script>
+<script  type="text/javascript" src='game_sample/js/map.js' data-cover></script>
+<!--
+<script  type="text/javascript" src='game_sample/js/myGameLevel1.js' data-cover></script>
+<script  type="text/javascript" src='game_sample/js/level2.js' data-cover></script>
+-->
+<script  type="text/javascript" src='game_sample/js/level2_change.js' data-cover></script>
+<script  type="text/javascript" src='game_sample/js/gameOver.js' ></script>
+<script  type="text/javascript" src='game_sample/js/mainGame.js' data-cover></script>
+<script  type="text/javascript" src='test/test.js' ></script>
+<!--
+<script  type="text/javascript" src='../../src/FancyWebSocket.js' ></script>
+<script  type="text/javascript" src='../../src/SendWebSocket.js'  ></script>
+-->
+<!--
+<script type="text/javascript" src="../../src/testLoad.js"></script>
+-->
+
+<div id="main" style="position: relative; float:left; width:30%;">
+	<link rel="stylesheet" href="./test/qunit-1.15.0.css">
+	<div id="qunit"></div>
+	<div id="qunit-fixture"></div>
+
+<style type="text/css">
+        /* DOM之間不要留空間 */
+        *{
+            padding:0;
+            margin:0;
+        }
+</style>
