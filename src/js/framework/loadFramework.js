@@ -41,7 +41,7 @@ let loadFrameworkEnd
     //才會繼續loading下一個檔案, 如果沒有需要lookFor, 則以空字串代表
     let frameworklistScript = 
     [
-        { src: frameworkPath + 'Config.js'},/*updated*/
+        { src: frameworkPath + 'config.js'},/*updated*/
         { src: frameworkPath + 'Recorder.js'},/*updated*/
         { src: frameworkPath + 'Replayer.js'},/*updated*/
         { src: frameworkPath + 'EqualCondition.js'},/*updated*/
