@@ -1,4 +1,4 @@
-var Framework;
+Framework;
 Framework = (function (Framework) {
 	'use strict'
 	Framework.Box2D = function () {

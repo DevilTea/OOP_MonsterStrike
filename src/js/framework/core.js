@@ -1,11 +1,11 @@
 // By Raccoon , undyingmoon
-var Framework = (function (Framework) {
+Framework = (function (Framework) {
     'use strict'
     Framework.exClass = function(){
         // 如果用了new keyword 就拋例外
         if(this instanceof Framework.exClass){
             Framework.DebugInfo.Log.error('不能再Framework.exClass之前使用new關鍵字');
-            throw 'can\'t use new keyword on Framework.exClass';
+            throw 'can\'t use -new- keyword on Framework.exClass';
         }
         // 宣告變數......
         var parent, props, childClass , i;

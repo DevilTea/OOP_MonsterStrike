@@ -1,80 +1,80 @@
-var Framework = (function (Framework) {
-	'use strict'
-	Framework.DebugInfo = (function () {
-		var _showDebugInfo = false,
-			_containerAppended = false,
-            that = {};
-		var _debugInfo = document.createElement('div');
-		_debugInfo.style.width = '500px';
-		_debugInfo.style.height = '200px';
-		_debugInfo.style.backgroundColor = '#f0f0f0';
-		_debugInfo.style.position = 'absolute';
-		_debugInfo.style.top = '10px';
-		_debugInfo.style.border = '1px solid #000';
-		_debugInfo.style.right = '10px';
-		_debugInfo.style.zIndex = '99999';
-		_debugInfo.style.overflowY = 'scroll';
+'use strict'
+class Log {
+	constructor(debugInfo, showDebugInfo) {
+		this.debugInfo = debugInfo
+		this.showDebugInfo = showDebugInfo
+	}
+	
+	prepareLog(state, str) {
+		let newLog = document.createElement('p')
+		newLog.style.margin = '0'
+		newLog.style.minWidth = '600px'	//In order to fill the background color
+		newLog.style.padding = '2px 0 2px 5px'
+		let logTxt = document.createTextNode('[' + (new Date()).format('hh:mm:ss') + '] ' + '[' + state + '] ' + str)
+		newLog.appendChild(logTxt)
+		this.debugInfo.appendChild(newLog)
+		this.debugInfo.scrollTop = this.debugInfo.scrollHeight
+		return newLog
+	}
+	
+	info(str) {
+		this.prepareLog('Info', str).style.backgroundColor = '#80ffff'
+	}
+	
+	error(str) {
+		this.prepareLog('Error', str).style.backgroundColor = '#ff8080'
+	}
 
-		var _prepareLog = function (state, str) {
-			var newLog = document.createElement('p');
-			newLog.style.margin = '0';
-			newLog.style.minWidth = '600px';	//In order to fill the background color
-			newLog.style.padding = '2px 0 2px 5px';
-			var logTxt = document.createTextNode('[' + (new Date()).format('hh:mm:ss') + '] ' + '[' + state + '] ' + str);
-			newLog.appendChild(logTxt);
-			_debugInfo.appendChild(newLog);
-			_debugInfo.scrollTop = _debugInfo.scrollHeight;
-			return newLog;
-		};
+	warning(str) {
+		this.prepareLog('Warning', str).style.backgroundColor = '#ffff80'
+	}
 
-		that.Log = {};
+	console(str) {
+		if (this.showDebugInfo) {
+			console.log(str)
+		}
+	}
+}
 
-		that.Log.info = function (str) {
-			_prepareLog('Info', str).style.backgroundColor = '#80ffff';
-		};
+Framework.DebugInfo = new (class DebugInfo {
+	constructor() {
+		this.showDebugInfo = false
+		this.containerAppended = false
+		this.debugInfo = document.createElement('div')
+		this.debugInfo.style.width = '500px'
+		this.debugInfo.style.height = '200px'
+		this.debugInfo.style.backgroundColor = '#f0f0f0'
+		this.debugInfo.style.position = 'absolute'
+		this.debugInfo.style.top = '10px'
+		this.debugInfo.style.border = '1px solid #000'
+		this.debugInfo.style.right = '10px'
+		this.debugInfo.style.zIndex = '99999'
+		this.debugInfo.style.overflowY = 'scroll'
+		this.Log = new Log(this.debugInfo, this.showDebugInfo)
+	}
 
-		that.Log.error = function (str) {
-			_prepareLog('Error', str).style.backgroundColor = '#ff8080';
-		};
+	/*that.showDebugInfo = function (isShowDebug) {
+		_showDebugInfo = isShowDebug;
+	};*/
 
-		that.Log.warning = function (str) {
-			_prepareLog('Warning', str).style.backgroundColor = '#ffff80';
-		};
+	show(dom) {				
+		
+		this.debugInfo.style.visibility = 'visible'
+		this.debugInfo.style.width = '500px'
+		this.debugInfo.style.height = '200px'
+		this.debugInfo.style.border = '1px solid #000'
+		
+		if(!this.containerAppended) {
+			var container = dom || document.body
+			container.appendChild(this.debugInfo)
+		}
+	}
 
-		that.Log.console = function (str) {
-			if (_showDebugInfo) {
-				console.Log(str);
-			}
-		};
-
-		/*that.showDebugInfo = function (isShowDebug) {
-			_showDebugInfo = isShowDebug;
-		};*/
-
-		that.show = function (dom) {				
-			
-			_debugInfo.style.visibility = 'visible';
-			_debugInfo.style.width = '500px';
-			_debugInfo.style.height = '200px';
-			_debugInfo.style.border = '1px solid #000';
-			
-			if(!_containerAppended) {
-				var container = dom || document.body;
-				container.appendChild(_debugInfo)
-			}
-		};
-
-		that.hide = function (dom) {
-			var zeroPxStr = '0px';
-			_debugInfo.style.visibility = 'hidden';
-			_debugInfo.style.border = zeroPxStr;
-			_debugInfo.style.width = zeroPxStr;
-			_debugInfo.style.height = zeroPxStr;
-		};
-
-
-		return that;
-	})();
-
-	return Framework;
-})(Framework || {});
+	hide(dom) {
+		const zeroPxStr = '0px';
+		this.debugInfo.style.visibility = 'hidden'
+		this.debugInfo.style.border = zeroPxStr
+		this.debugInfo.style.width = zeroPxStr
+		this.debugInfo.style.height = zeroPxStr
+	}
+})

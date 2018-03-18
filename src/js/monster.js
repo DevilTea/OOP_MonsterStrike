@@ -1,8 +1,8 @@
 //由於JS尚未支援Class(ECMAScript 6以後, 宣稱會支援)
 //目前Class寫法都是以function的方式
 //只要是this.XXX皆會是Public的property
-var Marble = function(marbleID, options) {
-    this.url = define.imagePath + "marble/" + marbleID;      
+var Monster = function(file, map, options) {
+    this.url = file;      
     //AnimationSprite當圖片是一整張圖片(連續圖), 而非Array時一定要給col, row三個(url是一定要的)   
     this.sprite = new Framework.AnimationSprite({url:this.url, col:3 , row:4 , loop:true , speed:12}); 
     this.sprite.scale = 2;
@@ -10,17 +10,21 @@ var Marble = function(marbleID, options) {
     var PIXEL_CONST = 64;
     //this.sprite.start({ from: 0, to: 2, loop: true});
     this.mapPosition = {x:0, y:0};
+    this.walkTarget = {x:0, y:0};
     this.spritePosition = {x:0, y:0};
     this.constants = new Constants();
+    this.map = map;
+    this.isdieing = false;
+    this.isdead = false;
+    this.dieingCounter = 0;
+
+    this.canWalking = true;
 
     this.StepMovedCallBack = [];
-    this.maxBombNum = 1;
-    this.bombNum = 0;
-    this.bombPower = 1;
 
     this.isWalking = false;
 
-    var m_bombMan = this;
+    var m_monster = this;
 
     this.playerDirection = this.constants.DirectionEnum.DOWN;
     //以下這句話的意思是當options.position為undefined時this.sprite.position = x: 0, y: 0}
@@ -35,7 +39,6 @@ var Marble = function(marbleID, options) {
 
     //moveStep為位移量  格式範例{x:1,y:0}
     this.walk = function(moveStep){
-        //console.log("player walk " + this.spritePosition.x + ", " + this.spritePosition.y);
         if(this.isWalking === false){
             if(moveStep.x > 0){
                 this.playerDirection = this.constants.DirectionEnum.RIGHT;
@@ -49,21 +52,25 @@ var Marble = function(marbleID, options) {
                 this.playerDirection = this.constants.DirectionEnum.UP;
             }
             this.isWalking = true;
-            this.mapPosition = {x:this.mapPosition.x + moveStep.x, y:this.mapPosition.y + moveStep.y};
+            this.walkTarget = {x:this.mapPosition.x + moveStep.x, y:this.mapPosition.y + moveStep.y};
             this.sprite.start({ from: this.playerDirection * 3, to: this.playerDirection * 3 + 2, loop: true});
         }
     }
 
     this.die = function(){
-        console.log('player die');
-        Framework.Game.goToNextLevel();
+        this.isdead = true;
+    }
+
+    this.stopWalk = function()
+    {
+        this.canWalking = false;
     }
 
     this.walkEnd = function(){    }
 
     var walkSpeed = 8;
     this.walkAlittle = function(){
-        //console.log("player walk a little " + walkSpeed);
+
         if(this.playerDirection === this.constants.DirectionEnum.DOWN){
             this.spritePosition = {x:this.spritePosition.x, y:this.spritePosition.y + walkSpeed};
         }
@@ -79,13 +86,14 @@ var Marble = function(marbleID, options) {
     }
 
     this.update = function(){
+        if(this.isdead ){ return; }
         this.sprite.update();
         if(this.isWalking){
-            if(this.mapPosition.x * PIXEL_CONST === this.spritePosition.x && this.mapPosition.y * PIXEL_CONST === this.spritePosition.y){
+            if(this.walkTarget.x * PIXEL_CONST === this.spritePosition.x && this.walkTarget.y * PIXEL_CONST === this.spritePosition.y){
                 this.isWalking = false;
                 this.sprite.stop();
                 this.sprite.index = this.playerDirection * 3 + 1;
-
+                this.mapPosition = this.walkTarget;
                 //callback
                 for(var i=0; i<this.StepMovedCallBack.length; i++){
                     this.StepMovedCallBack[i](this);
@@ -93,46 +101,66 @@ var Marble = function(marbleID, options) {
             }else{
                 this.walkAlittle();
             }
+        }else
+        {
+            if(this.canWalking)
+            {
+                this.randomWalk();
+            }
         }
     }
 
 
     this.draw = function(ctx){
+        if(this.isdead){ return; }
         this.sprite.position = {x: this.spritePosition.x, y: this.spritePosition.y};
         this.sprite.draw(ctx);
     }
-
-    this.increaseBombNum = function(){
-        this.maxBombNum += 1;
-    }
-
-    this.increaseBombPower = function(){
-        this.bombPower += 1;
-    }
-
-    this.bombExploredHandler = function(exploredArray, bomb){
-        m_bombMan.bombNum -= 1;
-    }
-
-    this.placeBomb = function(){
-        if(this.bombNum < this.maxBombNum){
-            var bomb = new Bomb(this.bombPower);
-            bomb.position = this.mapPosition;
-            bomb.ExploredCallBack.push(this.bombExploredHandler);
-            this.bombNum += 1;
-            return bomb;
+    var walkDir = 0;
+    this.randomWalk = function()
+    {
+        //var randNum = Math.floor(Math.random() * 100);
+        var randNum = Framework.Game._currentLevel.cycleCount % 553;
+        walkDir++;
+        var walkStep = {x:0,y:0}
+        if(randNum % 117 == 0)
+        {
+            walkStep.x = 1
+        }else if(randNum % 79 == 0)
+        {
+            walkStep.x = -1
+        }else if(randNum % 133 == 0)
+        {
+            walkStep.y = 1
+        }else if(randNum % 157 == 0)
+        {
+            walkStep.y = -1
+        }else
+        {
+            walkDir = 0;
+            return;
         }
-        return null;
+
+        if(this.map.checkIsWalkAble(this.mapPosition.x + walkStep.x,this.mapPosition.y + walkStep.y))
+        {
+            this.walk(walkStep);
+        }
     }
 
 };
 
-Object.defineProperty(BombMan.prototype, 'position', {
+Object.defineProperty(Monster.prototype, 'position', {
     get: function() {
         return this.mapPosition;
     },
     set: function(newValue) {
         this.mapPosition = newValue;
         this.spritePosition = {x:this.mapPosition.x * 64, y: this.mapPosition.y * 64};
+    }
+}); 
+
+Object.defineProperty(Monster.prototype, 'isDead', {
+    get: function() {
+        return this.isdead;
     }
 }); 

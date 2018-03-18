@@ -1,36 +1,32 @@
 // By Raccoon
 // include namespace
-var Framework = (function (Framework) {	
-	'use strict'
-	Framework.FpsAnalysis = function () {
-		//在strict mode底下, 不能使用caller, callee, arguments; 
-		//FpsAnalysis, user不會用到, 形成沒有意義的防呆		
-		//if (!(this instanceof arguments.callee)) 
-		//	return new arguments.callee();
-		var timeData = new Array(60);
-		var fpsData = new Array(60);
-		for (var i = 0; i < fpsData.length; i++) {
-			timeData[i] = 0;
-			fpsData[i] = 0;
+'use strict'
+Framework.FpsAnalysis = class FpsAnalysis {
+	constructor() {
+		this.timeData = new Array(60)
+		this.fpsData = new Array(60)
+		for(let i = 0; i < this.fpsData.length; i++) {
+			this.timeData[i] = 0
+			this.fpsData[i] = 0
 		}
-		var currentPoint = 1;
-		var fps = 0;
-		timeData[0] = (new Date()).getTime();
-		return {
-			update: function () {
-				timeData[currentPoint] = (new Date()).getTime();
-				fps -= fpsData[currentPoint];
-				fpsData[currentPoint] = timeData[currentPoint] - (currentPoint === 0 ? timeData[timeData.length - 1] : timeData[currentPoint - 1]);
-				fps += fpsData[currentPoint];
-				currentPoint = (++currentPoint) % fpsData.length;
-			},
-			getUpdateFPS: function () {
-				return Math.floor((1000 / (fps / fpsData.length)) * 10) / 10;
-			}, 
-			toString:function(){
-				return "[FpsAnalysis Object]";
-			}
-		};
-	};
-	return Framework;
-})(Framework || {});
+		this.currentPoint = 1
+		this.fps = 0
+		this.timeData[0] = (new Date()).getTime()
+	}
+	
+	update() {
+		this.timeData[this.currentPoint] = (new Date()).getTime()
+		this.fps -= this.fpsData[this.currentPoint]
+		this.fpsData[this.currentPoint] = this.timeData[this.currentPoint] - (this.currentPoint === 0 ? this.timeData[this.timeData.length - 1] : this.timeData[this.currentPoint - 1])
+		this.fps += this.fpsData[this.currentPoint]
+		this.currentPoint = (++this.currentPoint) % this.fpsData.length
+	}
+	
+	getUpdateFPS() {
+		return Math.floor((1000 / (this.fps / this.fpsData.length)) * 10) / 10
+	}
+	
+	toString() {
+		return "[FpsAnalysis Object]"
+	}
+}

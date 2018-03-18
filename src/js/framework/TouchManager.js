@@ -1,4 +1,4 @@
-var Framework = (function (Framework) {
+Framework = (function (Framework) {
 	'use strict'
 	Framework.TouchManager = (function(){
 		var TouchManagerClass = {},

@@ -1,7 +1,7 @@
 // By Raccoon
 // include namespace
 
-var Framework = (function (Framework) {
+Framework = (function (Framework) {
 	'use strict'
 	/**
     * 整個遊戲(多個{{#crossLink "Level"}}{{/crossLink}})的主體
@@ -49,7 +49,7 @@ var Framework = (function (Framework) {
 		that._ideaWidth = 16;
 		that._ideaHeight = 9;
 		that.timelist = [];
-		that._record = new Framework.Record();
+		that._record = new Framework.Recorder();
 
 
 		that._tempUpdate = function() {};
@@ -137,8 +137,8 @@ var Framework = (function (Framework) {
 			    that._isTestMode = true;
 			    that._record.isRecording = false;  // 為了讓 Record.start() 進入記錄 recordString 的區塊
 			    that.isContinue = false;
-                Framework.Replay.resetCycleCount();
-			    Framework.Replay.resetWaitingCounter();
+                Framework.Replayer.resetCycleCount();
+			    Framework.Replayer.resetWaitingCounter();
 			    var replayScript = document.getElementById("record_div").innerText;
 			    document.getElementById("record_div").innerText = "";
 			
@@ -396,7 +396,7 @@ var Framework = (function (Framework) {
 			var levelName = that._findLevelNameByLevel(level);
 			for(var i= 0,l=that._testScripts.length;i<l;i++){
                 if(that._testScripts[i].targetLevel === levelName ){
-                    Framework.Replay.ready(that._testScripts[i]);
+                    Framework.Replayer.ready(that._testScripts[i]);
                     return;
                 }
             }
@@ -509,7 +509,7 @@ var Framework = (function (Framework) {
             that.pause();
             that._teardown();
             that._currentLevel = that._findLevel(levelName);
-            Framework.Replay.resetCycleCount();
+            Framework.Replayer.resetCycleCount();
 //            Framework.Game._currentLevel.resetCycleCount();  // 2017.11
 //            that._record.resetWaitCounter();  // 2017.11
             if(Framework.Util.isUndefined(that._currentLevel)){
@@ -522,7 +522,7 @@ var Framework = (function (Framework) {
             	that._record.inputCommand("// Change Level :" + levelName + ";");
             }
             that.start();
-//            console.log(Framework.Game._currentLevel.cycleCount + ' , ' + that._record.waitCounter + ' , ' + Framework.Replay.getCycleCount());
+//            console.log(Framework.Game._currentLevel.cycleCount + ' , ' + that._record.waitCounter + ' , ' + Framework.Replayer.getCycleCount());
         };
 
         /**
@@ -536,8 +536,8 @@ var Framework = (function (Framework) {
             that.pause();
             that._teardown();
             var flag = false;
-            Framework.Replay.resetCycleCount();
- 	        Framework.Replay.resetWaitingCounter();
+            Framework.Replayer.resetCycleCount();
+ 	        Framework.Replayer.resetWaitingCounter();
 //            Framework.Game._currentLevel.resetCycleCount();  // 2017.11
 //            that._record.resetWaitCounter();  // 2017.11
             for(var i in that._levels){
@@ -549,7 +549,7 @@ var Framework = (function (Framework) {
                         that._record.inputCommand("// Change Level :" + levelName + ";");
 		            }
                     that.start();
-//                    console.log(Framework.Game._currentLevel.cycleCount + ' , ' + that._record.waitCounter + ' , ' + Framework.Replay.getCycleCount());
+//                    console.log(Framework.Game._currentLevel.cycleCount + ' , ' + that._record.waitCounter + ' , ' + Framework.Replayer.getCycleCount());
                     return;
                 }
                 if(that._levels[i].level === that._currentLevel){
@@ -572,7 +572,7 @@ var Framework = (function (Framework) {
             that._teardown();
             var flag = false;
             var prev = undefined;
-            Framework.Replay.resetCycleCount();
+            Framework.Replayer.resetCycleCount();
 //            Framework.Game._currentLevel.resetCycleCount();  // 2017.11
 //            that._record.resetWaitCounter();  // 2017.11
             for(var i in that._levels){
@@ -586,7 +586,7 @@ var Framework = (function (Framework) {
                             that._record.inputCommand("// Change Level To : " + levelName + ";");
 			            }
                         that.start();
-//                        console.log(Framework.Game._currentLevel.cycleCount + ' , ' + that._record.waitCounter + ' , ' + Framework.Replay.getCycleCount());
+//                        console.log(Framework.Game._currentLevel.cycleCount + ' , ' + that._record.waitCounter + ' , ' + Framework.Replayer.getCycleCount());
                         return;
                     }
                     break;
@@ -616,7 +616,7 @@ var Framework = (function (Framework) {
                 that._currentLevel = that._levels[0].level;
             }
             var self = that;
-//            console.log("start : cycleCount(current_level, Replay) : " + that._currentLevel.cycleCount + ' , ' + Framework.Replay.getCycleCount() );
+//            console.log("start : cycleCount(current_level, Replay) : " + that._currentLevel.cycleCount + ' , ' + Framework.Replayer.getCycleCount() );
 
             if (!that._isInit) {
                 that.resizeEvent();
@@ -636,7 +636,7 @@ var Framework = (function (Framework) {
 				//bind會產生一個同樣的function, 但this為指定的參數
 				self.draw = self._tempDraw.bind(self._currentLevel);
 				self.update = self._tempUpdate.bind(self._currentLevel);
-				Framework.Replay.setGameReady();
+				Framework.Replayer.setGameReady();
 				self.run();
 			};
 
@@ -715,17 +715,17 @@ var Framework = (function (Framework) {
 					that.update();
 					
 		            if (that._isRecording) {
-		                if ((that._isReplay == false) || (Framework.Replay.getWaitingCounter() > 0))  {  // ok, 但game的cycleCount還是不一致
+		                if ((that._isReplay == false) || (Framework.Replayer.getWaitingCounter() > 0))  {  // ok, 但game的cycleCount還是不一致
 		            	   that._record.update();  // 哪裡會多做一次呢? 怎麼知道是 game 啟動時第一次的update嗎? 來跳過去?
 		            	                           // 或者是如果同時也是 that._isReplay = true 的話, 看Replay.cycleCount若>0才允許record.update()?
 		                }
 		            	//console.log("record update")  為了同步 Record的cycleCount?
 		            }
 		            if (that._isReplay) {
-		            	Framework.Replay.update();
+		            	Framework.Replayer.update();
 		            }
 //		            if (that._isRecording || that._isReplay) {
-//		            	console.log("cycleCount(current_level, Replay) : " + that._currentLevel.cycleCount + ' , ' + Framework.Replay.getCycleCount() );
+//		            	console.log("cycleCount(current_level, Replay) : " + that._currentLevel.cycleCount + ' , ' + Framework.Replayer.getCycleCount() );
 //		            }
 					nextGameTick += that.skipTicks;
 				}						

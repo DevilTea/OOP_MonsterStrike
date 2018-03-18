@@ -1,4 +1,4 @@
-var Framework = (function (Framework) {
+Framework = (function (Framework) {
 	'use strict'	
 	Framework.ResourceManager = (function(){
 		var _requestCount = 0,

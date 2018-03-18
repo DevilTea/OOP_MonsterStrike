@@ -1,5 +1,5 @@
 
-var Framework = (function (Framework) {
+Framework = (function (Framework) {
 	'use strict'
 
 	Framework.polygonComponent = function (sprite, bodyType, box2D, arraySize) {

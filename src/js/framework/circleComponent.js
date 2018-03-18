@@ -1,4 +1,4 @@
-var Framework = (function (Framework) {
+Framework = (function (Framework) {
 	'use strict'
 
 	Framework.circleComponent = function (sprite, bodyType, box2D) {

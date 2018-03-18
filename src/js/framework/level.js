@@ -1,7 +1,7 @@
 // By Raccoon
 // include namespace
 
-var Framework = (function (Framework) {
+Framework = (function (Framework) {
     'use strict'
     Framework.Level = Framework.exClass({
         /**

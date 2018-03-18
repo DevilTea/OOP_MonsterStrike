@@ -1,44 +1,17 @@
+<style type="text/css">
+	/* DOM之間不要留空間 */
+	*{
+		padding:0;
+		margin:0;
+	}
+</style>
+
 <script>
-//陣列和載入JS檔的順序相同, lookFor為在要載入的檔案中, 
-//有用到的全域變數, importJS這個function, 會在找到lookFor的變數後
-//才會繼續loading下一個檔案, 如果沒有需要lookFor, 則以空字串代表
-
-(function(window){	
-	var define ={}, mainPath = 'src/';
-	Object.defineProperties(define, {
-		'mainPath': {
-			value: mainPath,
-			writable: false
-		},
-		'frameworkPath': {
-			value: mainPath + 'js/framework/',
-			writable: false
-		},
-		'jsPath': {
-			value: mainPath + 'js/',
-			writable: false
-		},
-		'musicPath': {
-			value: mainPath + 'music/',
-			writable: false
-		},
-		'imagePath': {
-			value: mainPath + 'image/',
-			writable: false
-		}
-
-	});
-
-	window.define = define;
-})(window)
+	const mainPath = 'src/'
+	const frameworkPath = mainPath + 'js/framework/'
+	const jsPath = mainPath + 'js/'
+	const musicPath = mainPath + 'music/'
+	const imagePath = mainPath + 'image/'
+	let Framework = {}
 </script>
 <script type="text/javascript" src="src/js/framework/load.js"></script>
-<!---->
-
-<style type="text/css">
-        /* DOM之間不要留空間 */
-        *{
-            padding:0;
-            margin:0;
-        }
-</style>

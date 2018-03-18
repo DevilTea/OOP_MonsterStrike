@@ -1,4 +1,4 @@
-var Framework = (function (Framework) {
+Framework = (function (Framework) {
 	'use strict'
 	Framework.KeyBoardManager = (function(){
 		var _timeountID = 0,

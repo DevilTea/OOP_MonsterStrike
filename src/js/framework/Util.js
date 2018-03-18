@@ -1,112 +1,89 @@
-var Framework = (function (Framework) {
-	'use strict'
-
-	var utilClass = function() {};
-
-	var isAbout = function(realValue,aboutValue,delta){
+// 宣告 namespace
+'use strict'
+Framework.Util = new (class Util {
+	isAbout(realValue,aboutValue,delta) {
 		if(realValue < aboutValue + delta && realValue > aboutValue - delta){
 			return true;
 		}
 		else{
 			return false;
 		}
-	};
-
-	var findValueByKey = function(targetList,key){
-		for(var i= 0,l=targetList.length;i<l;i++){
-            if(targetList[i].name === key ){
-                return targetList[i];
-            }
-        }
-        return null;
 	}
 
-	var isUndefined = function (obj) {
+	findValueByKey(targetList,key) {
+		for(let i = 0, l = targetList.length; i < l; i++){
+			if(targetList[i].name === key ){
+				return targetList[i];
+			}
+		}
+		return null;
+	}
+
+	isUndefined(obj) {
 		return (typeof obj === 'undefined');
-	};
+	}
 
-    var isNull = function(obj){
-        return (obj === null);
-    };
+	isNull(obj) {
+		return (obj === null);
+	}
 
-	var isFunction = function (obj) {
+	isFunction(obj) {
 		return (typeof  obj === 'function');
-	};
+	}
 
-	var isNumber = function (obj) {
+	isNumber(obj) {
 		return (typeof  obj === 'number');
-	};
+	}
 
-	var isObject = function (obj) {
+	isObject(obj) {
 		return (typeof  obj === 'object');
-	};
+	}
 
-	var isBoolean = function (obj) {
+	isBoolean(obj) {
 		return (typeof  obj === 'boolean');
-	};
+	}
 
-	var isString = function (obj) {
+	isString(obj) {
 		return (typeof  obj === 'string');
-	};
+	}
 
-    var isCanvas = function(obj){
-        if(!isUndefined(obj.tagName)){
-            return (obj.tagName === 'CANVAS');
-        }
-        return false;
-    };
+	isCanvas(obj) {
+		if(!this.isUndefined(obj.tagName)){
+			return (obj.tagName === 'CANVAS');
+		}
+		return false;
+	}
 
-	var namespace = function (ns_string) {
-		var parts = ns_string.split('.'),
+	namespace(ns_string) {
+		let parts = ns_string.split('.'),
 			parent = Framework,
 			i;
 		if (parts[0] === 'Framework') {
 			parts = parts.slice(1);
 		}
-		for (i = 0; i < parts.length; i += 1) {
+		for (let i = 0; i < parts.length; i += 1) {
 			if (isUndefined(parent[parts[i]])) {
 				parent[parts[i]] = {};
 			}
 			parent = parent[parts[i]];
 		}
 		return parts;
-	};
+	}
 
-	var overrideProperty = function (defaultSettings, userSettings) {
-		for (var key in defaultSettings) {
+	overrideProperty(defaultSettings, userSettings) {
+		for (let key in defaultSettings) {
 			if (isUndefined(userSettings[key])) {
-				userSettings[key] = defaultSettings[key];
+				userSettings[key] = defaultSettings[key]
 			}
 		}
-		return userSettings;
-	};
-
-	utilClass.prototype = {
-		isUndefined: isUndefined,
-		isNull: isNull,
-		isFunction: isFunction,
-		isNumber: isNumber,
-		isObject: isObject,
-		isBoolean: isBoolean,
-		isString: isString,
-		isCanvas: isCanvas,
-		namespace: namespace,
-		overrideProperty: overrideProperty,
-		isAbout: isAbout,
-		findValueByKey: findValueByKey
-	};
-
-
-    // 宣告 namespace
-	Framework.Util = new utilClass();
-
-	return Framework;
-})(Framework || {});
+		return userSettings
+	}
+})
 
 if(Framework.Util.isUndefined(Date.prototype.format)){
     // Extend Date's function , add format method
     Date.prototype.format = function (format) {
-        var o = {
+        let o = {
             'M+': this.getMonth() + 1, //month
             'd+': this.getDate(),    //day
             'h+': this.getHours(),   //hour
@@ -118,10 +95,10 @@ if(Framework.Util.isUndefined(Date.prototype.format)){
 
         if (/(y+)/.test(format)) format = format.replace(RegExp.$1,
             (this.getFullYear() + '').substr(4 - RegExp.$1.length));
-        for (var k in o)if (new RegExp('(' + k + ')').test(format))
+        for (let k in o)if (new RegExp('(' + k + ')').test(format))
             format = format.replace(RegExp.$1,
                 RegExp.$1.length == 1 ? o[k] :
                     ('00' + o[k]).substr(('' + o[k]).length));
         return format;
-    };
+    }
 }

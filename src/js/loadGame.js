@@ -52,7 +52,21 @@ var loadGameEnd;
     //才會繼續loading下一個檔案, 如果沒有需要lookFor, 則以空字串代表
     var listScript = 
     [
-        { src: define.jsPath + 'marble.js', lookFor: 'Marble' }
+        { src: jsPath + 'myMenu.js', lookFor: 'MyMenu' },
+        { src: jsPath + 'constants.js', lookFor: 'Constants' },
+        { src: jsPath + 'score.js', lookFor: 'Score' },
+        { src: jsPath + 'bombMan.js', lookFor: 'BombMan' },
+        { src: jsPath + 'monster.js', lookFor: 'Monster' },
+        { src: jsPath + 'explore.js', lookFor: 'Explore' },
+        { src: jsPath + 'bomb.js', lookFor: 'Bomb' },
+        { src: jsPath + 'box.js', lookFor: 'Box' },
+        { src: jsPath + 'mapTile.js', lookFor: 'MapTile' },
+        { src: jsPath + 'map.js', lookFor: 'Map' },
+        { src: jsPath + 'myGameLevel1.js', lookFor: 'MyGame' },
+        { src: jsPath + 'level2.js', lookFor: 'Level2' },
+        { src: jsPath + 'level2_change.js', lookFor: 'Level2_change' },
+        { src: jsPath + 'gameOver.js', lookFor: 'GameOver' },
+        { src: jsPath + 'mainGame.js'}
     ]
     importJS(listScript);
     
