@@ -38,7 +38,7 @@ class Log {
 
 Framework.DebugInfo = new (class DebugInfo {
 	constructor() {
-		this.showDebugInfo = false
+		this.showDebugInfo = true
 		this.containerAppended = false
 		this.debugInfo = document.createElement('div')
 		this.debugInfo.style.width = '500px'

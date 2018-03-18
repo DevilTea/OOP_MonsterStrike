@@ -3,7 +3,7 @@ var loadGameEnd;
 (function(){
     //動態依序載入JS
     //ref: http://blog.darkthread.net/blogs/darkthreadtw/archive/2009/01/15/4061.aspx
-    var  importJS = function(jsConf, src, lookFor) {
+    var  importJS = function(jsConf) {
         var headID = document.getElementsByTagName("head")[0]; 
         var newJs = document.createElement('script');
         newJs.type = 'text/javascript';
@@ -12,7 +12,7 @@ var loadGameEnd;
         wait_for_script_load(jsConf, function() {
             jsConf.splice(0, 1);
             if(jsConf.length > 0) {
-                importJS(jsConf, lookFor);
+                importJS(jsConf);
 
 				if(typeof blanket != "undefined"){
 					blanket.utils.cache[jsConf[0].src] = {};
@@ -52,20 +52,10 @@ var loadGameEnd;
     //才會繼續loading下一個檔案, 如果沒有需要lookFor, 則以空字串代表
     var listScript = 
     [
-        { src: jsPath + 'myMenu.js', lookFor: 'MyMenu' },
-        { src: jsPath + 'constants.js', lookFor: 'Constants' },
-        { src: jsPath + 'score.js', lookFor: 'Score' },
-        { src: jsPath + 'bombMan.js', lookFor: 'BombMan' },
-        { src: jsPath + 'monster.js', lookFor: 'Monster' },
-        { src: jsPath + 'explore.js', lookFor: 'Explore' },
-        { src: jsPath + 'bomb.js', lookFor: 'Bomb' },
-        { src: jsPath + 'box.js', lookFor: 'Box' },
-        { src: jsPath + 'mapTile.js', lookFor: 'MapTile' },
-        { src: jsPath + 'map.js', lookFor: 'Map' },
-        { src: jsPath + 'myGameLevel1.js', lookFor: 'MyGame' },
-        { src: jsPath + 'level2.js', lookFor: 'Level2' },
-        { src: jsPath + 'level2_change.js', lookFor: 'Level2_change' },
-        { src: jsPath + 'gameOver.js', lookFor: 'GameOver' },
+        { src: jsPath + 'MapObject.js'},
+        { src: jsPath + 'Map.js'},
+        { src: jsPath + 'StartPage.js', lookFor: 'StartPage'},
+        { src: jsPath + 'Stage1.js', lookFor: 'Stage1'},
         { src: jsPath + 'mainGame.js'}
     ]
     importJS(listScript);

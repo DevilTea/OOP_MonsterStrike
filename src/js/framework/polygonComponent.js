@@ -1,8 +1,15 @@
 
+
+
+
+
+
+
+
 Framework = (function (Framework) {
 	'use strict'
 
-	Framework.polygonComponent = function (sprite, bodyType, box2D, arraySize) {
+	Framework.PolygonComponent = function (sprite, bodyType, box2D, arraySize) {
 		var physicScale = 30;
 		this.sprite = sprite;
 		this.body = box2D.createSquareBody(1, 1, bodyType);

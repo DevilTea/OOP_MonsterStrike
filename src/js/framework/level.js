@@ -35,7 +35,7 @@ Framework = (function (Framework) {
             this.updatetimelist = [];
             this.cycleCount = 0;
 
-            this.config = new Framework.Config();  // 2017.02.20, from V3.1.1
+            this.config = Framework.Config;  // 2017.02.20, from V3.1.1
 
         },
 
@@ -229,8 +229,8 @@ Framework = (function (Framework) {
         * @method loadingProgress   
         */
         loadingProgress: function (context, requestInfo) {
-            context.font = '90px Arial';
-            context.fillText(Math.floor(Framework.ResourceManager.getFinishedRequestPercent()) + '%' , context.canvas.width / 2 - 50 , context.canvas.height / 2);
+            //context.font = '90px Arial';
+            //context.fillText(Math.floor(Framework.ResourceManager.getFinishedRequestPercent()) + '%' , context.canvas.width / 2 - 50 , context.canvas.height / 2);
         },
 
         /**

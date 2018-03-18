@@ -10,7 +10,7 @@ Framework = (function (Framework) {
     */ 
 	Framework.Game = (function () {
         var that = {};
-		that._config = new Framework.Config();
+		that._config = Framework.Config;
 		// gameloop fps
 		that.fps = that._config.fps;
 		that.canvasWidth = that._config.canvasWidth;
@@ -46,8 +46,8 @@ Framework = (function (Framework) {
 		that._currentTestScript = undefined;
 		that._currentReplay = undefined;
 
-		that._ideaWidth = 16;
-		that._ideaHeight = 9;
+		that._ideaWidth = that._config.canvasWidthRation || 16;
+		that._ideaHeight = that._config.canvasHeightRation || 9;
 		that.timelist = [];
 		that._record = new Framework.Recorder();
 
