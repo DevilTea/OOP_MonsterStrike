@@ -422,8 +422,8 @@ Framework = (function (Framework) {
         	that._teardown();
         };
 
-		that.getCanvas = function() {
-			return that._canvas
+		that.getCanvasTopLeft = function() {
+			return new Point(that._canvas.offsetLeft, that._canvas.offsetTop)
 		}
 		
         that.getCanvasWidth = function() {
