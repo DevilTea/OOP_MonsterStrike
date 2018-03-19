@@ -4,9 +4,12 @@ class Stage1 extends Framework.Level {
 	}
 	
 	initializeProgressResource() {
-		this.loading = new Framework.Sprite(imagePath + 'background/loading.png')
+		this.loading = new Framework.Sprite(imagePath + 'background/loading.png', this)
 		this.loading.position = {x: Framework.Game.getCanvasWidth() / 2 , y: Framework.Game.getCanvasHeight() / 2};
         this.loading.scale = 4;
+	}
+	
+	load() {
 		this.audio = new Framework.Audio({
             bgm_mainPage: {
                 //mp3: define.musicPath + 'kick2.mp3',
@@ -19,22 +22,23 @@ class Stage1 extends Framework.Level {
                 //wav: define.musicPath + 'kick2.wav'
             }
         })
-	}
-	
-	load() {
-		this.menu = new Framework.Sprite(imagePath + 'background/startPage.png')
+		this.menu = new Framework.Sprite(imagePath + 'background/test.png', this)
 		this.menu.position = { x: Framework.Game.getCanvasWidth() / 2, y: Framework.Game.getCanvasHeight() / 2 }
-        this.menu.scale = 2
-        //this.rootScene.attach(this.menu);
+        this.menu.scale = 4
+        this.rootScene.attach(this.menu);
 	}
 	
 	loadingProgress(ctx, requestInfo) {
 		this.loading.draw(ctx)
-		//this.audio.play({name: 'bgm_mainPage', loop: true})
 	}
 	
 	initialize() {
 		this.audio.play({name: 'sound_enterStage', loop: false})
+		this.audio.play({name: 'bgm_mainPage', loop: true})
+		this.audio.setVolume("bgm_mainPage", 0.2)
+		let a = this.audio
+		window.setTimeout(function() {a.setVolume("bgm_mainPage", 1)}, 3000);
+		
 	}
 	
 	update() {

@@ -2,13 +2,15 @@
 // include namespace
 'use strict'
 Framework.Scene = class Scene extends Framework.GameObject {
-	constructor(options) {
-		super()
+	constructor(options, level) {
+		super(level)
 		this.id = undefined
 		this.type = undefined
 		this.texture = undefined
 		this.attachArray=[]
-		//this.pushSelfToLevel()
+	}
+	
+	initialize() {
 	}
 	
 	load() {

@@ -14,6 +14,7 @@ class Map {
 	}
 	
 	addMapObject(mapObject) {
+		this.nextMapObjectID++
 		this.mapObjects.push(mapObject)
 	}
 	

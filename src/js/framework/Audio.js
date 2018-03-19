@@ -1,7 +1,6 @@
 'use strict'
 Framework.Audio = (function(){
-	var $ = Framework,
-		_audioClass = {},
+	var _audioClass = {},
 		_audioInstanceObj = {},
 		_mainPlaylist = {},
 		_errorEvent = function() {};
@@ -25,7 +24,7 @@ Framework.Audio = (function(){
 	};
 
 	var addSongs = function(playlist) {
-		_mainPlaylist =  $.Util.overrideProperty(playlist, _mainPlaylist);
+		_mainPlaylist =  Framework.Util.overrideProperty(playlist, _mainPlaylist);
 	};
 
 	var removeSong = function(song) {
@@ -36,7 +35,7 @@ Framework.Audio = (function(){
 	//只接受String或Array
 	var removeSongs = function(songs) {
 		var i = 0, len = 0;
-		if( $.Util.isString(songs)) {
+		if( Framework.Util.isString(songs)) {
 			removeSong(songs);
 		} else {
 			for(i = 0, len = songs.length; i < len; i++) {
@@ -46,7 +45,7 @@ Framework.Audio = (function(){
 	};
 
 	var getAudioInstance = function(songName) {
-		if(! $.Util.isUndefined(_audioInstanceObj[songName])) {
+		if(! Framework.Util.isUndefined(_audioInstanceObj[songName])) {
 			_audioInstanceObj[songName].currentTime = 0;
 			return _audioInstanceObj[songName];
 		}

@@ -371,24 +371,24 @@ Framework = (function (Framework) {
 		that._context = that._canvas.getContext('2d');
 
 		that.initializeProgressResource = function() {
-            that._currentLevel._initializeProgressResource();
+            that._currentLevel.initializeProgressResource();
 		};
 		that.load = function() {
-			that._currentLevel._load();
+			that._currentLevel.load();
 			if(that.isBackwardCompatiable)
 			{
 				that._currentLevel.initialize();
 			}
 		};
 		that.loadingProgress = function(context) {
-            that._currentLevel._loadingProgress(context, { request: Framework.ResourceManager.getRequestCount(), response: Framework.ResourceManager.getResponseCount(), percent: Framework.ResourceManager.getFinishedRequestPercent()});
+            that._currentLevel.loadingProgress(context, { request: Framework.ResourceManager.getRequestCount(), response: Framework.ResourceManager.getResponseCount(), percent: Framework.ResourceManager.getFinishedRequestPercent()});
             if(that.isBackwardCompatiable)
             {
             	that.initializeProgressResource();
             }
 		};
 		that.initialize = function () {
-            that._currentLevel._initialize();
+            that._currentLevel.initialize();
             that.initializeTestScript(that._currentLevel);
 		};
 		that.initializeTestScript = function(level){
@@ -402,10 +402,10 @@ Framework = (function (Framework) {
             }
 		}
 		that.update = function () {		
-            that._currentLevel._update();
+            that._currentLevel.update();
 		};
 		that.draw = function () {					
-            that._currentLevel._draw();
+            that._currentLevel.draw();
 		};
 
         that._teardown = function(){
@@ -419,7 +419,7 @@ Framework = (function (Framework) {
         that.stop = function()
         {
         	that.pause();
-        	that._teardown();
+        	that.teardown();
         };
 
 		that.getCanvasTopLeft = function() {
@@ -628,8 +628,8 @@ Framework = (function (Framework) {
                 window.addEventListener("resize", that.resizeEvent, false);
             }
 
-			that._tempDraw = self._currentLevel._draw;
-			that._tempUpdate = self._currentLevel._update;
+			that._tempDraw = self._currentLevel.draw;
+			that._tempUpdate = self._currentLevel.update;
 			that.initializeProgressResource();
             // 在這裡看看第一次進入game, record, replay 時的 _currentLevel.cycleCount 是否一致, 或者對 _currentLevel 進行reset/initialize
 
@@ -978,11 +978,11 @@ Framework = (function (Framework) {
 		};
 
 		that._pushGameObj = function(ele) {
-			that._currentLevel._allGameElement.push(ele);
+			that._currentLevel.allGameElement.push(ele);
 		};
 
 		that._showAllElement = function() {
-			that._currentLevel._showAllElement();
+			that._currentLevel.showAllElement();
 		};
 
 		return that;
