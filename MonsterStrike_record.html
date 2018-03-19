@@ -4,25 +4,25 @@
 //才會繼續loading下一個檔案, 如果沒有需要lookFor, 則以空字串代表
 var listScript = 
 [
-    { src: '../../src/loadFramework.js',lookFor: 'loadFrameworkEnd'},
-    { src: 'game_sample/js/loadGame.js',lookFor: 'loadGameEnd'}
+    { src: 'src/framework/loadFramework.js',lookFor: 'loadFrameworkEnd'},
+    { src: 'src/js/loadGame.js',lookFor: 'loadGameEnd'}
 ]
 </script>
-<script type="text/javascript" src="../../src/recordLoad.js"></script>
-<script type="text/javascript" src="../../src/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="src/framework/recordLoad.js"></script>
+<script type="text/javascript" src="src/framework/jquery-2.1.4.min.js"></script>
 <!---->
 
 <div id="main" style="position: relative; float:left; width:30%; height:100%;">
 	<div style="background-color:#0d3247; width:100%; height:2.5%; font-family:Arial, sans-serif; color:white;">Record Control</div>
 	<div style="background-color:#c6e647; width:100%; height:0.5%;"></div>
 	<div id="record_control" style="background-color:#2b82ad;width:100%; height:10%;align="center">
-		<img id="start_btn" src='../../src/image/play.png' style="position:relative; top:15%" width="15%"title="Record" onclick="Framework.Game.recordStart()" onmouseover="Framework.Game.btnMouseOver(this)" onmouseout="Framework.Game.btnMouseOut(this)" enable="true">
-		<img id="pause_btn" src='../../src/image/pause_disable.png' style="position:relative; top:15%" width="15%"title="Pause" onclick ="Framework.Game.recordPause()" onmouseover="Framework.Game.btnMouseOver(this)" onmouseout="Framework.Game.btnMouseOut(this)" enable="false">
-		<img id="stop_btn"  src='../../src/image/stop_disable.png' style="position:relative; top:15%" width="15%"title="Stop" onclick ="Framework.Game.recordStop()" onmouseover="Framework.Game.btnMouseOver(this)" onmouseout="Framework.Game.btnMouseOut(this)" enable="false">
-		<img id="type_btn"  src='../../src/image/addComment_disable.png' style="position:relative; top:15%" width="15%" title="Add Comment" onclick ="Framework.Game.recordInput()" onmouseover="Framework.Game.btnMouseOver(this)" onmouseout="Framework.Game.btnMouseOut(this)" enable="false">
-		<img id="replay_btn" src='../../src/image/replay_disable.png' style="position:relative; top:15%" width="15%" title="Replay" onclick ="Framework.Game.recordReplay()" onmouseover="Framework.Game.btnMouseOver(this)" onmouseout="Framework.Game.btnMouseOut(this)" enable="false">
+		<img id="start_btn" src='src/image/record/play.png' style="position:relative; top:15%" width="15%"title="Record" onclick="Framework.Game.recordStart()" onmouseover="Framework.Game.btnMouseOver(this)" onmouseout="Framework.Game.btnMouseOut(this)" enable="true">
+		<img id="pause_btn" src='src/image/record/pause_disable.png' style="position:relative; top:15%" width="15%"title="Pause" onclick ="Framework.Game.recordPause()" onmouseover="Framework.Game.btnMouseOver(this)" onmouseout="Framework.Game.btnMouseOut(this)" enable="false">
+		<img id="stop_btn"  src='src/image/record/stop_disable.png' style="position:relative; top:15%" width="15%"title="Stop" onclick ="Framework.Game.recordStop()" onmouseover="Framework.Game.btnMouseOver(this)" onmouseout="Framework.Game.btnMouseOut(this)" enable="false">
+		<img id="type_btn"  src='src/image/record/addComment_disable.png' style="position:relative; top:15%" width="15%" title="Add Comment" onclick ="Framework.Game.recordInput()" onmouseover="Framework.Game.btnMouseOver(this)" onmouseout="Framework.Game.btnMouseOut(this)" enable="false">
+		<img id="replay_btn" src='src/image/record/replay_disable.png' style="position:relative; top:15%" width="15%" title="Replay" onclick ="Framework.Game.recordReplay()" onmouseover="Framework.Game.btnMouseOver(this)" onmouseout="Framework.Game.btnMouseOut(this)" enable="false">
 		<!--<img id="continue_btn"src='../../src/image/continue_disable.png' style="position:relative; top:15%" width="13%" title="Continue Recording" onclick ="Framework.Game.recordContinue()" onmouseover="Framework.Game.btnMouseOver(this)" onmouseout="Framework.Game.btnMouseOut(this)" enable="false">-->
-		<img id="variable_btn"src='../../src/image/variable_disable.png' style="position:relative; top:15%" width="15%" title="Assertion"onclick ="Framework.Game.showVariable()" onmouseover="Framework.Game.btnMouseOver(this)" onmouseout="Framework.Game.btnMouseOut(this)" enable="false">
+		<img id="variable_btn"src='src/image/record/variable_disable.png' style="position:relative; top:15%" width="15%" title="Assertion"onclick ="Framework.Game.showVariable()" onmouseover="Framework.Game.btnMouseOver(this)" onmouseout="Framework.Game.btnMouseOut(this)" enable="false">
 	</div>
 	<div style="background-color:#0d3247; width:100%; height:2.5%; font-family:Arial, sans-serif; color:white;">Record Script</div>
 	<div style="background-color:#c6e647; width:100%; height:0.5%;"></div>

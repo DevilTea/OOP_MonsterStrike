@@ -422,6 +422,10 @@ Framework = (function (Framework) {
         	that._teardown();
         };
 
+		that.getCanvas = function() {
+			return that._canvas
+		}
+		
         that.getCanvasWidth = function() {
         	return that._canvas.width;
         };

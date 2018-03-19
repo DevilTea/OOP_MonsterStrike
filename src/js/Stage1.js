@@ -8,7 +8,7 @@ var Stage1 = Framework.Class(Framework.Level , {
         this.loading.position = {x: Framework.Game.getCanvasWidth() / 2 , y: Framework.Game.getCanvasHeight() / 2};
         this.loading.scale = 4;
 		
-        this.rootScene.attach(this.loading);
+        //this.rootScene.attach(this.loading);
     },
 
     update: function() {
@@ -19,7 +19,6 @@ var Stage1 = Framework.Class(Framework.Level , {
         //this.rootScene.draw();
         //可支援畫各種單純的圖形和字
         this.rootScene.draw(parentCtx);
-        this.loading.draw(parentCtx);
     },
 
     keydown:function(e, list){
