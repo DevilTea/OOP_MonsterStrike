@@ -1,6 +1,7 @@
 class Stage1 extends Framework.Level {
 	constructor() {
 		super()
+		autoBind(this)
 	}
 	
 	initializeProgressResource() {
@@ -12,7 +13,7 @@ class Stage1 extends Framework.Level {
 	
 	load() {
 		super.load()
-		this.audio = new Framework.Audio({
+		this.audio = new Framework.AudioManager({
             bgm_mainPage: {
                 //mp3: define.musicPath + 'kick2.mp3',
                 ogg: musicPath + 'bgm/bgm_mainPage.ogg',
@@ -39,9 +40,8 @@ class Stage1 extends Framework.Level {
 		super.initialize()
 		this.audio.play({name: 'sound_enterStage', loop: false})
 		this.audio.play({name: 'bgm_mainPage', loop: true})
-		this.audio.setVolume("bgm_mainPage", 0.2)
-		let a = this.audio
-		window.setTimeout(function() {a.setVolume("bgm_mainPage", 1)}, 3000);
+		this.audio.setVolume("bgm_mainPage", 0.0)
+		//window.setTimeout(this.audio.setVolume("bgm_mainPage", 1), 3000);
 		
 	}
 	
@@ -61,12 +61,10 @@ class Stage1 extends Framework.Level {
 	
     click(e){
 		super.click(e)
-        Framework.Game.goToNextLevel();
     }
 	
 	mouseup(e) {
 		super.mouseup(e)
-        this.audio.stop('bgm_mainPage');
     }
 
     mousedown(e) {
@@ -86,7 +84,7 @@ class Stage1 extends Framework.Level {
 
     touchend(e) {
 		super.touchend(e)
-        this.mouseup(e)
+        this.mouseup(e[0])
     }
     
     touchmove(e) {

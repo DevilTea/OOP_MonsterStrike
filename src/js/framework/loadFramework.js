@@ -46,7 +46,6 @@ let loadFrameworkEnd
         { src: frameworkPath + 'Replayer.js'},/*updated*/
         { src: frameworkPath + 'EqualCondition.js'},/*updated*/
         { src: frameworkPath + 'Util.js'},/*updated*/
-        { src: frameworkPath + 'Core.js'},
         { src: frameworkPath + 'DebugInfo.js'},/*updated*/
         { src: frameworkPath + 'FpsAnalysis.js'},/*updated*/
         { src: frameworkPath + 'Point.js'},/*updated*/
@@ -55,13 +54,13 @@ let loadFrameworkEnd
         { src: frameworkPath + 'AnimationSprite.js'},/*updated*/
         { src: frameworkPath + 'Scene.js'},/*updated*/
         { src: frameworkPath + 'ResourceManager.js'},
-        { src: frameworkPath + 'Level.js'},
+        { src: frameworkPath + 'Level.js'},/*updated*/
         { src: frameworkPath + 'Game.js'},
-        { src: frameworkPath + 'MouseManager.js'},
-        { src: frameworkPath + 'KeyBoardManager.js'},
-        { src: frameworkPath + 'TouchManager.js'},
-        { src: frameworkPath + 'GameMainMenu.js'},
-        { src: frameworkPath + 'Audio.js'},
+        { src: frameworkPath + 'MouseManager.js'},/*updated*/
+        { src: frameworkPath + 'KeyBoardManager.js'},/*updated*/
+        { src: frameworkPath + 'TouchManager.js'},/*updated*/
+        { src: frameworkPath + 'GameMainMenu.js'},/*updated*/
+        { src: frameworkPath + 'AudioManager.js'},/*updated*/
         { src: frameworkPath + 'Box2dWeb-2.1.a.3.js'},
         { src: frameworkPath + 'Box2D.js'},
         { src: frameworkPath + 'circleComponent.js'},

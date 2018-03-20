@@ -1,6 +1,7 @@
 'use strict'
 Framework.MouseManager = new (class MouseManager {
 	constructor() {
+		autoBind(this)
 		this.userClickEvent = function() {}
 		this.userMouseDownEvent = function() {}
 		this.userMouseUpEvent = function() {}
@@ -36,31 +37,31 @@ Framework.MouseManager = new (class MouseManager {
 	
 	clickEvent(e) {
 		e.preventDefault()
-		e = Framework.MouseManager.countCanvasOffset(e)
-		Framework.MouseManager.userClickEvent.call(this.subject, e)
+		e = this.countCanvasOffset(e)
+		this.userClickEvent.call(this.subject, e)
 	}
 	
 	mousedownEvent(e) {
 		e.preventDefault()
-		e = Framework.MouseManager.countCanvasOffset(e)
-		Framework.MouseManager.userMouseDownEvent.call(this.subject, e)
+		e = this.countCanvasOffset(e)
+		this.userMouseDownEvent.call(this.subject, e)
 	}
 	
 	mouseupEvent(e) {
 		e.preventDefault()
-		e = Framework.MouseManager.countCanvasOffset(e)
-		Framework.MouseManager.userMouseUpEvent.call(this.subject, e)
+		e = this.countCanvasOffset(e)
+		this.userMouseUpEvent.call(this.subject, e)
 	}
 	
 	mousemoveEvent(e) {
 		e.preventDefault()
-		e = Framework.MouseManager.countCanvasOffset(e)
-		Framework.MouseManager.userMouseMoveEvent.call(this.subject, e)
+		e = this.countCanvasOffset(e)
+		this.userMouseMoveEvent.call(this.subject, e)
 	}
 	
 	contextmenuEvent(e) {
 		e.preventDefault()
-		e = Framework.MouseManager.countCanvasOffset(e)
-		Framework.MouseManager.userContextMenuEvent.call(this.subject, e)
+		e = this.countCanvasOffset(e)
+		this.userContextMenuEvent.call(this.subject, e)
 	}
-})
+})()

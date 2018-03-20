@@ -1,6 +1,7 @@
 class StartPage extends Framework.GameMainMenu {
 	constructor() {
 		super()
+		autoBind(this)
 	}
 	
 	initializeProgressResource() {
@@ -8,7 +9,7 @@ class StartPage extends Framework.GameMainMenu {
 		this.loading = new Framework.Sprite(imagePath + 'background/loading.png', this)
 		this.loading.position = {x: Framework.Game.getCanvasWidth() / 2 , y: Framework.Game.getCanvasHeight() / 2};
         this.loading.scale = 4;
-		this.audio = new Framework.Audio({
+		this.audio = new Framework.AudioManager({
             bgm_startPage: {
                 //mp3: define.musicPath + 'kick2.mp3',
                 ogg: musicPath + 'bgm/bgm_startPage.ogg',
@@ -51,12 +52,12 @@ class StartPage extends Framework.GameMainMenu {
 	
     click(e) {
 		super.click(e)
-        this.audio.stop('bgm_startPage');
-		Framework.Game.goToNextLevel();
     }
 	
 	mouseup(e) {
 		super.mouseup(e)
+        this.audio.stop('bgm_startPage');
+		Framework.Game.goToNextLevel();
     }
 
     mousedown(e) {

@@ -53,10 +53,6 @@ Framework.DebugInfo = new (class DebugInfo {
 		this.Log = new Log(this.debugInfo, this.showDebugInfo)
 	}
 
-	/*that.showDebugInfo = function (isShowDebug) {
-		_showDebugInfo = isShowDebug;
-	};*/
-
 	show(dom) {				
 		
 		this.debugInfo.style.visibility = 'visible'
@@ -77,4 +73,4 @@ Framework.DebugInfo = new (class DebugInfo {
 		this.debugInfo.style.width = zeroPxStr
 		this.debugInfo.style.height = zeroPxStr
 	}
-})
+})()

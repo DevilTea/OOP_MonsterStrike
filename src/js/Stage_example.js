@@ -52,16 +52,16 @@ class StartPage extends Framework.Level {
 	//又要減少Duplicated code, 故在Touch事件被觸發時, 去Trigger Mouse事件
     touchstart(e) {
 		super.touchstart(e)
-        this.mousedown(e[0])
+        Framework.Game._currentLevel.mousedown(e[0])
     }
 
     touchend(e) {
 		super.touchend(e)
-        this.mouseup(e)
+        Framework.Game._currentLevel.mouseup(e[0])
     }
     
     touchmove(e) {
 		super.touchmove(e)
-        this.mousemove(e[0])
+        Framework.Game._currentLevel.mousemove(e[0])
     }
 }
