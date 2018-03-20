@@ -680,12 +680,12 @@ Framework = (function (Framework) {
 			Framework.TouchManager.setTouchendEvent(self._currentLevel.touchend);
 			Framework.TouchManager.setTouchmoveEvent(self._currentLevel.touchmove);			
 
-			Framework.MouseManager.setSubject(self._currentLevel);
-			Framework.MouseManager.setClickEvent(self.click);
-			Framework.MouseManager.setMousedownEvent(self.mousedown);
-			Framework.MouseManager.setMouseUpEvent(self.mouseup);
-			Framework.MouseManager.setMouseMoveEvent(self._currentLevel.mousemove);
-			//Framework.MouseManager.setContextmenuEvent(self._currentLevel.contextmenu);
+			Framework.MouseManager.subject = self._currentLevel;
+			Framework.MouseManager.userClickEvent = self.click;
+			Framework.MouseManager.userMouseDownEvent = self.mousedown;
+			Framework.MouseManager.userMouseUpEvent = self.mouseup;
+			Framework.MouseManager.userMouseMoveEvent = self._currentLevel.mousemove;
+			//Framework.MouseManager.userContextMenuEvent = self._currentLevel.contextmenu;
 
 			Framework.KeyBoardManager.setSubject(self._currentLevel);
 			Framework.KeyBoardManager.setKeyupEvent(self.keyup);
