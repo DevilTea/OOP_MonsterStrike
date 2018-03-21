@@ -8,11 +8,11 @@ Framework.TouchManager = new (class TouchManager {
 		this.userTouchleaveEvent = function() {}
 		this.userTouchmoveEvent = function() {}
 		this.subject
-		Framework.Game._canvas.addEventListener('touchstart', this.touchstartEvent, false);
-		Framework.Game._canvas.addEventListener('touchend', this.touchendEvent, false);
-		//Framework.Game._canvas.addEventListener('touchcancel', this.touchcancelEvent, false);
-		//Framework.Game._canvas.addEventListener('touchleave', this.touchleaveEvent, false);
-		Framework.Game._canvas.addEventListener('touchmove', this.touchmoveEvent, false);
+		Framework.Game.canvas.addEventListener('touchstart', this.touchstartEvent, false);
+		Framework.Game.canvas.addEventListener('touchend', this.touchendEvent, false);
+		//Framework.Game.canvas.addEventListener('touchcancel', this.touchcancelEvent, false);
+		//Framework.Game.canvas.addEventListener('touchleave', this.touchleaveEvent, false);
+		Framework.Game.canvas.addEventListener('touchmove', this.touchmoveEvent, false);
 	}
 	
 	countCanvasOffset(e) {
@@ -20,7 +20,7 @@ Framework.TouchManager = new (class TouchManager {
 		let pos = {}
 		let totalOffsetX = 0
 		let totalOffsetY = 0
-		let ele = Framework.Game._canvas
+		let ele = Framework.Game.canvas
 		let newE = {}
 
 		do {
@@ -31,11 +31,9 @@ Framework.TouchManager = new (class TouchManager {
 
 		for (let i = 0; i < touches.length; i++) {
 			newE[i] = {};
-			newE[i].x = Math.floor((touches[i].pageX - totalOffsetX) / Framework.Game._widthRatio);
-			newE[i].y = Math.floor((touches[i].pageY - totalOffsetY) / Framework.Game._heightRatio);
+			newE[i].x = Math.floor((touches[i].pageX - totalOffsetX) / Framework.Game.widthRatio);
+			newE[i].y = Math.floor((touches[i].pageY - totalOffsetY) / Framework.Game.heightRatio);
 		}
-		/*pos.x = Math.floor((pos.x - totalOffsetX) / Framework.Game._widthRatio);
-		pos.y = Math.floor((pos.y - totalOffsetY) / Framework.Game._heightRatio);*/
 
 		return newE;
 	}

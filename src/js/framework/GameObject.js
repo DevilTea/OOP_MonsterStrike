@@ -288,7 +288,7 @@ Framework.GameObject = class GameObject {
 	}
 
 	pushSelfToLevel() {
-		Framework.Game._pushGameObj(this);
+		Framework.Game.pushGameObj(this)
 	}
 
 	countAbsoluteProperty() {            

@@ -21,8 +21,8 @@ Framework = (function (Framework) {
 		that._heightRatio = 1;
 
 		that._isRecording = false;
-		that._isRecordMode = _isRecordMode;  // 來自入口的 .html 檔所呼叫的 load.js 或 recordLoad.js 
-		that._isTestMode = _isTestMode;      // 同上
+		that.isRecordMode = isRecordMode;  // 來自入口的 .html 檔所呼叫的 load.js 或 recordLoad.js 
+		that.isTestMode = isTestMode;      // 同上
 		that._isTestReady = false;
 		that._isReplay = false;
 		
@@ -41,13 +41,13 @@ Framework = (function (Framework) {
         that._levels = [];
         that._testScripts = [];
         // current level
-        that._currentLevel = undefined;
+        that.currentLevel = undefined;
 		that._context = null;
 		that._currentTestScript = undefined;
 		that._currentReplay = undefined;
 
-		that._ideaWidth = that._config.canvasWidthRation || 16;
-		that._ideaHeight = that._config.canvasHeightRation || 9;
+		that._ideaWidth = that._config.canvasWidthRatio || 16;
+		that._ideaHeight = that._config.canvasHeightRatio || 9;
 		that.timelist = [];
 		that._record = new Framework.Recorder();
 
@@ -57,7 +57,7 @@ Framework = (function (Framework) {
 		
 		that.recordStart = function() {
 		    if (document.getElementById("start_btn").getAttribute("enable") == "true") {
-			    if (that._isRecordMode) {
+			    if (that.isRecordMode) {
   				    that._isRecording = true;
 				    document.getElementById("start_btn").setAttribute("enable", "false");
 				    document.getElementById("pause_btn").setAttribute("enable", "true");
@@ -72,12 +72,12 @@ Framework = (function (Framework) {
   			    // ↓如果在replay mode下按了 Record btn, 應該要停止後續的replay動作, 同時放棄後續的腳本, 重新錄製新的腳本才對吧!
   			    // 試試在這裡把isReplay設為false, 看看 updateFunc() 能不能過.
   			    // 2017.12.13 : 在Recording mode下replay, Record.waitCounter 和 Replay._waitingCounter 似乎可以調齊了,
-  			    // 但在 _isTestMode = true 下Replay, 仍然快一個cycle, 
+  			    // 但在 isTestMode = true 下Replay, 仍然快一個cycle, 
   			    // to do  : 1. 錄製時, assertion game.cycleCount, 2. dump cyclecount 來比較
 			    if (that._isReplay){
 			    	that._isReplay  = false; // 2017.12.13 增加
 				    that.isContinue = true;  // <-- 只有在 Replay.executeCommend()裡被用到一次
-				    that._isRecordMode = true;
+				    that.isRecordMode = true;
 				    document.getElementById("start_btn").setAttribute("enable", "false");
 				    document.getElementById("pause_btn").setAttribute("enable", "true");
 				    document.getElementById("stop_btn").setAttribute("enable", "true");
@@ -90,7 +90,7 @@ Framework = (function (Framework) {
 		};
 		that.recordPause = function() {
 		    if (document.getElementById("pause_btn").getAttribute("enable") == "true") {
-			    if (that._isRecordMode) {
+			    if (that.isRecordMode) {
 			        that._isRecording = false;
 				    document.getElementById("start_btn").setAttribute("enable", "true");
 				    document.getElementById("pause_btn").setAttribute("enable", "false");
@@ -106,7 +106,7 @@ Framework = (function (Framework) {
 		};
 		that.recordStop = function() {
 		    if (document.getElementById("stop_btn").getAttribute("enable") == "true") {
-			    if (that._isRecordMode) {
+			    if (that.isRecordMode) {
 			    	that._isRecording = false;
 				    document.getElementById("start_btn").setAttribute("enable", "false");
 				    document.getElementById("pause_btn").setAttribute("enable", "false");
@@ -132,9 +132,9 @@ Framework = (function (Framework) {
 		    if (document.getElementById("replay_btn").getAttribute("enable") == "true") {
 			    that._isReplay = true;
 			    that._teardown();
-			    that._currentLevel = null;
-			    that._isRecordMode = false;
-			    that._isTestMode = true;
+			    that.currentLevel = null;
+			    that.isRecordMode = false;
+			    that.isTestMode = true;
 			    that._record.isRecording = false;  // 為了讓 Record.start() 進入記錄 recordString 的區塊
 			    that.isContinue = false;
                 Framework.Replayer.resetCycleCount();
@@ -204,7 +204,7 @@ Framework = (function (Framework) {
 				    div.parentNode.removeChild(div);
 				}
 			}
-			listMember("Framework.Game._currentLevel", "&nbsp", "variable_list");
+			listMember("Framework.Game.currentLevel", "&nbsp", "variable_list");
 		};
 		
 		that.btnMouseOver = function(button){
@@ -273,28 +273,28 @@ Framework = (function (Framework) {
 		//Event Handler
 		// mouse event
 		that.click = function (e) {
-            that._currentLevel.click(e);
+            that.currentLevel.click(e);
             if(that._isRecording)
             {
             	that._record.click(e);
             }
 		};
 		that.mousedown = function (e) {
-            that._currentLevel.mousedown(e);
+            that.currentLevel.mousedown(e);
             if(that._isRecording)
             {
             	that._record.mousedown(e);
             }
 		};
 		that.mouseup = function (e) {
-            that._currentLevel.mouseup(e);
+            that.currentLevel.mouseup(e);
             if(that._isRecording)
             {
             	that._record.mouseup(e);
             }
 		};
 		that.mousemove = function (e) {
-            that._currentLevel.mousemove(e);
+            that.currentLevel.mousemove(e);
 			if(that._isRecording)
             {
             	that._record.mousemove(e);
@@ -302,18 +302,18 @@ Framework = (function (Framework) {
 		};
 		// touch event
 		that.touchstart = function (e) {
-            that._currentLevel.touchstart(e);
+            that.currentLevel.touchstart(e);
 		};
 		that.touchend = function (e) {
-            that._currentLevel.touchend(e);
+            that.currentLevel.touchend(e);
 		};
 		that.touchmove = function (e) {
-            that._currentLevel.touchmove(e);
+            that.currentLevel.touchmove(e);
 		};
 
 		//keyboard Event
 		that.keydown = function (e) {
-            that._currentLevel.keydown(e);
+            that.currentLevel.keydown(e);
             if(that._isRecording)
             {
 	            that._record.keydown(e);
@@ -321,14 +321,14 @@ Framework = (function (Framework) {
             }
 		};
 		that.keyup = function (e) {
-            that._currentLevel.keyup(e);
+            that.currentLevel.keyup(e);
             if(that._isRecording)
             {
             	that._record.keyup(e);
             }
 		};
 		that.keypress = function (e) {
-            that._currentLevel.keypress(e);
+            that.currentLevel.keypress(e);
             if(that._isRecording)
             {
             	that._record.keypress(e);
@@ -336,14 +336,14 @@ Framework = (function (Framework) {
 		};
 
 		that._mainContainer = document.createElement('div');
-		if(that._isRecordMode){
+		if(that.isRecordMode){
 			that._mainContainer.style.position = "relative";
 			that._mainContainer.style.float = "left";
 			that._mainContainer.style.width = '70%';
 			that._mainContainer.style.height = '100%';
 			that._mainContainer.style.display = 'table';
 		}
-		else if(that._isTestMode){
+		else if(that.isTestMode){
 			that._mainContainer.style.position = "relative";
 			that._mainContainer.style.float = "left";
 			that._mainContainer.style.width = '70%';
@@ -357,39 +357,39 @@ Framework = (function (Framework) {
 
 
 		that._mainContainer.style.backgroundColor = '#000';
-		that._canvasContainer = document.createElement('div');		
-		that._canvasContainer.style.display = 'table-cell';
-		that._canvasContainer.style.textAlign = 'center';
-		that._canvasContainer.style.verticalAlign = 'middle';
-		that._canvas = document.createElement('canvas');	
-		that._canvas.style.backgroundColor = '#fff';		
-		that._canvas.setAttribute('id', '__game_canvas__');
-		that._canvas.width = that._config.canvasWidth;
-		that._canvas.height = that._config.canvasHeight;
-		that._canvasContainer.appendChild(that._canvas);
-		that._mainContainer.appendChild(that._canvasContainer);
-		that._context = that._canvas.getContext('2d');
+		that.canvasContainer = document.createElement('div');		
+		that.canvasContainer.style.display = 'table-cell';
+		that.canvasContainer.style.textAlign = 'center';
+		that.canvasContainer.style.verticalAlign = 'middle';
+		that.canvas = document.createElement('canvas');	
+		that.canvas.style.backgroundColor = '#fff';		
+		that.canvas.setAttribute('id', '__gamecanvas__');
+		that.canvas.width = that._config.canvasWidth;
+		that.canvas.height = that._config.canvasHeight;
+		that.canvasContainer.appendChild(that.canvas);
+		that._mainContainer.appendChild(that.canvasContainer);
+		that._context = that.canvas.getContext('2d');
 
 		that.initializeProgressResource = function() {
-            that._currentLevel.initializeProgressResource();
+            that.currentLevel.initializeProgressResource();
 		};
 		that.load = function() {
-			that._currentLevel.load();
+			that.currentLevel.load();
 			if(that.isBackwardCompatiable)
 			{
-				that._currentLevel.initialize();
+				that.currentLevel.initialize();
 			}
 		};
 		that.loadingProgress = function(context) {
-            that._currentLevel.loadingProgress(context, { request: Framework.ResourceManager.getRequestCount(), response: Framework.ResourceManager.getResponseCount(), percent: Framework.ResourceManager.getFinishedRequestPercent()});
+            that.currentLevel.loadingProgress(context, { request: Framework.ResourceManager.getRequestCount(), response: Framework.ResourceManager.getResponseCount(), percent: Framework.ResourceManager.getFinishedRequestPercent()});
             if(that.isBackwardCompatiable)
             {
             	that.initializeProgressResource();
             }
 		};
 		that.initialize = function () {
-            that._currentLevel.initialize();
-            that.initializeTestScript(that._currentLevel);
+            that.currentLevel.initialize();
+            that.initializeTestScript(that.currentLevel);
 		};
 		that.initializeTestScript = function(level){
 			//that._testScripts
@@ -402,15 +402,15 @@ Framework = (function (Framework) {
             }
 		}
 		that.update = function () {		
-            that._currentLevel.update();
+            that.currentLevel.update();
 		};
 		that.draw = function () {					
-            that._currentLevel.draw();
+            that.currentLevel.draw();
 		};
 
         that._teardown = function(){
-          	//if(this._currentLevel.autoDelete){
-                that._currentLevel.autodelete();
+          	//if(this.currentLevel.autoDelete){
+                that.currentLevel.autodelete();
                 that._isInit = false;
             //    that._allGameElement.length = 0;
            // }
@@ -423,15 +423,15 @@ Framework = (function (Framework) {
         };
 
 		that.getCanvasTopLeft = function() {
-			return new Point(that._canvas.offsetLeft, that._canvas.offsetTop)
+			return new Point(that.canvas.offsetLeft, that.canvas.offsetTop)
 		}
 		
         that.getCanvasWidth = function() {
-        	return that._canvas.width;
+        	return that.canvas.width;
         };
 
         that.getCanvasHeight = function() {
-        	return that._canvas.height;
+        	return that.canvas.height;
         };
 
         that._findLevel = function(name){
@@ -512,21 +512,21 @@ Framework = (function (Framework) {
         that.goToLevel = function(levelName){
             that.pause();
             that._teardown();
-            that._currentLevel = that._findLevel(levelName);
+            that.currentLevel = that._findLevel(levelName);
             Framework.Replayer.resetCycleCount();
-//            Framework.Game._currentLevel.resetCycleCount();  // 2017.11
+//            Framework.Game.currentLevel.resetCycleCount();  // 2017.11
 //            that._record.resetWaitCounter();  // 2017.11
-            if(Framework.Util.isUndefined(that._currentLevel)){
+            if(Framework.Util.isUndefined(that.currentLevel)){
                 Framework.DebugInfo.Log.error('Game : 找不到關卡');
                 throw new Error('Game : levelName not found.');
             }
-            if(that._isRecordMode)
+            if(that.isRecordMode)
             {
 //            	that._record.resetWaitCounter();  // 2017.11
             	that._record.inputCommand("// Change Level :" + levelName + ";");
             }
             that.start();
-//            console.log(Framework.Game._currentLevel.cycleCount + ' , ' + that._record.waitCounter + ' , ' + Framework.Replayer.getCycleCount());
+//            console.log(Framework.Game.currentLevel.cycleCount + ' , ' + that._record.waitCounter + ' , ' + Framework.Replayer.getCycleCount());
         };
 
         /**
@@ -542,21 +542,21 @@ Framework = (function (Framework) {
             var flag = false;
             Framework.Replayer.resetCycleCount();
  	        Framework.Replayer.resetWaitingCounter();
-//            Framework.Game._currentLevel.resetCycleCount();  // 2017.11
+//            Framework.Game.currentLevel.resetCycleCount();  // 2017.11
 //            that._record.resetWaitCounter();  // 2017.11
             for(var i in that._levels){
                 if(flag){
-                    that._currentLevel = that._levels[i].level;
-		            if(that._isRecordMode)
+                    that.currentLevel = that._levels[i].level;
+		            if(that.isRecordMode)
 		            {
-                        var levelName = that._findLevelNameByLevel(that._currentLevel);
+                        var levelName = that._findLevelNameByLevel(that.currentLevel);
                         that._record.inputCommand("// Change Level :" + levelName + ";");
 		            }
                     that.start();
-//                    console.log(Framework.Game._currentLevel.cycleCount + ' , ' + that._record.waitCounter + ' , ' + Framework.Replayer.getCycleCount());
+//                    console.log(Framework.Game.currentLevel.cycleCount + ' , ' + that._record.waitCounter + ' , ' + Framework.Replayer.getCycleCount());
                     return;
                 }
-                if(that._levels[i].level === that._currentLevel){
+                if(that._levels[i].level === that.currentLevel){
                     flag = true;
                 }
             }
@@ -577,20 +577,20 @@ Framework = (function (Framework) {
             var flag = false;
             var prev = undefined;
             Framework.Replayer.resetCycleCount();
-//            Framework.Game._currentLevel.resetCycleCount();  // 2017.11
+//            Framework.Game.currentLevel.resetCycleCount();  // 2017.11
 //            that._record.resetWaitCounter();  // 2017.11
             for(var i in that._levels){
-                if(that._levels[i].level === that._currentLevel){
+                if(that._levels[i].level === that.currentLevel){
                     if(!Framework.Util.isUndefined(prev)){
-                        that._currentLevel = prev;
-			            if(that._isRecordMode)
+                        that.currentLevel = prev;
+			            if(that.isRecordMode)
 			            {
 //                            that._record.resetWaitCounter();  // 2017.11
-                            var levelName = that._findLevelNameByLevel(that._currentLevel);
+                            var levelName = that._findLevelNameByLevel(that.currentLevel);
                             that._record.inputCommand("// Change Level To : " + levelName + ";");
 			            }
                         that.start();
-//                        console.log(Framework.Game._currentLevel.cycleCount + ' , ' + that._record.waitCounter + ' , ' + Framework.Replayer.getCycleCount());
+//                        console.log(Framework.Game.currentLevel.cycleCount + ' , ' + that._record.waitCounter + ' , ' + Framework.Replayer.getCycleCount());
                         return;
                     }
                     break;
@@ -611,16 +611,16 @@ Framework = (function (Framework) {
 		*/
 		that.start = function () {
 			if(!that._isReplay){
-				if(that._isTestMode && that._isTestReady === false)
+				if(that.isTestMode && that._isTestReady === false)
 				{
 					return;
 				}
 			}
-            if (Framework.Util.isUndefined(that._currentLevel) || Framework.Util.isNull(that._currentLevel)){
-                that._currentLevel = that._levels[0].level;
+            if (Framework.Util.isUndefined(that.currentLevel) || Framework.Util.isNull(that.currentLevel)){
+                that.currentLevel = that._levels[0].level;
             }
             var self = that;
-//            console.log("start : cycleCount(current_level, Replay) : " + that._currentLevel.cycleCount + ' , ' + Framework.Replayer.getCycleCount() );
+//            console.log("start : cycleCount(current_level, Replay) : " + that.currentLevel.cycleCount + ' , ' + Framework.Replayer.getCycleCount() );
 
             if (!that._isInit) {
                 that.resizeEvent();
@@ -628,18 +628,18 @@ Framework = (function (Framework) {
                 window.addEventListener("resize", that.resizeEvent, false);
             }
 
-			that._tempDraw = self._currentLevel.draw;
-			that._tempUpdate = self._currentLevel.update;
+			that._tempDraw = self.currentLevel.draw;
+			that._tempUpdate = self.currentLevel.update;
 			that.initializeProgressResource();
-            // 在這裡看看第一次進入game, record, replay 時的 _currentLevel.cycleCount 是否一致, 或者對 _currentLevel 進行reset/initialize
+            // 在這裡看看第一次進入game, record, replay 時的 currentLevel.cycleCount 是否一致, 或者對 currentLevel 進行reset/initialize
 
 			var runFunction = function() {
 				self._isRun = true;
 				self.pause();
 				self.initialize();
 				//bind會產生一個同樣的function, 但this為指定的參數
-				self.draw = self._tempDraw.bind(self._currentLevel);
-				self.update = self._tempUpdate.bind(self._currentLevel);
+				self.draw = self._tempDraw.bind(self.currentLevel);
+				self.update = self._tempUpdate.bind(self.currentLevel);
 				Framework.Replayer.setGameReady();
 				self.run();
 			};
@@ -675,19 +675,19 @@ Framework = (function (Framework) {
 			//}
 			//
 			
-			Framework.TouchManager.subject = self._currentLevel
-			Framework.TouchManager.userTouchstartEvent = self._currentLevel.touchstart
-			Framework.TouchManager.userTouchendEvent = self._currentLevel.touchend
-			Framework.TouchManager.userTouchmoveEvent = self._currentLevel.touchmove			
+			Framework.TouchManager.subject = self.currentLevel
+			Framework.TouchManager.userTouchstartEvent = self.currentLevel.touchstart
+			Framework.TouchManager.userTouchendEvent = self.currentLevel.touchend
+			Framework.TouchManager.userTouchmoveEvent = self.currentLevel.touchmove			
 
-			Framework.MouseManager.subject = self._currentLevel;
+			Framework.MouseManager.subject = self.currentLevel;
 			Framework.MouseManager.userClickEvent = self.click;
 			Framework.MouseManager.userMouseDownEvent = self.mousedown;
 			Framework.MouseManager.userMouseUpEvent = self.mouseup;
-			Framework.MouseManager.userMouseMoveEvent = self._currentLevel.mousemove;
-			//Framework.MouseManager.userContextMenuEvent = self._currentLevel.contextmenu;
+			Framework.MouseManager.userMouseMoveEvent = self.currentLevel.mousemove;
+			//Framework.MouseManager.userContextMenuEvent = self.currentLevel.contextmenu;
 
-			Framework.KeyBoardManager.subject = self._currentLevel
+			Framework.KeyBoardManager.subject = self.currentLevel
 			Framework.KeyBoardManager.userKeyupEvent = self.keyup
 			Framework.KeyBoardManager.userKeydownEvent = self.keydown
 			
@@ -729,7 +729,7 @@ Framework = (function (Framework) {
 		            	Framework.Replayer.update();
 		            }
 //		            if (that._isRecording || that._isReplay) {
-//		            	console.log("cycleCount(current_level, Replay) : " + that._currentLevel.cycleCount + ' , ' + Framework.Replayer.getCycleCount() );
+//		            	console.log("cycleCount(current_level, Replay) : " + that.currentLevel.cycleCount + ' , ' + Framework.Replayer.getCycleCount() );
 //		            }
 					nextGameTick += that.skipTicks;
 				}						
@@ -869,19 +869,19 @@ Framework = (function (Framework) {
 
 		that.setCanvas = function (canvas) {
 			if (canvas) {
-				that._canvas = null;
+				that.canvas = null;
 				that._context = null;
-				that._canvas = canvas;
-				that._canvasContainer.innerHTML = '';
-				that._canvasContainer.appendChild(that._canvas);
-				that._context = that._canvas.getContext('2d');
+				that.canvas = canvas;
+				that.canvasContainer.innerHTML = '';
+				that.canvasContainer.appendChild(that.canvas);
+				that._context = that.canvas.getContext('2d');
 			}
 		};
 
 		that.setContext = function (context) {
 			if (!Framework.Util.isUndefined(context)) {
 				that.context = null;
-				that._canvas = null;
+				that.canvas = null;
 				that.context = context;
 			} else {
 				Framework.DebugInfo.Log.error('Game SetContext Error')
@@ -911,7 +911,7 @@ Framework = (function (Framework) {
 		* 	Framework.Game.fullScreen();
 		*/
 		that.fullScreen = function(ele) {
-			var ele = ele || that._canvas;			
+			var ele = ele || that.canvas;			
 			if (!ele.fullscreenElement &&    // alternative standard method
 			  !ele.mozFullScreenElement && 
 			  !ele.webkitFullscreenElement && 
@@ -955,7 +955,7 @@ Framework = (function (Framework) {
 				baseHeight = window.innerHeight / that._ideaHeight,
 				scaledWidth = 0,
 				scaledHeight = 0;
-			if(that._isTestMode || that._isRecordMode)
+			if(that.isTestMode || that.isRecordMode)
 			{
 				baseWidth = window.innerWidth * 0.7 / that._ideaWidth;
 				baseHeight = window.innerHeight * 0.7 / that._ideaHeight;
@@ -968,21 +968,21 @@ Framework = (function (Framework) {
 
 			scaledWidth = Math.round(base * that._ideaWidth);
 			scaledHeight = Math.round(base * that._ideaHeight);
-			that._widthRatio = scaledWidth / that._canvas.width;
-			that._heightRatio = scaledHeight / that._canvas.height;		
-			//that._canvasContainer.style.width = scaledWidth;
-			//that._canvasContainer.style.height = scaledHeight;
-			that._canvas.style.width = scaledWidth + 'px';    // 2017.02.20, from V3.1.1
-			that._canvas.style.height = scaledHeight + 'px';  // 2017.02.20, from V3.1.1
+			that._widthRatio = scaledWidth / that.canvas.width;
+			that._heightRatio = scaledHeight / that.canvas.height;		
+			//that.canvasContainer.style.width = scaledWidth;
+			//that.canvasContainer.style.height = scaledHeight;
+			that.canvas.style.width = scaledWidth + 'px';    // 2017.02.20, from V3.1.1
+			that.canvas.style.height = scaledHeight + 'px';  // 2017.02.20, from V3.1.1
 	
 		};
 
-		that._pushGameObj = function(ele) {
-			that._currentLevel.allGameElement.push(ele);
+		that.pushGameObj = function(ele) {
+			that.currentLevel.allGameElement.push(ele);
 		};
 
 		that._showAllElement = function() {
-			that._currentLevel.showAllElement();
+			that.currentLevel.showAllElement();
 		};
 
 		return that;
@@ -1054,7 +1054,7 @@ listMember = function(main, space, divId) {
 };
 
 addAssertion = function(assertTarget, assertValue){
-	// var s = assertTarget.indexOf("Framework.Game._currentLevel.")
+	// var s = assertTarget.indexOf("Framework.Game.currentLevel.")
 	assertTarget = assertTarget.substring(29, assertTarget.length);
 	var recordDiv = document.getElementById("record_div");
 	document.getElementById("record_div").innerHTML += '<p>&nbsp;&nbsp;&nbsp;&nbsp;replay.assertEqual("'+assertTarget+'", '+assertValue+');</p>';

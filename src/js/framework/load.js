@@ -1,5 +1,5 @@
-const _isTestMode = false
-const _isRecordMode = false
+const isTestMode = false
+const isRecordMode = false
 //立即執行函式, 並封裝所有變數避免衝突
 let loadEnd
 

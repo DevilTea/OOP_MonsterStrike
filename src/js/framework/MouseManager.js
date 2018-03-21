@@ -8,18 +8,18 @@ Framework.MouseManager = new (class MouseManager {
 		this.userMouseMoveEvent = function() {}
 		this.userContextMenuEvent = function() {}
 		this.subject
-		Framework.Game._canvas.addEventListener('click', this.clickEvent, false);
-		Framework.Game._canvas.addEventListener('mousedown', this.mousedownEvent, false);
-		Framework.Game._canvas.addEventListener('mouseup', this.mouseupEvent, false);
-		Framework.Game._canvas.addEventListener('mousemove', this.mousemoveEvent, false);
-		Framework.Game._canvas.addEventListener('contextmenu', this.contextmenuEvent, false);
+		Framework.Game.canvas.addEventListener('click', this.clickEvent, false);
+		Framework.Game.canvas.addEventListener('mousedown', this.mousedownEvent, false);
+		Framework.Game.canvas.addEventListener('mouseup', this.mouseupEvent, false);
+		Framework.Game.canvas.addEventListener('mousemove', this.mousemoveEvent, false);
+		Framework.Game.canvas.addEventListener('contextmenu', this.contextmenuEvent, false);
 	}
 	
 	countCanvasOffset(e) {
 		let pos = new Framework.Point()
 		let totalOffsetX = 0
 		let totalOffsetY = 0
-		let ele = Framework.Game._canvas
+		let ele = Framework.Game.canvas
 
 		do {
 			totalOffsetX += ele.offsetLeft;
@@ -29,8 +29,8 @@ Framework.MouseManager = new (class MouseManager {
 
 		pos.x = e.x || e.clientX;
 		pos.y = e.y || e.clientY;
-		pos.x = Math.floor((pos.x - totalOffsetX) / Framework.Game._widthRatio);
-		pos.y = Math.floor((pos.y - totalOffsetY) / Framework.Game._heightRatio);
+		pos.x = Math.floor((pos.x - totalOffsetX) / Framework.Game.widthRatio);
+		pos.y = Math.floor((pos.y - totalOffsetY) / Framework.Game.heightRatio);
 
 		return pos;
 	}
