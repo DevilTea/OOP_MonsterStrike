@@ -423,7 +423,7 @@ Framework = (function (Framework) {
         };
 
 		that.getCanvasTopLeft = function() {
-			return new Point(that.canvas.offsetLeft, that.canvas.offsetTop)
+			return new Framework.Point(that.canvas.offsetLeft, that.canvas.offsetTop)
 		}
 		
         that.getCanvasWidth = function() {

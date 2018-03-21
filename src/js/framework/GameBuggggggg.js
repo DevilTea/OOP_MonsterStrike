@@ -396,7 +396,7 @@ Framework.Game = new (class Game {
 	}
 	
 	getCanvasTopLeft() {
-		return new Point(this.canvas.offsetLeft, this.canvas.offsetTop)
+		return new Framework.Point(this.canvas.offsetLeft, this.canvas.offsetTop)
 	}
 	
 	getCanvasWidth() {

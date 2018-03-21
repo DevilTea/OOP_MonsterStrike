@@ -2,6 +2,7 @@
 'use strict'
 Framework.GameObject = class GameObject {
 	constructor() {
+		autoBind(this)
 		this.relativePosition = new Framework.Point()
         this.relativeRotation = 0
         this.relativeScale = 1
@@ -52,7 +53,7 @@ Framework.GameObject = class GameObject {
 						x2: this.absolutePosition.x + halfDiagonal, 
 						y2: this.absolutePosition.y + halfDiagonal,
 					},
-					changedRect = Framework.Game._currentLevel._getChangedRect(1600, 900);
+					changedRect = Framework.Game.currentLevel.getChangedRect(1600, 900);
 
 				if((thisRect.x < changedRect.x2 && thisRect.y < changedRect.y2) || 
 					(thisRect.x2 > changedRect.x && thisRect.y2 > changedRect.y) ||
@@ -179,7 +180,7 @@ Framework.GameObject = class GameObject {
 
 				var oriX = -this.width / 2,
 					oriY = -this.height / 2,
-					positionDif = countRotatePoint({x:oriX,y:oriY},this.absoluteRotation);
+					positionDif = this.countRotatePoint({x:oriX,y:oriY},this.absoluteRotation);
 
 				return { x: Math.floor(this.absolutePosition.x + positionDif.x), y: Math.floor(this.absolutePosition.y + positionDif.y) };
 			}
@@ -197,7 +198,7 @@ Framework.GameObject = class GameObject {
 
 				var oriX = this.width / 2,
 					oriY = -this.height / 2,
-					positionDif = countRotatePoint({x:oriX,y:oriY},this.absoluteRotation);
+					positionDif = this.countRotatePoint({x:oriX,y:oriY},this.absoluteRotation);
 
 				return { x: Math.floor(this.absolutePosition.x + positionDif.x), y: Math.floor(this.absolutePosition.y + positionDif.y) };
 			}
@@ -215,7 +216,7 @@ Framework.GameObject = class GameObject {
 				
 				var oriX = -this.width / 2,
 					oriY = this.height / 2,
-					positionDif = countRotatePoint({x:oriX,y:oriY},this.absoluteRotation);
+					positionDif = this.countRotatePoint({x:oriX,y:oriY},this.absoluteRotation);
 
 				return { x: Math.floor(this.absolutePosition.x + positionDif.x), y: Math.floor(this.absolutePosition.y + positionDif.y) };
 			}
@@ -233,7 +234,7 @@ Framework.GameObject = class GameObject {
 			 
 				var oriX = this.width / 2,
 					oriY = this.height / 2,
-					positionDif = countRotatePoint({x:oriX,y:oriY},this.absoluteRotation)
+					positionDif = this.countRotatePoint({x:oriX,y:oriY},this.absoluteRotation)
 
 				return { x: Math.floor(this.absolutePosition.x + positionDif.x), y: Math.floor(this.absolutePosition.y + positionDif.y) };
 			}
@@ -261,13 +262,15 @@ Framework.GameObject = class GameObject {
 								  
 				this._selfCanvas =  document.createElement('canvas');
 				var diagonalLength = Math.ceil(Math.sqrt(Math.pow(this.height, 2) + Math.pow(this.width, 2)));
-				this._selfCanvas.width = diagonalLength;
-				this._selfCanvas.height = diagonalLength;
+				// this._selfCanvas.width = diagonalLength;
+				// this._selfCanvas.height = diagonalLength;
+				this._selfCanvas.width = this.width;
+				this._selfCanvas.height = this.height;
 				if(this.width === 0 && this.height === 0) {
 					/*this._selfCanvas = Framework.Game._canvas;
 					return this._selfCanvas;*/
-					this._selfCanvas.width = Framework.Game._canvas.width;
-					this._selfCanvas.height = Framework.Game._canvas.height;
+					this._selfCanvas.width = Framework.Game.canvas.width;
+					this._selfCanvas.height = Framework.Game.canvas.height;
 				} 
 				return this._selfCanvas;
 		   }
@@ -291,46 +294,30 @@ Framework.GameObject = class GameObject {
 		Framework.Game.pushGameObj(this)
 	}
 
-	countAbsoluteProperty() {            
-		var rad, parentRotation = 0, parentScale = 1, parentPositionX = 0, parentPositionY = 0;
+	countAbsoluteProperty() {    
 
 		this.previousAbsolutePosition.x = this.absolutePosition.x;
 		this.previousAbsolutePosition.y = this.absolutePosition.y;
 		this.previousWidth = this.width;
 		this.previousHeight = this.height;
-
-		if (!Framework.Util.isUndefined(this.spriteParent)) {
-			parentRotation = this.spriteParent.absoluteRotation;
-			parentScale = this.spriteParent.absoluteScale;
-			parentPositionX = this.spriteParent.absolutePosition.x;
-			parentPositionY = this.spriteParent.absolutePosition.y;
-		}
-
-		rad = (parentRotation / 180) * Math.PI;
-		var changedRotate = this.rotation + parentRotation, 
-			changedScale = this.scale * parentScale, 
-			changedPositionX = Math.floor((this.relativePosition.x * Math.cos(rad) - this.relativePosition.y * Math.sin(rad))) * parentScale + parentPositionX, 
-			changedPositionY = Math.floor((this.relativePosition.x * Math.sin(rad) + this.relativePosition.y * Math.cos(rad))) * parentScale + parentPositionY;
-			//changedPositionX = this.relativePosition.x + parentPositionX, 
-			//changedPositionY = this.relativePosition.y + parentPositionY;
-
-		if(this.absoluteRotation !== changedRotate) {
+		
+		if(this.absoluteRotation !== this.rotation) {
 			this._isRotate = true;
 		}
 
-		if(this.absoluteScale !== changedScale) {
+		if(this.absoluteScale !== this.scale) {
 			this._isScale = true;
 		}
 
-		if(this.absolutePosition.x !== changedPositionX || this.absolutePosition.y !== changedPositionY) {
-			this._isMove = true;
+		if(this.absolutePosition.x !== this.position.x || this.absolutePosition.y !== this.position.y) {
+			this._isMove = true
 		}
 
-		this.absoluteRotation = changedRotate;
-		this.absoluteScale = changedScale;
+		this.absoluteRotation = this.rotation;
+		this.absoluteScale = this.scale;
 
-		this.absolutePosition.x = changedPositionX;
-		this.absolutePosition.y = changedPositionY;
+		this.absolutePosition.x = this.position.x;
+		this.absolutePosition.y = this.position.y;
 
 		if(Array.isArray(this.attachArray)) {
 			this.attachArray.forEach(function(ele) {

@@ -74,7 +74,9 @@ Framework.AudioManager = class AudioManager {
 	
 	pause(audioName) {
 		var audio = this.audioInstanceObj[audioName]
-		audio.pause()
+		if(audio !== undefined && !audio.paused) {
+			audio.pause()
+		}
 	}
 	
 	pauseAll() {
@@ -98,13 +100,15 @@ Framework.AudioManager = class AudioManager {
 	
 	stop(audioName) {
 		let audio = this.audioInstanceObj[audioName]
-		audio.pause()
-		audio.currentTime = 0
+		if(audio !== undefined && !audio.paused) {
+			audio.pause()
+			audio.currentTime = 0
+		}
 	}
 	
 	stopAll() {
 		for(let tempName in this.audioInstanceObj) {
-			stopMusic(tempName)
+			this.stop(tempName)
 		}
 	}
 	

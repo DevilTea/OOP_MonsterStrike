@@ -2,10 +2,12 @@ class Stage1 extends Framework.Level {
 	constructor() {
 		super()
 		autoBind(this)
+		this.map = new Map(this)
 	}
 	
 	initializeProgressResource() {
 		super.initializeProgressResource()
+		//this.loading = new Framework.Sprite(imagePath + 'background/loading.png', this)
 		this.loading = new Framework.Sprite(imagePath + 'background/loading.png', this)
 		this.loading.position = {x: Framework.Game.getCanvasWidth() / 2 , y: Framework.Game.getCanvasHeight() / 2}
         this.loading.scale = 4
@@ -29,6 +31,20 @@ class Stage1 extends Framework.Level {
 		this.menu.position = { x: Framework.Game.getCanvasWidth() / 2, y: Framework.Game.getCanvasHeight() / 2 }
         this.menu.scale = 4
         this.rootScene.attach(this.menu)
+		this.temp = new Marble({
+			marbleID : 1,
+			attribute : 0,
+			rebound : 0,
+			hp : 100,
+			atk : 100,
+			speed : 200,
+			race : 0,
+			skill : [],
+			comboSkill : []
+		})
+		this.temp.position = new Framework.Point(540, 1620)
+		this.map.addMapObject(this.temp)
+		this.map.load()
 	}
 	
 	loadingProgress(ctx, requestInfo) {
@@ -42,17 +58,17 @@ class Stage1 extends Framework.Level {
 		this.audio.play({name: 'bgm_mainPage', loop: true})
 		this.audio.setVolume("bgm_mainPage", 0.0)
 		//window.setTimeout(this.audio.setVolume("bgm_mainPage", 1), 3000);
-		
+		this.map.initialize()
 	}
 	
 	update() {
 		super.update()
+		this.map.update()
 	}
 	
 	draw(parentCtx) {
 		super.draw(parentCtx)
         this.rootScene.draw(parentCtx);
-        //this.menu.draw(parentCtx);
 	}
 	
 	teardown() {
@@ -61,18 +77,22 @@ class Stage1 extends Framework.Level {
 	
     click(e){
 		super.click(e)
+		//this.map.
     }
 	
 	mouseup(e) {
 		super.mouseup(e)
+		this.map.mouseup(e)
     }
 
     mousedown(e) {
         super.mousedown(e)
+		this.map.mousedown(e)
     }
 
     mousemove(e) {    
 		super.mousemove(e)
+		this.map.mousemove(e)
     }
 
 	//為了要讓Mouse和Touch都有一樣的事件
@@ -80,15 +100,18 @@ class Stage1 extends Framework.Level {
     touchstart(e) {
 		super.touchstart(e)
         this.mousedown(e[0])
+		this.map.touchstart(e)
     }
 
     touchend(e) {
 		super.touchend(e)
         this.mouseup(e[0])
+		this.map.touchend(e)
     }
     
     touchmove(e) {
 		super.touchmove(e)
         this.mousemove(e[0])
+		this.map.touchmove(e)
     }
 }

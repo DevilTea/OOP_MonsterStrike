@@ -53,6 +53,7 @@ var loadGameEnd;
     var listScript = 
     [
         { src: jsPath + 'MapObject.js'},
+        { src: jsPath + 'Marble.js'},
         { src: jsPath + 'Map.js'},
         { src: jsPath + 'StartPage.js', lookFor: 'StartPage'},
         { src: jsPath + 'Stage1.js', lookFor: 'Stage1'},
