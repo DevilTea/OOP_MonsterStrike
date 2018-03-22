@@ -31,7 +31,7 @@ class Stage1 extends Framework.Level {
 		this.menu.position = { x: Framework.Game.getCanvasWidth() / 2, y: Framework.Game.getCanvasHeight() / 2 }
         this.menu.scale = 4
         this.rootScene.attach(this.menu)
-		this.temp = new Marble({
+		this.marbleA = new Marble({
 			marbleID : 1,
 			attribute : 0,
 			rebound : 0,
@@ -42,8 +42,8 @@ class Stage1 extends Framework.Level {
 			skill : [],
 			comboSkill : []
 		})
-		this.temp.position = new Framework.Point(540, 1620)
-		this.map.addMapObject(this.temp)
+		this.marbleA.position = new Framework.Point(540, 1620)
+		this.map.addMapObject(this.marbleA)
 		this.map.load()
 	}
 	

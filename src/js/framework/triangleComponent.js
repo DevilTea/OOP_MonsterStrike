@@ -1,5 +1,5 @@
 
-Framework = (function (Framework) {
+var Framework = (function (Framework) {
 	'use strict'
 
 Framework.triangleComponent = function(sprite, bodyType, box2D)

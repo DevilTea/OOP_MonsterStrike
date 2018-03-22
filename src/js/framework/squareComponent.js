@@ -1,4 +1,4 @@
-Framework = (function (Framework) {
+var Framework = (function (Framework) {
 	'use strict'
 
 	Framework.squareComponent = function (sprite, bodyType, box2D) {
