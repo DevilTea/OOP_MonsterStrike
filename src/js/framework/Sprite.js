@@ -12,8 +12,7 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 		this.isDrawBoundry = false
 		this.isDrawPace = false   
 		this.isStartDrawingFromPosition	= false	
-		if(Framework.Util.isString(options)){
-			console.log(options)
+		if(Framework.Util.isString(options)) {
 			this.id = options
 			Framework.ResourceManager.loadImage({id:options, url:options})
 			this.type = 'image'

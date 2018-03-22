@@ -1,8 +1,45 @@
 class MapObject {
-	constructor(position = new Framework.Point()) {
+	constructor(box2D) {
 		autoBind(this)
-		this.position = position
+		this.box2D = box2D
+		this.component = {}
 		this.map
+		
+		Object.defineProperty(this, 'position', {
+			get : function() {
+				return this.component.position
+			},
+			set : function (newValue) {
+				this.component.position = newValue
+			}
+		})
+		
+		Object.defineProperty(this, 'scale', {
+			get : function () {
+				return this.component.scale
+			},
+			set : function (newValue) {
+				this.component.scale = newValue
+			}
+		})
+		
+		Object.defineProperty(this, 'rotation', {
+			get : function () {
+				return this.component.rotation
+			},
+			set : function (newValue) {
+				this.component.rotation = newValue
+			}
+		})
+		
+		Object.defineProperty(this, 'isSensor', {
+			get : function () {
+				return this.component.isSensor
+			},
+			set : function (newValue) {
+				this.component.isSensor = newValue
+			}
+		})
 	}
 	
 	load() {
@@ -14,7 +51,7 @@ class MapObject {
 	}
 	
 	update() {
-		
+		this.component.update()
 	}
 	
 	draw(ctx) {

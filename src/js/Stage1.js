@@ -7,7 +7,6 @@ class Stage1 extends Framework.Level {
 	
 	initializeProgressResource() {
 		super.initializeProgressResource()
-		//this.loading = new Framework.Sprite(imagePath + 'background/loading.png', this)
 		this.loading = new Framework.Sprite(imagePath + 'background/loading.png', this)
 		this.loading.position = {x: Framework.Game.getCanvasWidth() / 2 , y: Framework.Game.getCanvasHeight() / 2}
         this.loading.scale = 4
@@ -30,19 +29,17 @@ class Stage1 extends Framework.Level {
 		this.menu = new Framework.Sprite(imagePath + 'background/test.png', this)
 		this.menu.position = { x: Framework.Game.getCanvasWidth() / 2, y: Framework.Game.getCanvasHeight() / 2 }
         this.menu.scale = 4
-        this.rootScene.attach(this.menu)
 		this.temp = new Marble({
 			marbleID : 1,
 			attribute : 0,
 			rebound : 0,
 			hp : 100,
 			atk : 100,
-			speed : 200,
+			speed : 20000,
 			race : 0,
 			skill : [],
 			comboSkill : []
-		})
-		this.temp.position = new Framework.Point(540, 1620)
+		}, this.map.box2D)
 		this.map.addMapObject(this.temp)
 		this.map.load()
 	}
@@ -54,6 +51,7 @@ class Stage1 extends Framework.Level {
 	
 	initialize() {
 		super.initialize()
+        this.rootScene.attach(this.menu)
 		this.audio.play({name: 'sound_enterStage', loop: false})
 		this.audio.play({name: 'bgm_mainPage', loop: true})
 		this.audio.setVolume("bgm_mainPage", 0.0)

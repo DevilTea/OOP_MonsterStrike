@@ -4,8 +4,19 @@ class Map {
 		this.level = level
 		this.nextMapObjectID = 0
 		this.mapObjects = []
-		this.wall = { top : { p1 : new Framework.Point(0, 0), p2 : new Framework.Point(1080, 0) }, left : { p1 : new Framework.Point(0, 0), p2 : new Framework.Point(0, 1920) }, right : { p1 : new Framework.Point(1080, 0), p2 : new Framework.Point(1080, 1920) }, bottom : { p1 : new Framework.Point(0, 1920), p2 : new Framework.Point(1080, 1920) } }
-		this.deceleration = -20
+		this.deceleration = -100
+		this.box2D = new Framework.Box2D()
+		this.box2D.createWorld()
+		this.walls = {
+			top : this.box2D.createSquareBody(1080/30, 0, this.box2D.bodyType_Static),
+			left : this.box2D.createSquareBody(0, 1920/30, this.box2D.bodyType_Static),
+			right : this.box2D.createSquareBody(0, 1920/30, this.box2D.bodyType_Static),
+			bottom : this.box2D.createSquareBody(1080/30, 0, this.box2D.bodyType_Static)
+		}
+		this.walls.top.SetPosition(new this.box2D.b2Vec2(0, 0))
+		this.walls.left.SetPosition(new this.box2D.b2Vec2(0, 0))
+		this.walls.right.SetPosition(new this.box2D.b2Vec2(1080/30, 0))
+		this.walls.bottom.SetPosition(new this.box2D.b2Vec2(0, 1920/30))
 	}
 	
 	load() {
@@ -24,6 +35,7 @@ class Map {
 		for(let i = 0; i < this.mapObjects.length; i++) {
 			this.mapObjects[i].update()
 		}
+		this.box2D.draw()
 	}
 	
 	draw(ctx) {

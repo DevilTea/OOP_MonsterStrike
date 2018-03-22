@@ -59,8 +59,8 @@ Framework = (function (Framework) {
 			set : function (newValue) {
 				this.mScale = newValue;
 				if(this.sprite != null){
-					this.body.GetFixtureList().GetShape().m_radius = this.sprite.width / physicScale / 2;
 					this.sprite.scale = this.mScale;
+					this.body.GetFixtureList().GetShape().m_radius = this.sprite.width / physicScale / 2;
 				}
 				else{
 					this.body.GetFixtureList().GetShape().m_radius = this.mbodyWidth / physicScale / 2;

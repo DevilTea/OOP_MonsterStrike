@@ -15,8 +15,8 @@ Framework.Config =  {
 
 	/*遊戲寬高比 在resizeCanvasAsRation=true有用 */
 	/*EX 16:9 ...  */
-	canvasWidthRatio : 9,
-	canvasHeightRatio : 16,
+	gameWidthRatio : 9,
+	gameHeightRatio : 16,
 
 	/*在視窗變化大小時自動resize */
 	resizeCanvasAsRatio : true
