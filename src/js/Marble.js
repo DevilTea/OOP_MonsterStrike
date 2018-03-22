@@ -13,7 +13,10 @@ class Marble extends MapObject {
 		this.comboSkill = marbleConfig.comboSkill1	//友情技能
 		
 		this.nowHp = this.hp
-		this.nowSpeed = 0
+		this.nowSpeed = { x : 0, y : 0 }
+		this.nowUnitVector = { x : 0, y : 0 }
+		this.mousedownCoordinate = new Framework.Point()
+		this.isMousedown = false
 		
 	}
 	
@@ -30,26 +33,48 @@ class Marble extends MapObject {
 	
 	update() {
 		super.update()
-		this.position.y -= this.nowSpeed
-		this.nowSpeed = Math.max((this.nowSpeed + this.map.deceleration), 0)
+		this.position.x += this.nowSpeed.x
+		this.position.y += this.nowSpeed.y
+		this.nowSpeed.x = this.nowSpeed.x + this.map.deceleration * this.nowUnitVector.x
+		this.nowSpeed.x = this.nowUnitVector.x < 0 ? Math.min(this.nowSpeed.x, 0) : Math.max(this.nowSpeed.x, 0)
+		this.nowSpeed.y = this.nowSpeed.y + this.map.deceleration * this.nowUnitVector.y
+		this.nowSpeed.y = this.nowUnitVector.y < 0 ? Math.min(this.nowSpeed.y, 0) : Math.max(this.nowSpeed.y, 0)
 		this.marblePicture.position = this.position
 	}
 	
 	draw(ctx) {
 		this.marblePicture.draw(ctx)
 	}
-	
-	mouseup(e) {
-        super.mouseup(e)
-		this.nowSpeed = this.speed
-    }
 
     mousedown(e) {
         super.mousedown(e)
+		this.isMousedown = true
+		this.nowUnitVector.x = 0
+		this.nowUnitVector.y = 0
+		this.mousedownCoordinate.x = e.x
+		this.mousedownCoordinate.y = e.y
+    }
+	
+	mouseup(e) {
+        super.mouseup(e)
+		this.isMousedown = false
+		this.nowSpeed.x = this.speed * this.nowUnitVector.x
+		this.nowSpeed.y = this.speed * this.nowUnitVector.y
     }
 
-    mousemove(e) {    
+    mousemove(e) {
 		super.mousemove(e)
+		if(this.isMousedown) {
+			this.nowUnitVector.x = this.mousedownCoordinate.x - e.x
+			this.nowUnitVector.y = this.mousedownCoordinate.y - e.y
+			let len = Math.sqrt(Math.pow(this.nowUnitVector.x, 2) + Math.pow(this.nowUnitVector.y, 2))
+			this.nowUnitVector.x /= len
+			this.nowUnitVector.y /= len
+			if(len < 70) {
+				this.nowUnitVector.x = 0
+				this.nowUnitVector.y = 0
+			}
+		}
     }
 	
     touchstart(e) {
@@ -65,7 +90,5 @@ class Marble extends MapObject {
     touchmove(e) {
 		super.touchend(e)
         this.mousemove(e[0])
-    }	
-
-
+    }
 }

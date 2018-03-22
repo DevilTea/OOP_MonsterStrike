@@ -17,8 +17,8 @@ Framework = (function (Framework) {
 		that.canvasHeight = that._config.canvasHeight;
 		that.isBackwardCompatiable = true;
 
-		that._widthRatio = 1;
-		that._heightRatio = 1;
+		that.widthRatio = 1;
+		that.heightRatio = 1;
 
 		that._isRecording = false;
 		that.isRecordMode = isRecordMode;  // 來自入口的 .html 檔所呼叫的 load.js 或 recordLoad.js 
@@ -46,8 +46,8 @@ Framework = (function (Framework) {
 		that._currentTestScript = undefined;
 		that._currentReplay = undefined;
 
-		that._ideaWidth = that._config.canvasWidthRatio || 16;
-		that._ideaHeight = that._config.canvasHeightRatio || 9;
+		that._ideaWidth = that._config.gameWidthRatio || 16;
+		that._ideaHeight = that._config.gameHeightRatio || 9;
 		that.timelist = [];
 		that._record = new Framework.Recorder();
 
@@ -968,8 +968,8 @@ Framework = (function (Framework) {
 
 			scaledWidth = Math.round(base * that._ideaWidth);
 			scaledHeight = Math.round(base * that._ideaHeight);
-			that._widthRatio = scaledWidth / that.canvas.width;
-			that._heightRatio = scaledHeight / that.canvas.height;		
+			that.widthRatio = scaledWidth / that.canvas.width;
+			that.heightRatio = scaledHeight / that.canvas.height;		
 			//that.canvasContainer.style.width = scaledWidth;
 			//that.canvasContainer.style.height = scaledHeight;
 			that.canvas.style.width = scaledWidth + 'px';    // 2017.02.20, from V3.1.1
