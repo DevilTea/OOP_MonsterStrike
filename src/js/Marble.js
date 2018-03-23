@@ -40,7 +40,7 @@ class Marble extends MapObject {
 	
 	update() {
 		super.update()
-		this.slowdown()
+		//this.slowdown()
 	}
 	
 	draw(ctx) {

@@ -66,7 +66,9 @@ let loadFrameworkEnd
         { src: frameworkPath + 'circleComponent.js'},
         { src: frameworkPath + 'polygonComponent.js'},
         { src: frameworkPath + 'squareComponent.js'},
-        { src: frameworkPath + 'triangleComponent.js'}
+        { src: frameworkPath + 'triangleComponent.js'},
+        { src: frameworkPath + 'Matter-0.10.0.js'},
+        { src: frameworkPath + 'MatterUtil.js'}
     ]
     importJS(frameworklistScript)
     
