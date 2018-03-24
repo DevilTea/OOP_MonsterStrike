@@ -4,8 +4,17 @@ class Map {
 		this.level = level
 		this.nextMapObjectID = 0
 		this.mapObjects = []
-		this.wall = { top : { p1 : new Framework.Point(0, 0), p2 : new Framework.Point(1080, 0) }, left : { p1 : new Framework.Point(0, 0), p2 : new Framework.Point(0, 1920) }, right : { p1 : new Framework.Point(1080, 0), p2 : new Framework.Point(1080, 1920) }, bottom : { p1 : new Framework.Point(0, 1920), p2 : new Framework.Point(1080, 1920) } }
-		this.deceleration = -20
+		this.matter = new Framework.Matter()
+		this.physicWorld = this.matter.world
+		this.physicWorld.gravity = {x: 0, y: 0, scale: 0}
+		let wallThickness = 500
+		let wallOptions = { isStatic: true, friction: 0, frictionAir: 0, frictionStatic: 0, restitution: 1}
+		this.walls = {
+			top: this.matter.createRectangleBody(540, - wallThickness, 1080 + wallThickness * 2, wallThickness * 2, wallOptions),
+			bottom: this.matter.createRectangleBody(540, 1600 + wallThickness, 1080 + wallThickness * 2, wallThickness * 2, wallOptions),
+			left: this.matter.createRectangleBody(- wallThickness, 810, wallThickness * 2, 1920 + wallThickness * 2, wallOptions),
+			right: this.matter.createRectangleBody(1080 + wallThickness, 810, wallThickness * 2, 1920 + wallThickness * 2, wallOptions)
+		}
 	}
 	
 	load() {
@@ -21,6 +30,7 @@ class Map {
 	}
 	
 	update() {
+		this.matter.update()
 		for(let i = 0; i < this.mapObjects.length; i++) {
 			this.mapObjects[i].update()
 		}

@@ -1,8 +1,28 @@
 class MapObject {
-	constructor(position = new Framework.Point()) {
+	constructor(matter) {
 		autoBind(this)
-		this.position = position
+		this.pic = {}
+		this.matter = matter
+		this.component = {}
 		this.map
+		
+		Object.defineProperty(this, 'position', {
+			get : function() {
+				return this.component.position
+			},
+			set : function (newValue) {
+				this.component.position = newValue
+			}
+		})
+		
+		Object.defineProperty(this, 'scale', {
+			get : function () {
+				return this.component.scale
+			},
+			set : function (newValue) {
+				this.component.scale = newValue
+			}
+		})
 	}
 	
 	load() {
@@ -14,7 +34,7 @@ class MapObject {
 	}
 	
 	update() {
-		
+
 	}
 	
 	draw(ctx) {
