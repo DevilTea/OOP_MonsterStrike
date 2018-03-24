@@ -96,19 +96,19 @@ class Stage1 extends Framework.Level {
 	//又要減少Duplicated code, 故在Touch事件被觸發時, 去Trigger Mouse事件
     touchstart(e) {
 		super.touchstart(e)
-        this.mousedown(e[0])
+        //this.mousedown(e[0])
 		this.map.touchstart(e)
     }
 
     touchend(e) {
 		super.touchend(e)
-        this.mouseup(e[0])
+        //this.mouseup(e[0])
 		this.map.touchend(e)
     }
     
     touchmove(e) {
 		super.touchmove(e)
-        this.mousemove(e[0])
+        //this.mousemove(e[0])
 		this.map.touchmove(e)
     }
 }

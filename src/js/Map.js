@@ -61,21 +61,21 @@ class Map {
     }
 	
     touchstart(e) {
-        this.mousedown(e[0])
+        //this.mousedown(e[0])
 		for(let i = 0; i < this.mapObjects.length; i++) {
 			this.mapObjects[i].touchstart(e)
 		}
     }
 
     touchend(e) {
-        this.mouseup(e[0])
+        //this.mouseup(e[0])
 		for(let i = 0; i < this.mapObjects.length; i++) {
 			this.mapObjects[i].touchend(e)
 		}
     }
     
     touchmove(e) {
-        this.mousemove(e[0])
+        //this.mousemove(e[0])
 		for(let i = 0; i < this.mapObjects.length; i++) {
 			this.mapObjects[i].touchmove(e)
 		}
