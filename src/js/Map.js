@@ -7,8 +7,9 @@ class Map {
 		this.matter = new Framework.Matter()
 		this.physicWorld = this.matter.world
 		this.physicWorld.gravity = {x: 0, y: 0, scale: 0}
+		this.matter.addEventListener('collisionStart', this.collide)
 		let wallThickness = 500
-		let wallOptions = { isStatic: true, friction: 0, frictionAir: 0, frictionStatic: 0, restitution: 1}
+		let wallOptions = { label: 'wall', isStatic: true, friction: 0, frictionAir: 0, frictionStatic: 0, restitution: 1}
 		this.walls = {
 			top: this.matter.createRectangleBody(540, - wallThickness, 1080 + wallThickness * 2, wallThickness * 2, wallOptions),
 			bottom: this.matter.createRectangleBody(540, 1600 + wallThickness, 1080 + wallThickness * 2, wallThickness * 2, wallOptions),
@@ -18,69 +19,50 @@ class Map {
 	}
 	
 	load() {
-		for(let i = 0; i < this.mapObjects.length; i++) {
-			this.mapObjects[i].load()
-		}
+		this.mapObjects.forEach((value) => value.load())
 	}
 	
 	initialize() {
-		for(let i = 0; i < this.mapObjects.length; i++) {
-			this.mapObjects[i].initialize()
-		}
+		this.mapObjects.forEach((value) => value.initialize())
 	}
 	
 	update() {
 		this.matter.update()
-		for(let i = 0; i < this.mapObjects.length; i++) {
-			this.mapObjects[i].update()
-		}
+		this.mapObjects.forEach((value) => value.update())
 	}
 	
 	draw(ctx) {
-		for(let i = 0; i < this.mapObjects.length; i++) {
-			this.mapObjects[i].draw(ctx)
-		}
+		this.mapObjects.forEach((value) => value.draw())
 	}
 	
 	mouseup(e) {
-		for(let i = 0; i < this.mapObjects.length; i++) {
-			this.mapObjects[i].mouseup(e)
-		}
+		this.mapObjects.forEach((value) => value.mouseup(e))
     }
 
     mousedown(e) {
-		for(let i = 0; i < this.mapObjects.length; i++) {
-			this.mapObjects[i].mousedown(e)
-		}
+		this.mapObjects.forEach((value) => value.mousedown(e))
     }
 
     mousemove(e) {
-		for(let i = 0; i < this.mapObjects.length; i++) {
-			this.mapObjects[i].mousemove(e)
-		}
+		this.mapObjects.forEach((value) => value.mousemove(e))
     }
 	
     touchstart(e) {
-        //this.mousedown(e[0])
-		for(let i = 0; i < this.mapObjects.length; i++) {
-			this.mapObjects[i].touchstart(e)
-		}
+		this.mapObjects.forEach((value) => value.touchstart(e))
     }
 
     touchend(e) {
-        //this.mouseup(e[0])
-		for(let i = 0; i < this.mapObjects.length; i++) {
-			this.mapObjects[i].touchend(e)
-		}
+		this.mapObjects.forEach((value) => value.touchend(e))
     }
     
     touchmove(e) {
-        //this.mousemove(e[0])
-		for(let i = 0; i < this.mapObjects.length; i++) {
-			this.mapObjects[i].touchmove(e)
-		}
-    }	
-	
+		this.mapObjects.forEach((value) => value.touchmove(e))
+    }
+
+	collide(event) {
+		this.mapObjects.forEach((value) => value.collide(event))
+	}
+
 	addMapObject(mapObject) {
 		this.nextMapObjectID++
 		mapObject.map = this

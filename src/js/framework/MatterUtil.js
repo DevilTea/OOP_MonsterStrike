@@ -25,6 +25,10 @@ Framework.Matter = class MatterUtil {
             Matter.Body.scale(body, scaleX, scaleY)
         }
 
+        addEventListener(eventName, callback) {
+            Matter.Events.on(this.engine, eventName, callback)
+        }
+
         update() {
             Matter.Engine.update(this.engine, 1000 / Framework.Config.fps, 1)
         }

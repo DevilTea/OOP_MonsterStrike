@@ -28,7 +28,7 @@ class Marble extends MapObject {
 	
 	initialize() {
 		super.initialize()
-		let componentOptions = { friction: 0, frictionAir: 0.012, frictionStatic: 0, restitution: 1}
+		let componentOptions = { label: 'marble', friction: 0, frictionAir: 0.012, frictionStatic: 0, restitution: 1}
 		this.component = new Framework.CircleComponent(this.matter, this.pic, componentOptions)
 		this.component.lockRotation = true
 		this.position = new Framework.Point(540, 1500)
@@ -101,5 +101,9 @@ class Marble extends MapObject {
 		this.isMoving = true
 		let velocity = {x: this.speed * this.nowUnitVector.x, y: this.speed * this.nowUnitVector.y}
 		this.component.setBody('velocity', velocity)
+	}
+
+	collide(event) {
+		
 	}
 }
