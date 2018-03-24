@@ -1,131 +1,51 @@
-Framework = (function (Framework) {
-	'use strict'
-
-	Framework.circleComponent = function (sprite, bodyType, box2D) {
-		var physicScale = 30;
-		this.sprite = sprite;
-		this.body = box2D.createCircleBody(1, bodyType);
-		this.mBox2D = box2D;
-		this.mScale;
-		this.mRotation;
-		this.bodyType = bodyType;
-		this.isSensor;
-		this.mbodyWidth;
-		this.mbodyHeight;
-		
-		Object.defineProperty(this, 'BodyType', {
-			get : function () {
-				return this.bodyType;
-			},
-			set : function (newValue) {
-				this.bodyType = newValue;
-				this.body.setType(newValue);
-			}
-		});
-		
-		Object.defineProperty(this, 'Body', {
-			get : function () {
-				return this.body;
-			}
-		});
-
-		Object.defineProperty(this, 'fixtureDef', {
-			get : function () {
-				return this.body.m_fixtureList;
-			}
-		});
+'use strict'
+Framework.CircleComponent = class CircleComponent {
+	constructor(matter, sprite, options) {
+		autoBind(this)
+		this.matter = matter
+		this.sprite = sprite
+		this.body = this.matter.createCircleBody(0, 0, 1, options)
+		this.hasFirstUpdate = false
+		this.lockRotation = false
 
 		Object.defineProperty(this, 'position', {
-			get : function () {
-				return this.sprite.position;
+			get : function() {
+				return this.body.position
 			},
-
-			set : function (newValue) {
-				this.body.SetPosition(new this.mBox2D.b2Vec2(newValue.x / physicScale, newValue.y / physicScale));
-				if(this.sprite != null){
-					this.sprite.position = {
-						x : newValue.x,
-						y : newValue.y
-					};
-				}
-			},
-		});
-
+			set : function(newValue) {
+				this.sprite.position = newValue
+				this.setBody('position', newValue)
+			}
+		})
+		
 		Object.defineProperty(this, 'scale', {
-			get : function () {
-				return this.mScale;
+			get : function() {
+				return this.sprite.scale
 			},
-
-			set : function (newValue) {
-				this.mScale = newValue;
-				if(this.sprite != null){
-					this.sprite.scale = this.mScale;
-					this.body.GetFixtureList().GetShape().m_radius = this.sprite.width / physicScale / 2;
-				}
-				else{
-					this.body.GetFixtureList().GetShape().m_radius = this.mbodyWidth / physicScale / 2;
-				}
-			},
-		});
-
-		Object.defineProperty(this, 'rotation', {
-			get : function () {
-				return this.mRotation;
-			},
-
-			set : function (newValue) {
-				this.mRotation = newValue;
-				this.body.SetAngle(newValue * Math.PI / 180);
-				if(this.sprite != null){
-					this.sprite.rotation = newValue;
-				}
-			},
-		});
-
-		Object.defineProperty(this, 'isSensor', {
-			get : function () {
-				return this.isSensor;
-			},
-
-			set : function (newValue) {
-				this.body.m_fixtureList.SetSensor(newValue);
-			},
-		});
-		
-		Object.defineProperty(this, 'bodyWidth', {
-			get : function () {
-				return this.mbodyWidth;
-			},
-
-			set : function (newValue) {
-				this.mbodyWidth = newValue;
-			},
-		});
-		
-		this.registerContact = function (contactCallBack) {
-			this.mBox2D.addDictionary(this.body, contactCallBack);
-		};
-
-		this.update = function () {
-			if (!this.bodyCreated && this.secondUpdate) {
-				this.bodyCreated = true;
-				if(this.sprite != null){
-					this.body.GetFixtureList().GetShape().m_radius = this.sprite.width / physicScale / 2;
-				}
-				else{
-					this.body.GetFixtureList().GetShape().m_radius = this.mbodyWidth / physicScale / 2;
-				}
+			set : function(newValue) {
+				let temp = newValue / this.sprite.scale
+				this.sprite.scale = newValue
+				this.matter.scaleBody(this.body, temp, temp)
 			}
-			this.secondUpdate = true;
-			if(this.sprite != null){
-				this.sprite.position = {
-					x : this.body.GetPosition().x * physicScale,
-					y : this.body.GetPosition().y * physicScale
-				};
-				this.sprite.rotation = this.body.GetAngle() / Math.PI * 180;
-			}
-		}
+		})
 	}
 
-	return Framework;
-})(Framework || {});
+	setBody(property, value) {
+		this.matter.setBody(this.body, property, value)
+	}
+
+	update() {
+		if(!this.hasFirstUpdate && this.sprite.texture) {
+			this.hasFirstUpdate = true
+			let a = this.sprite.texture.width
+			this.matter.scaleBody(this.body, a / 2, a / 2)
+		} else if(this.hasFirstUpdate) {
+			if(this.lockRotation && this.body.angle != 0 && this.body.angularvelocity != 0) {
+				this.setBody('angularVelocity', 0)
+				this.setBody('angle', 0)
+			}
+			this.sprite.position = this.body.position
+			this.sprite.rotation = this.body.angle / Math.PI * 180
+		}
+	}
+}

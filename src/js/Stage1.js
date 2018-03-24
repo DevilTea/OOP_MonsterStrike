@@ -35,11 +35,11 @@ class Stage1 extends Framework.Level {
 			rebound : 0,
 			hp : 100,
 			atk : 100,
-			speed : 20000,
+			speed : 200,
 			race : 0,
 			skill : [],
 			comboSkill : []
-		}, this.map.box2D)
+		}, this.map.matter)
 		this.map.addMapObject(this.temp)
 		this.map.load()
 	}
@@ -75,7 +75,6 @@ class Stage1 extends Framework.Level {
 	
     click(e){
 		super.click(e)
-		//this.map.
     }
 	
 	mouseup(e) {

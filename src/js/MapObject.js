@@ -1,7 +1,8 @@
 class MapObject {
-	constructor(box2D) {
+	constructor(matter) {
 		autoBind(this)
-		this.box2D = box2D
+		this.pic = {}
+		this.matter = matter
 		this.component = {}
 		this.map
 		
@@ -22,24 +23,6 @@ class MapObject {
 				this.component.scale = newValue
 			}
 		})
-		
-		Object.defineProperty(this, 'rotation', {
-			get : function () {
-				return this.component.rotation
-			},
-			set : function (newValue) {
-				this.component.rotation = newValue
-			}
-		})
-		
-		Object.defineProperty(this, 'isSensor', {
-			get : function () {
-				return this.component.isSensor
-			},
-			set : function (newValue) {
-				this.component.isSensor = newValue
-			}
-		})
 	}
 	
 	load() {
@@ -51,7 +34,7 @@ class MapObject {
 	}
 	
 	update() {
-		this.component.update()
+
 	}
 	
 	draw(ctx) {

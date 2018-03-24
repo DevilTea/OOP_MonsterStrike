@@ -1,8 +1,7 @@
 class Marble extends MapObject {
-	constructor(marbleConfig, box2D) {
-		super(box2D)
+	constructor(marbleConfig, matter) {
+		super(matter)
 		autoBind(this)
-		this.marblePicture
 		this.marbleID = marbleConfig.marbleID		//彈珠ID
 		this.attribute = marbleConfig.attribute		//屬性
 		this.rebound = marbleConfig.rebound			//反射/貫通
@@ -17,30 +16,33 @@ class Marble extends MapObject {
 		this.nowSpeed = 0
 		this.nowUnitVector = { x : 0, y : 0 }
 		this.mousedownCoordinate = new Framework.Point()
-		this.isMousedown = false
 		this.isMoving = false
-		this.stopPos
+		this.isMousedown = false
+		this.firstUpdate = false
 	}
 	
 	load() {
 		super.load()
-		this.marblePicture = new Framework.Sprite(imagePath + 'marble/Ball' + this.marbleID + '.png')
-		this.component =  new Framework.circleComponent(this.marblePicture, this.box2D.bodyType_Dynamic, this.box2D)
-		this.component.fixtureDef.m_restitution = 0
-		this.component.Body.m_userData = "marble"
+		this.pic = new Framework.Sprite(imagePath + 'marble/Ball' + this.marbleID + '.png')
 	}
 	
 	initialize() {
 		super.initialize()
+		let componentOptions = { friction: 0, frictionAir: 0.012, frictionStatic: 0, restitution: 1}
+		this.component = new Framework.CircleComponent(this.matter, this.pic, componentOptions)
+		this.component.lockRotation = true
 		this.position = new Framework.Point(540, 1500)
-		this.stopPos = {x : this.position.x, y : this.position.y}
 		this.scale = 2
-		this.map.level.rootScene.attach(this.marblePicture)
+		this.map.level.rootScene.attach(this.pic)
 	}
 	
 	update() {
 		super.update()
-		//this.slowdown()
+		this.component.update()
+		if(this.component.body.speed < 1) {
+			this.component.setBody('velocity', {x: 0, y: 0})
+			this.isMoving = false
+		}
 	}
 	
 	draw(ctx) {
@@ -96,14 +98,12 @@ class Marble extends MapObject {
     }
 	
 	shoot() {
-		this.nowSpeed = this.speed
 		this.isMoving = true
-		let forceX = this.speed * this.nowUnitVector.x
-		let forceY = this.speed * this.nowUnitVector.y
-		this.component.Body.ApplyForce(new this.box2D.b2Vec2(forceX, forceY), this.component.Body.GetWorldCenter())
+		let velocity = {x: this.speed * this.nowUnitVector.x, y: this.speed * this.nowUnitVector.y}
+		this.component.setBody('velocity', velocity)
 	}
 	
-	slowdown() {
+	/*slowdown() {
 		if(this.nowSpeed > 0) {
 			let slowdownUnitVector = { x : this.component.Body.m_sweep.c.x - this.component.Body.m_sweep.c0.x, y : this.component.Body.m_sweep.c.y - this.component.Body.m_sweep.c0.y }
 			let len = Math.sqrt(Math.pow(slowdownUnitVector.x, 2) + Math.pow(slowdownUnitVector.y, 2)) || 1
@@ -130,7 +130,7 @@ class Marble extends MapObject {
 			this.position.x = this.stopPos.x
 			this.position.y = this.stopPos.y
 		}
-	}
+	}*/
 }
 
 /*class Marble extends MapObject {

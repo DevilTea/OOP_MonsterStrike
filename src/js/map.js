@@ -4,19 +4,17 @@ class Map {
 		this.level = level
 		this.nextMapObjectID = 0
 		this.mapObjects = []
-		this.deceleration = -100
-		this.box2D = new Framework.Box2D()
-		this.box2D.createWorld()
+		this.matter = new Framework.Matter()
+		this.physicWorld = this.matter.world
+		this.physicWorld.gravity = {x: 0, y: 0, scale: 0}
+		let wallThickness = 500
+		let wallOptions = { isStatic: true, friction: 0, frictionAir: 0, frictionStatic: 0, restitution: 1}
 		this.walls = {
-			top : this.box2D.createSquareBody(1080/30, 0, this.box2D.bodyType_Static),
-			left : this.box2D.createSquareBody(0, 1920/30, this.box2D.bodyType_Static),
-			right : this.box2D.createSquareBody(0, 1920/30, this.box2D.bodyType_Static),
-			bottom : this.box2D.createSquareBody(1080/30, 0, this.box2D.bodyType_Static)
+			top: this.matter.createRectangleBody(540, - wallThickness, 1080 + wallThickness * 2, wallThickness * 2, wallOptions),
+			bottom: this.matter.createRectangleBody(540, 1920 + wallThickness, 1080 + wallThickness * 2, wallThickness * 2, wallOptions),
+			left: this.matter.createRectangleBody(- wallThickness, 810, wallThickness * 2, 1920 + wallThickness * 2, wallOptions),
+			right: this.matter.createRectangleBody(1080 + wallThickness, 810, wallThickness * 2, 1920 + wallThickness * 2, wallOptions)
 		}
-		this.walls.top.SetPosition(new this.box2D.b2Vec2(0, 0))
-		this.walls.left.SetPosition(new this.box2D.b2Vec2(0, 0))
-		this.walls.right.SetPosition(new this.box2D.b2Vec2(1080/30, 0))
-		this.walls.bottom.SetPosition(new this.box2D.b2Vec2(0, 1920/30))
 	}
 	
 	load() {
@@ -32,10 +30,10 @@ class Map {
 	}
 	
 	update() {
+		this.matter.update()
 		for(let i = 0; i < this.mapObjects.length; i++) {
 			this.mapObjects[i].update()
 		}
-		this.box2D.draw()
 	}
 	
 	draw(ctx) {

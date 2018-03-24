@@ -55,20 +55,15 @@ let loadFrameworkEnd
         { src: frameworkPath + 'Scene.js'},/*updated*/
         { src: frameworkPath + 'ResourceManager.js'},
         { src: frameworkPath + 'Level.js'},/*updated*/
+        { src: frameworkPath + 'Matter-0.14.1.js'},
+        { src: frameworkPath + 'MatterUtil.js'},
+        { src: frameworkPath + 'CircleComponent.js'},
         { src: frameworkPath + 'Game.js'},
         { src: frameworkPath + 'MouseManager.js'},/*updated*/
         { src: frameworkPath + 'KeyBoardManager.js'},/*updated*/
         { src: frameworkPath + 'TouchManager.js'},/*updated*/
         { src: frameworkPath + 'GameMainMenu.js'},/*updated*/
-        { src: frameworkPath + 'AudioManager.js'},/*updated*/
-        { src: frameworkPath + 'Box2dWeb-2.1.a.3.js'},
-        { src: frameworkPath + 'Box2D.js'},
-        { src: frameworkPath + 'circleComponent.js'},
-        { src: frameworkPath + 'polygonComponent.js'},
-        { src: frameworkPath + 'squareComponent.js'},
-        { src: frameworkPath + 'triangleComponent.js'},
-        { src: frameworkPath + 'Matter-0.10.0.js'},
-        { src: frameworkPath + 'MatterUtil.js'}
+        { src: frameworkPath + 'AudioManager.js'}/*updated*/
     ]
     importJS(frameworklistScript)
     
