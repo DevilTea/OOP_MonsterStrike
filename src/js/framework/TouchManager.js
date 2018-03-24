@@ -40,40 +40,31 @@ Framework.TouchManager = new (class TouchManager {
 	
 	touchstartEvent(e) {
 		e.preventDefault()
-		//let newE = this.countCanvasOffset(e)
-		//this.userTouchstartEvent.call(this.subject, newE, e)
-		this.userTouchstartEvent.call(this.subject, e)
+		let newE = this.countCanvasOffset(e)
+		this.userTouchstartEvent.call(this.subject, newE, e)
 	}
 
 	touchendEvent(e) {
 		e.preventDefault()
-		e = this.countCanvasOffset(e)
-		//let newE = this.countCanvasOffset(e)
-		//this.userTouchendEvent.call(this.subject, newE, e)
-		this.userTouchendEvent.call(this.subject, e)
+		let newE = this.countCanvasOffset(e)
+		this.userTouchendEvent.call(this.subject, newE, e)
 	}
 
 	touchcancelEvent(e) {
 		e.preventDefault()
-		e = this.countCanvasOffset(e)
-		//let newE = this.countCanvasOffset(e)
-		//this.userTouchcancelEvent.call(this.subject, newE, e)
-		this.userTouchcancelEvent.call(this.subject, e)
+		let newE = this.countCanvasOffset(e)
+		this.userTouchcancelEvent.call(this.subject, newE, e)
 	}
 
 	touchleaveEvent(e) {
 		e.preventDefault()
-		e = this.countCanvasOffset(e)
-		//let newE = this.countCanvasOffset(e)
-		//this.userTouchleaveEvent.call(this.subject, newE, e)
-		this.userTouchleaveEvent.call(this.subject, e)
+		let newE = this.countCanvasOffset(e)
+		this.userTouchleaveEvent.call(this.subject, newE, e)
 	}
 
 	touchmoveEvent(e) {
 		e.preventDefault()
-		e = this.countCanvasOffset(e)
-		//let newE = this.countCanvasOffset(e)
-		//this.userTouchmoveEvent.call(this.subject, newE, e)
-		this.userTouchmoveEvent.call(this.subject, e)
+		let newE = this.countCanvasOffset(e)
+		this.userTouchmoveEvent.call(this.subject, newE, e)
 	}
 })()

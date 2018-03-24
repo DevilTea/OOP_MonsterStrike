@@ -51,7 +51,6 @@ class Marble extends MapObject {
     mousedown(e) {
         super.mousedown(e)
 		if(!this.isMoving) {
-			console.log("waa")
 			this.isMousedown = true
 			this.nowUnitVector.x = 0
 			this.nowUnitVector.y = 0
@@ -63,7 +62,6 @@ class Marble extends MapObject {
 	mouseup(e) {
         super.mouseup(e)
 		if(!this.isMoving && this.isMousedown) {
-			console.log("waaa")
 			this.isMousedown = false
 			this.shoot()
 		}
@@ -72,7 +70,6 @@ class Marble extends MapObject {
     mousemove(e) {
 		super.mousemove(e)
 		if(this.isMousedown) {
-			console.log("waaaa")
 			this.nowUnitVector.x = this.mousedownCoordinate.x - e.x
 			this.nowUnitVector.y = this.mousedownCoordinate.y - e.y
 			let len = Math.sqrt(Math.pow(this.nowUnitVector.x, 2) + Math.pow(this.nowUnitVector.y, 2))
@@ -86,40 +83,18 @@ class Marble extends MapObject {
     }
 	
     touchstart(e) {
-        super.touchstart(e)
-		if(!this.isMoving) {
-			console.log("waa")
-			this.isMousedown = true
-			this.nowUnitVector.x = 0
-			this.nowUnitVector.y = 0
-			this.mousedownCoordinate.x = e.x
-			this.mousedownCoordinate.y = e.y
-		}
-    }
-	
-	touchend(e) {
-        super.touchend(e)
-		if(!this.isMoving && this.isMousedown) {
-			console.log("waaa")
-			this.isMousedown = false
-			this.shoot()
-		}
+		super.touchstart(e)
+        this.mousedown(e[0])
     }
 
+    touchend(e) {
+		super.touchend(e)
+        this.mouseup(e[0])
+    }
+    
     touchmove(e) {
-		super.touchmove(e)
-		if(this.isMousedown) {
-			console.log("waaaa")
-			this.nowUnitVector.x = this.mousedownCoordinate.x - e.x
-			this.nowUnitVector.y = this.mousedownCoordinate.y - e.y
-			let len = Math.sqrt(Math.pow(this.nowUnitVector.x, 2) + Math.pow(this.nowUnitVector.y, 2))
-			this.nowUnitVector.x /= len
-			this.nowUnitVector.y /= len
-			if(len < 70) {
-				this.nowUnitVector.x = 0
-				this.nowUnitVector.y = 0
-			}
-		}
+		super.touchend(e)
+        this.mousemove(e[0])
     }
 	
 	shoot() {
