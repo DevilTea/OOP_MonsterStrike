@@ -11,7 +11,7 @@ class Map {
 		let wallOptions = { isStatic: true, friction: 0, frictionAir: 0, frictionStatic: 0, restitution: 1}
 		this.walls = {
 			top: this.matter.createRectangleBody(540, - wallThickness, 1080 + wallThickness * 2, wallThickness * 2, wallOptions),
-			bottom: this.matter.createRectangleBody(540, 1920 + wallThickness, 1080 + wallThickness * 2, wallThickness * 2, wallOptions),
+			bottom: this.matter.createRectangleBody(540, 1600 + wallThickness, 1080 + wallThickness * 2, wallThickness * 2, wallOptions),
 			left: this.matter.createRectangleBody(- wallThickness, 810, wallThickness * 2, 1920 + wallThickness * 2, wallOptions),
 			right: this.matter.createRectangleBody(1080 + wallThickness, 810, wallThickness * 2, 1920 + wallThickness * 2, wallOptions)
 		}

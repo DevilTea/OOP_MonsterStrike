@@ -30,12 +30,12 @@ class Stage1 extends Framework.Level {
 		this.menu.position = { x: Framework.Game.getCanvasWidth() / 2, y: Framework.Game.getCanvasHeight() / 2 }
         this.menu.scale = 4
 		this.temp = new Marble({
-			marbleID : 1,
+			marbleID : 1742,
 			attribute : 0,
 			rebound : 0,
 			hp : 100,
 			atk : 100,
-			speed : 200,
+			speed : 400,
 			race : 0,
 			skill : [],
 			comboSkill : []

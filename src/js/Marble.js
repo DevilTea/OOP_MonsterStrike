@@ -61,7 +61,7 @@ class Marble extends MapObject {
 	
 	mouseup(e) {
         super.mouseup(e)
-		if(!this.isMoving) {
+		if(!this.isMoving && this.isMousedown) {
 			this.isMousedown = false
 			this.shoot()
 		}
