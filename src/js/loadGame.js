@@ -57,7 +57,7 @@ var loadGameEnd;
         { src: jsPath + 'Map.js'},
         { src: jsPath + 'StartPage.js', lookFor: 'StartPage'},
         { src: jsPath + 'Stage1.js', lookFor: 'Stage1'},
-        { src: jsPath + 'mainGame.js'}
+        { src: jsPath + 'MainGame.js'}
     ]
     importJS(listScript);
     

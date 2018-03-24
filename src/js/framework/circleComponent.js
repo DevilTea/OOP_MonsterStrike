@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 'use strict'
 Framework.CircleComponent = class CircleComponent {
 	constructor(matter, sprite, options) {
@@ -10,21 +8,9 @@ Framework.CircleComponent = class CircleComponent {
 		this.hasFirstUpdate = false
 		this.lockRotation = false
 
-	Framework.circleComponent = function (sprite, bodyType, box2D) {
-		var physicScale = 30;
-		this.sprite = sprite;
-		this.body = box2D.createCircleBody(1, bodyType);
-		this.mBox2D = box2D;
-		this.mScale;
-		this.mRotation;
-		this.bodyType = bodyType;
-		this.isSensor;
-		this.mbodyWidth;
-		this.mbodyHeight;
-		
-		Object.defineProperty(this, 'BodyType', {
-			get : function () {
-				return this.bodyType;
+		Object.defineProperty(this, 'position', {
+			get : function() {
+				return this.body.position
 			},
 			set : function(newValue) {
 				this.sprite.position = newValue
