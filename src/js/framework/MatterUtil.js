@@ -2,7 +2,24 @@ Framework.Matter = class MatterUtil {
         constructor() {
             this.engine = Matter.Engine.create()
             this.world = this.engine.world
+            this.render = Matter.Render.create({
+                element: Framework.Game.canvasContainer,
+                canvas: Framework.Game.canvas,
+                engine: this.engine,
+                options: {
+                    width: Framework.Config.canvasWidth,
+                    height:Framework.Config.canvasHeight,
+                    wireframes: true
+                }
+            })
+        }
 
+        startRenderWireframes() {
+            Matter.Render.run(this.render)
+        }
+
+        stopRenderWireframes() {
+            Matter.Render.stop(this.render)
         }
 
         createRectangleBody(originX, originY, width, height, options) {

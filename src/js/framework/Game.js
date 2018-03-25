@@ -813,6 +813,10 @@ Framework.Game = new (class Game {
 		this.heightRatio = scaledHeight / this.canvas.height
 		this.canvas.style.width = scaledWidth + 'px'
 		this.canvas.style.height = scaledHeight + 'px'
+		if(this.currentLevel.map) {
+			this.currentLevel.map.matter.render.canvas.style.width = scaledWidth + 'px'
+			this.currentLevel.map.matter.render.canvas.style.height = scaledHeight + 'px'
+		}
 	}
 	
 	pushGameObj(ele) {
