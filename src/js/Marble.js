@@ -1,4 +1,4 @@
-class Marble extends MapObject {
+GameClasses.Marble = class Marble extends MapObject {
 	constructor(marbleConfig, matter) {
 		super(matter)
 		autoBind(this)
@@ -31,7 +31,6 @@ class Marble extends MapObject {
 		let componentOptions = { label: 'marble', friction: 0, frictionAir: 0.012, frictionStatic: 0, restitution: 1}
 		this.component = new Framework.CircleComponent(this.matter, this.pic, componentOptions)
 		this.component.lockRotation = true
-		this.position = new Framework.Point(540, 1500)
 		this.scale = 2
 		this.map.level.rootScene.attach(this.pic)
 	}
@@ -103,7 +102,11 @@ class Marble extends MapObject {
 		this.component.setBody('velocity', velocity)
 	}
 
-	collide(event) {
-		
+	collisionStart(event) {
+		super.collisionStart(event)
+	}
+
+	collisionEnd(event) {
+		super.collisionEnd(event)
 	}
 }

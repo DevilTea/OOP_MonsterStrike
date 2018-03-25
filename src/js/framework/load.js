@@ -1,5 +1,21 @@
 const isTestMode = false
 const isRecordMode = false
+const mainPath = 'src/'
+const frameworkPath = mainPath + 'js/framework/'
+const jsPath = mainPath + 'js/'
+const musicPath = mainPath + 'music/'
+const imagePath = mainPath + 'image/'
+let Framework = {}
+let GameClasses = {}
+let autoBind = function(obj) {
+    for (let o = obj; o; o = Object.getPrototypeOf(o)){
+        for (let name of Object.getOwnPropertyNames(o)){
+            if (typeof obj[name] === 'function'){
+                obj[name] = obj[name].bind(obj);
+            }
+        }
+    }
+}
 //立即執行函式, 並封裝所有變數避免衝突
 let loadEnd
 

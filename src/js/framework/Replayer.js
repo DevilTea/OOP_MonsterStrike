@@ -97,7 +97,7 @@ Framework.Replayer = new (class Replayer {
 	}
 
 	ready(scriptInfo) {
-		console.log('%c ----------------------------',this.GREEN_LOG)
+		//console.log('%c ----------------------------',this.GREEN_LOG)
 		//console.log('%c Run Test:' + scriptInfo.name,this.GREEN_LOG)
 		//if (! this.isReady) { // 2018.01.03 從下方搬上來, 無效
 			//Framework.Game.resume() // <-- 追看看會不會造成cycleCount的差異

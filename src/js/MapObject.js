@@ -60,5 +60,13 @@ class MapObject {
     
     touchmove(e) {
         this.mousemove(e[0])
-    }	
+	}
+	
+	collisionStart(event) {
+
+	}
+
+	collisionEnd(event) {
+		
+	}
 }

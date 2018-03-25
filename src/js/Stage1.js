@@ -2,7 +2,7 @@ class Stage1 extends Framework.Level {
 	constructor() {
 		super()
 		autoBind(this)
-		this.map = new Map(this)
+		this.map = new GameClasses.Map(this)
 	}
 	
 	initializeProgressResource() {
@@ -29,7 +29,7 @@ class Stage1 extends Framework.Level {
 		this.menu = new Framework.Sprite(imagePath + 'background/test.png', this)
 		this.menu.position = { x: Framework.Game.getCanvasWidth() / 2, y: Framework.Game.getCanvasHeight() / 2 }
         this.menu.scale = 4
-		this.temp = new Marble({
+		this.m1 = new GameClasses.Marble({
 			marbleID : 1742,
 			attribute : 0,
 			rebound : 0,
@@ -40,7 +40,43 @@ class Stage1 extends Framework.Level {
 			skill : [],
 			comboSkill : []
 		}, this.map.matter)
-		this.map.addMapObject(this.temp)
+		/*this.m2 = new GameClasses.Marble({
+			marbleID : 1742,
+			attribute : 0,
+			rebound : 0,
+			hp : 100,
+			atk : 100,
+			speed : 400,
+			race : 0,
+			skill : [],
+			comboSkill : []
+		}, this.map.matter)
+		this.m3 = new GameClasses.Marble({
+			marbleID : 1742,
+			attribute : 0,
+			rebound : 0,
+			hp : 100,
+			atk : 100,
+			speed : 400,
+			race : 0,
+			skill : [],
+			comboSkill : []
+		}, this.map.matter)
+		this.m4 = new GameClasses.Marble({
+			marbleID : 1742,
+			attribute : 0,
+			rebound : 0,
+			hp : 100,
+			atk : 100,
+			speed : 400,
+			race : 0,
+			skill : [],
+			comboSkill : []
+		}, this.map.matter)*/
+		this.map.addMapObject(this.m1)
+		//this.map.addMapObject(this.m2)
+		//this.map.addMapObject(this.m3)
+		//this.map.addMapObject(this.m4)
 		this.map.load()
 	}
 	
@@ -54,8 +90,7 @@ class Stage1 extends Framework.Level {
         this.rootScene.attach(this.menu)
 		this.audio.play({name: 'sound_enterStage', loop: false})
 		this.audio.play({name: 'bgm_mainPage', loop: true})
-		this.audio.setVolume("bgm_mainPage", 0.0)
-		//window.setTimeout(this.audio.setVolume("bgm_mainPage", 1), 3000);
+		this.audio.setVolume("bgm_mainPage", 0.3)
 		this.map.initialize()
 	}
 	
@@ -90,25 +125,20 @@ class Stage1 extends Framework.Level {
     mousemove(e) {    
 		super.mousemove(e)
 		this.map.mousemove(e)
-    }
-
-	//為了要讓Mouse和Touch都有一樣的事件
-	//又要減少Duplicated code, 故在Touch事件被觸發時, 去Trigger Mouse事件
+	}
+	
     touchstart(e) {
 		super.touchstart(e)
-        //this.mousedown(e[0])
 		this.map.touchstart(e)
     }
 
     touchend(e) {
 		super.touchend(e)
-        //this.mouseup(e[0])
 		this.map.touchend(e)
     }
     
     touchmove(e) {
 		super.touchmove(e)
-        //this.mousemove(e[0])
 		this.map.touchmove(e)
     }
 }
