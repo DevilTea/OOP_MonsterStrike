@@ -14,24 +14,21 @@ GameClasses.Marble = class Marble extends MapObject {
 		
 		this.nowHp = this.hp
 		this.nowSpeed = 0
-		this.nowUnitVector = { x : 0, y : 0 }
-		this.mousedownCoordinate = new Framework.Point()
 		this.isMoving = false
-		this.isMousedown = false
-		this.firstUpdate = false
 	}
 	
 	load() {
 		super.load()
 		this.pic = new Framework.Sprite(imagePath + 'marble/Ball' + this.marbleID + '.png')
+		let componentOptions = { label: 'marble', friction: 0, frictionAir: 0.012, frictionStatic: 0, restitution: 1, isSensor: true}
+		this.component = new Framework.CircleComponent(this.matter, this.pic, componentOptions)
 	}
 	
 	initialize() {
 		super.initialize()
-		let componentOptions = { label: 'marble', friction: 0, frictionAir: 0.012, frictionStatic: 0, restitution: 1}
-		this.component = new Framework.CircleComponent(this.matter, this.pic, componentOptions)
 		this.component.lockRotation = true
-		this.scale = 2
+		this.scale = 1.5
+		this.component.setBody('mass', 0.1)
 		this.map.level.rootScene.attach(this.pic)
 	}
 	
@@ -49,36 +46,14 @@ GameClasses.Marble = class Marble extends MapObject {
 
     mousedown(e) {
         super.mousedown(e)
-		if(!this.isMoving) {
-			this.isMousedown = true
-			this.nowUnitVector.x = 0
-			this.nowUnitVector.y = 0
-			this.mousedownCoordinate.x = e.x
-			this.mousedownCoordinate.y = e.y
-		}
     }
 	
 	mouseup(e) {
         super.mouseup(e)
-		if(!this.isMoving && this.isMousedown) {
-			this.isMousedown = false
-			this.shoot()
-		}
     }
 
     mousemove(e) {
 		super.mousemove(e)
-		if(this.isMousedown) {
-			this.nowUnitVector.x = this.mousedownCoordinate.x - e.x
-			this.nowUnitVector.y = this.mousedownCoordinate.y - e.y
-			let len = Math.sqrt(Math.pow(this.nowUnitVector.x, 2) + Math.pow(this.nowUnitVector.y, 2))
-			this.nowUnitVector.x /= len
-			this.nowUnitVector.y /= len
-			if(len < 70) {
-				this.nowUnitVector.x = 0
-				this.nowUnitVector.y = 0
-			}
-		}
     }
 	
     touchstart(e) {
@@ -96,9 +71,9 @@ GameClasses.Marble = class Marble extends MapObject {
         this.mousemove(e[0])
     }
 	
-	shoot() {
+	shoot(shootingUnitVector) {
 		this.isMoving = true
-		let velocity = {x: this.speed * this.nowUnitVector.x, y: this.speed * this.nowUnitVector.y}
+		let velocity = {x: this.speed * shootingUnitVector.x, y: this.speed * shootingUnitVector.y}
 		this.component.setBody('velocity', velocity)
 	}
 

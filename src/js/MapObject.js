@@ -1,7 +1,6 @@
 class MapObject {
 	constructor(matter) {
 		autoBind(this)
-		this.pic = {}
 		this.matter = matter
 		this.component = {}
 		this.map

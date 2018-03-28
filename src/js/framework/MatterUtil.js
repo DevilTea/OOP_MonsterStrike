@@ -34,6 +34,10 @@ Framework.Matter = class MatterUtil {
             return body
         }
 
+        removeBody(body) {
+            Matter.Composite.remove(this.world, body)
+        }
+
         setBody(body, settings, value) {
             Matter.Body.set(body, settings, value)
         }
