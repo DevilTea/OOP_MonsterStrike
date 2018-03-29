@@ -8,6 +8,7 @@ class Stage1 extends Framework.Level {
 		this.physicWorld = this.matter.world
 		this.physicWorld.gravity = {x: 0, y: 0, scale: 0}
 		this.marbles = []
+		this.monster = []
 		this.map = new GameClasses.Map(this)
 		this.nowMarble = 0
 		this.enableShoot = true
@@ -22,7 +23,7 @@ class Stage1 extends Framework.Level {
 		this.loading.position = {x: Framework.Game.getCanvasWidth() / 2 , y: Framework.Game.getCanvasHeight() / 2}
         this.loading.scale = 4
 	}
-
+	//初始化彈珠
 	initMarbles() {
 		let m1 = new GameClasses.Marble({
 			marbleID : 1743,
@@ -40,7 +41,7 @@ class Stage1 extends Framework.Level {
 			attribute : 0,
 			rebound : 0,
 			hp : 100,
-			atk : 100,
+			atk : 200,
 			speed : 400,
 			race : 0,
 			skill : [],
@@ -51,7 +52,7 @@ class Stage1 extends Framework.Level {
 			attribute : 0,
 			rebound : 0,
 			hp : 100,
-			atk : 100,
+			atk : 300,
 			speed : 400,
 			race : 0,
 			skill : [],
@@ -62,7 +63,7 @@ class Stage1 extends Framework.Level {
 			attribute : 0,
 			rebound : 0,
 			hp : 100,
-			atk : 100,
+			atk : 400,
 			speed : 400,
 			race : 0,
 			skill : [],
@@ -74,7 +75,19 @@ class Stage1 extends Framework.Level {
 		this.marbles.push(m4)
 		this.marbles.forEach((value) => this.map.addMapObject(value))
 	}
-	
+	//初始化怪物
+	initMonster(){
+		let ms1 = new GameClasses.Monster({
+			monsterID : 239,
+			attribute : 0,
+			hp : 500,
+			atk : 0,
+			skill : []
+		},this.map.matter)
+		this.monster.push(ms1)
+		this.monster.forEach((value) => this.map.addMapObject(value))
+	}
+
 	load() {
 		super.load()
 		this.audio = new Framework.AudioManager({
@@ -88,6 +101,7 @@ class Stage1 extends Framework.Level {
 		this.background.position = { x: Framework.Game.getCanvasWidth() / 2, y: Framework.Game.getCanvasHeight() / 2 }
 		this.background.scale = 4
 		this.initMarbles()
+		this.initMonster()
 		this.map.load()
 	}
 	
@@ -102,6 +116,9 @@ class Stage1 extends Framework.Level {
 		this.audio.play({name: 'sound_enterStage', loop: false})
 		this.marbles.forEach((value, index) => {
 			value.position = {x: (index + 1) * 216, y: 1500}
+		})
+		this.monster.forEach((value, index) => {
+			value.position = {x: 522, y: 750}
 		})
 		this.map.initialize()
 	}
@@ -189,6 +206,22 @@ class Stage1 extends Framework.Level {
 	
 	collisionStart(event) {
 		this.map.collisionStart(event)
+		let info
+		event.pairs.forEach((value) => {info = value})
+		if (this.monster.length){
+			if (info.bodyB.label == 'monster' &&　!this.monster[0].isDead){
+				let hp = this.monster[0].nowhp -= this.marbles[this.nowMarble].atk
+				console.log(hp)
+				if (hp <= 0 && !this.monster[0].isDead){
+					//this.monster[0].isDead = true
+					//this.monster[0].component.setBody('isSensor',true)
+					this.map.removeMapObject(this.monster[0])
+				}
+			}
+		}
+
+	
+		
 	}
 
 	collisionEnd(event) {
