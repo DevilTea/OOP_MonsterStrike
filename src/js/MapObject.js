@@ -4,6 +4,7 @@ class MapObject {
 		this.matter = matter
 		this.component = {}
 		this.map
+		this.mapObjectID
 		
 		Object.defineProperty(this, 'position', {
 			get : function() {

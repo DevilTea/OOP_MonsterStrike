@@ -1,44 +1,20 @@
 'use strict'
-Framework.CircleComponent = class CircleComponent {
+Framework.CircleComponent = class CircleComponent extends Framework.Component {
 	constructor(matter, sprite, options) {
+		super(matter, sprite, options)
 		autoBind(this)
-		this.matter = matter
-		this.sprite = sprite
-		this.body = this.matter.createCircleBody(0, 0, 1, options)
-		this.hasFirstUpdate = false
+		this.bodyOptions = options
+		this.body = this.matter.createCircleBody(0, 0, 1, this.bodyOptions)
 		this.lockRotation = false
-
-		Object.defineProperty(this, 'position', {
-			get : function() {
-				return this.body.position
-			},
-			set : function(newValue) {
-				this.sprite.position = newValue
-				this.setBody('position', newValue)
-			}
-		})
-		
-		Object.defineProperty(this, 'scale', {
-			get : function() {
-				return this.sprite.scale
-			},
-			set : function(newValue) {
-				let temp = newValue / this.sprite.scale
-				this.sprite.scale = newValue
-				this.matter.scaleBody(this.body, temp, temp)
-			}
-		})
-	}
-
-	setBody(property, value) {
-		this.matter.setBody(this.body, property, value)
 	}
 
 	update() {
 		if(!this.hasFirstUpdate && this.sprite.texture) {
 			this.hasFirstUpdate = true
-			let a = this.sprite.texture.width
-			this.matter.scaleBody(this.body, a / 2, a / 2)
+			let a = this.sprite.texture.width * this.sprite.scale / 2
+			this.matter.removeBody(this.body)
+			this.body = this.matter.createCircleBody(0, 0, a, this.bodyOptions)
+			this.setBody('position', this.sprite.position)
 		} else if(this.hasFirstUpdate) {
 			if(this.lockRotation && this.body.angle != 0 && this.body.angularvelocity != 0) {
 				this.setBody('angularVelocity', 0)

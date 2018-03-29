@@ -6,7 +6,7 @@ GameClasses.Map = class Map {
 		this.mapObjects = []
 		this.matter = this.level.matter
 		let wallThickness = 500
-		let wallOptions = { label: 'wall', isStatic: true, friction: 0, frictionAir: 0, frictionStatic: 0, restitution: 1}
+		let wallOptions = { label: 'mapObjectID_-1', isStatic: true, friction: 0, frictionAir: 0, frictionStatic: 0, restitution: 1}
 		this.walls = {
 			top: this.matter.createRectangleBody(540, - wallThickness, 1080 + wallThickness * 2, wallThickness * 2, wallOptions),
 			bottom: this.matter.createRectangleBody(540, 1600 + wallThickness, 1080 + wallThickness * 2, wallThickness * 2, wallOptions),
@@ -57,11 +57,33 @@ GameClasses.Map = class Map {
 	}
 
 	collisionStart(event) {
-		this.mapObjects.forEach((value) => value.collisionStart(event))
+		event.pairs.forEach((value) => {
+			let mapObjID_A = parseInt(value.bodyA.label.slice(12))
+			let mapObjID_B = parseInt(value.bodyB.label.slice(12))
+			if((this.getMapObjectByID(mapObjID_A) instanceof GameClasses.Marble && this.getMapObjectByID(mapObjID_B) instanceof GameClasses.Monster) ||
+			(this.getMapObjectByID(mapObjID_A) instanceof GameClasses.Monster && this.getMapObjectByID(mapObjID_B) instanceof GameClasses.Marble)) {
+				let marble
+				let monster
+				if(this.getMapObjectByID(mapObjID_A) instanceof GameClasses.Marble && this.getMapObjectByID(mapObjID_B) instanceof GameClasses.Monster) {
+					marble = this.getMapObjectByID(mapObjID_A)
+					monster = this.getMapObjectByID(mapObjID_B)
+				} else {
+					marble = this.getMapObjectByID(mapObjID_B)
+					monster = this.getMapObjectByID(mapObjID_A)
+				}
+				monster.nowHp = Math.max(monster.nowHp - marble.atk, 0);
+				console.log("attack %d", monster.mapObjectID)
+				if(monster.nowHp == 0) {
+					this.removeMapObject(monster)
+					console.log("kill %d", monster.mapObjectID)
+				}
+			}
+		})
+		//this.mapObjects.forEach((value) => value.collisionStart(event))
 	}
 
 	collisionEnd(event) {
-		this.mapObjects.forEach((value) => value.collisionEnd(event))
+		//this.mapObjects.forEach((value) => value.collisionEnd(event))
 	}
 
 	clearMonsters() {
@@ -74,7 +96,7 @@ GameClasses.Map = class Map {
 	}
 
 	addMapObject(mapObject) {
-		this.nextMapObjectID++
+		mapObject.mapObjectID = (this.nextMapObjectID++)
 		mapObject.map = this
 		this.mapObjects.push(mapObject)
 	}
@@ -86,5 +108,15 @@ GameClasses.Map = class Map {
 			this.matter.removeBody(mapObject.component.body)
 			this.level.rootScene.detach(mapObject.component.sprite)
 		}
-	}	
+	}
+	
+	getMapObjectByID(mapObjectID) {
+		var temp
+		this.mapObjects.forEach((value, index) => {
+			if(value.mapObjectID == mapObjectID) {
+				temp = value
+			}
+		})
+		return temp
+	}
 }

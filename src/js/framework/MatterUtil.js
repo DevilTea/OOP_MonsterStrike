@@ -12,14 +12,16 @@ Framework.Matter = class MatterUtil {
                     wireframes: true
                 }
             })
+            this.isWireframeRendering = false
         }
 
-        startRenderWireframes() {
-            Matter.Render.run(this.render)
-        }
-
-        stopRenderWireframes() {
-            Matter.Render.stop(this.render)
+        toggleRenderWireframes() {
+            if(this.isWireframeRendering) {
+                Matter.Render.stop(this.render)
+            } else {
+                Matter.Render.run(this.render)
+            }
+            this.isWireframeRendering = !this.isWireframeRendering
         }
 
         createRectangleBody(originX, originY, width, height, options) {

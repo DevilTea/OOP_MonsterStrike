@@ -57,6 +57,7 @@ let loadFrameworkEnd
         { src: frameworkPath + 'Level.js'},/*updated*/
         { src: frameworkPath + 'Matter-0.14.1.js'},
         { src: frameworkPath + 'MatterUtil.js'},
+        { src: frameworkPath + 'Component.js'},
         { src: frameworkPath + 'CircleComponent.js'},
         { src: frameworkPath + 'Game.js'},
         { src: frameworkPath + 'MouseManager.js'},/*updated*/

@@ -20,7 +20,7 @@ GameClasses.Marble = class Marble extends MapObject {
 	load() {
 		super.load()
 		this.pic = new Framework.Sprite(imagePath + 'marble/Ball' + this.marbleID + '.png')
-		let componentOptions = { label: 'marble', friction: 0, frictionAir: 0.012, frictionStatic: 0, restitution: 1, isSensor: true}
+		let componentOptions = { label: 'mapObjectID_' + this.mapObjectID, friction: 0, frictionAir: 0.012, frictionStatic: 0, restitution: 1, isSensor: true}
 		this.component = new Framework.CircleComponent(this.matter, this.pic, componentOptions)
 	}
 	
@@ -28,7 +28,6 @@ GameClasses.Marble = class Marble extends MapObject {
 		super.initialize()
 		this.component.lockRotation = true
 		this.scale = 1.5
-		this.component.setBody('mass', 0.1)
 		this.map.level.rootScene.attach(this.pic)
 	}
 	

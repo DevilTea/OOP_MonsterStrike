@@ -8,7 +8,7 @@ class Stage1 extends Framework.Level {
 		this.physicWorld = this.matter.world
 		this.physicWorld.gravity = {x: 0, y: 0, scale: 0}
 		this.marbles = []
-		this.monster = []
+		this.monsters = []
 		this.map = new GameClasses.Map(this)
 		this.nowMarble = 0
 		this.enableShoot = true
@@ -23,8 +23,8 @@ class Stage1 extends Framework.Level {
 		this.loading.position = {x: Framework.Game.getCanvasWidth() / 2 , y: Framework.Game.getCanvasHeight() / 2}
         this.loading.scale = 4
 	}
-	//初始化彈珠
-	initMarbles() {
+	
+	loadMarbles() {
 		let m1 = new GameClasses.Marble({
 			marbleID : 1743,
 			attribute : 0,
@@ -75,17 +75,49 @@ class Stage1 extends Framework.Level {
 		this.marbles.push(m4)
 		this.marbles.forEach((value) => this.map.addMapObject(value))
 	}
-	//初始化怪物
-	initMonster(){
+
+	loadMonsters() {
 		let ms1 = new GameClasses.Monster({
 			monsterID : 239,
 			attribute : 0,
 			hp : 500,
 			atk : 0,
 			skill : []
-		},this.map.matter)
-		this.monster.push(ms1)
-		this.monster.forEach((value) => this.map.addMapObject(value))
+		}, this.map.matter)
+		let ms2 = new GameClasses.Monster({
+			monsterID : 1,
+			attribute : 0,
+			hp : 500,
+			atk : 0,
+			skill : []
+		}, this.map.matter)
+		let ms3 = new GameClasses.Monster({
+			monsterID : 1,
+			attribute : 0,
+			hp : 500,
+			atk : 0,
+			skill : []
+		}, this.map.matter)
+		let ms4 = new GameClasses.Monster({
+			monsterID : 1,
+			attribute : 0,
+			hp : 500,
+			atk : 0,
+			skill : []
+		}, this.map.matter)
+		let ms5 = new GameClasses.Monster({
+			monsterID : 1,
+			attribute : 0,
+			hp : 500,
+			atk : 0,
+			skill : []
+		}, this.map.matter)
+		this.monsters.push(ms1)
+		this.monsters.push(ms2)
+		this.monsters.push(ms3)
+		this.monsters.push(ms4)
+		this.monsters.push(ms5)
+		this.monsters.forEach((value) => this.map.addMapObject(value))
 	}
 
 	load() {
@@ -100,8 +132,8 @@ class Stage1 extends Framework.Level {
 		this.background = new Framework.Sprite(imagePath + 'background/test.png', this)
 		this.background.position = { x: Framework.Game.getCanvasWidth() / 2, y: Framework.Game.getCanvasHeight() / 2 }
 		this.background.scale = 4
-		this.initMarbles()
-		this.initMonster()
+		this.loadMarbles()
+		this.loadMonsters()
 		this.map.load()
 	}
 	
@@ -117,9 +149,12 @@ class Stage1 extends Framework.Level {
 		this.marbles.forEach((value, index) => {
 			value.position = {x: (index + 1) * 216, y: 1500}
 		})
-		this.monster.forEach((value, index) => {
-			value.position = {x: 522, y: 750}
-		})
+		this.monsters[0].position = {x: 540, y:750}
+		this.monsters[1].position = {x: 190, y:400}
+		this.monsters[2].position = {x: 930, y:400}
+		this.monsters[3].position = {x: 190, y:1100}
+		this.monsters[4].position = {x: 930, y:1100}
+		
 		this.map.initialize()
 	}
 	
@@ -203,25 +238,15 @@ class Stage1 extends Framework.Level {
 		super.touchmove(e)
 		this.map.touchmove(e)
 	}
+
+	keydown(e) {
+		if(e.key === 'P') {
+			this.matter.toggleRenderWireframes()
+		}
+	}
 	
 	collisionStart(event) {
 		this.map.collisionStart(event)
-		let info
-		event.pairs.forEach((value) => {info = value})
-		if (this.monster.length){
-			if (info.bodyB.label == 'monster' &&　!this.monster[0].isDead){
-				let hp = this.monster[0].nowhp -= this.marbles[this.nowMarble].atk
-				console.log(hp)
-				if (hp <= 0 && !this.monster[0].isDead){
-					//this.monster[0].isDead = true
-					//this.monster[0].component.setBody('isSensor',true)
-					this.map.removeMapObject(this.monster[0])
-				}
-			}
-		}
-
-	
-		
 	}
 
 	collisionEnd(event) {
