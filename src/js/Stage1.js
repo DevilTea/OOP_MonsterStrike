@@ -12,6 +12,7 @@ class Stage1 extends Framework.Level {
 		this.map = new GameClasses.Map(this)
 		this.nowMarble = 0
 		this.enableShoot = true
+		this.drawArrow = false
 		this.isMousedown = false
 		this.shootingUnitVector = {x: 0, y: 0}
 		this.mousedownCoordinate = {x: 0, y: 0}
@@ -21,7 +22,7 @@ class Stage1 extends Framework.Level {
 		super.initializeProgressResource()
 		this.loading = new Framework.Sprite(imagePath + 'background/loading.png', this)
 		this.loading.position = {x: Framework.Game.getCanvasWidth() / 2 , y: Framework.Game.getCanvasHeight() / 2}
-        this.loading.scale = 4
+        this.loading.scale = {x: 4, y: 4}
 	}
 	
 	loadMarbles() {
@@ -39,7 +40,7 @@ class Stage1 extends Framework.Level {
 		let m2 = new GameClasses.Marble({
 			marbleID : 1032,
 			attribute : 0,
-			rebound : 0,
+			rebound : 1,
 			hp : 100,
 			atk : 200,
 			speed : 400,
@@ -50,7 +51,7 @@ class Stage1 extends Framework.Level {
 		let m3 = new GameClasses.Marble({
 			marbleID : 1746,
 			attribute : 0,
-			rebound : 0,
+			rebound : 2,
 			hp : 100,
 			atk : 300,
 			speed : 400,
@@ -61,7 +62,7 @@ class Stage1 extends Framework.Level {
 		let m4 = new GameClasses.Marble({
 			marbleID : 3090,
 			attribute : 0,
-			rebound : 0,
+			rebound : 3,
 			hp : 100,
 			atk : 400,
 			speed : 400,
@@ -131,7 +132,11 @@ class Stage1 extends Framework.Level {
         })
 		this.background = new Framework.Sprite(imagePath + 'background/test.png', this)
 		this.background.position = { x: Framework.Game.getCanvasWidth() / 2, y: Framework.Game.getCanvasHeight() / 2 }
-		this.background.scale = 4
+		this.background.scale = {x: 4, y: 4}
+		this.arrow_rebound = new Framework.Sprite(imagePath + 'UI/arrow_rebound.png', this)
+		this.arrow_penetrate = new Framework.Sprite(imagePath + 'UI/arrow_penetrate.png', this)
+		this.arrow_rebound_2 = new Framework.Sprite(imagePath + 'UI/arrow_rebound_2.png', this)
+		this.arrow_penetrate_2 = new Framework.Sprite(imagePath + 'UI/arrow_penetrate_2.png', this)
 		this.loadMarbles()
 		this.loadMonsters()
 		this.map.load()
@@ -171,6 +176,9 @@ class Stage1 extends Framework.Level {
 	draw(parentCtx) {
 		super.draw(parentCtx)
         this.rootScene.draw(parentCtx);
+		if(this.drawArrow) {
+			this.arrow.draw(parentCtx)
+		}
 	}
 	
 	teardown() {
@@ -190,6 +198,7 @@ class Stage1 extends Framework.Level {
 			} else {
 				this.enableShoot = false
 				this.isMousedown = false
+				this.drawArrow = false
 				this.marbles[this.nowMarble].component.body.isSensor = false
 				this.marbles[this.nowMarble].shoot(this.shootingUnitVector)
 			}
@@ -214,12 +223,37 @@ class Stage1 extends Framework.Level {
 		if(this.isMousedown) {
 			this.shootingUnitVector.x = this.mousedownCoordinate.x - e.x
 			this.shootingUnitVector.y = this.mousedownCoordinate.y - e.y
-			let len = Math.sqrt(Math.pow(this.shootingUnitVector.x, 2) + Math.pow(this.shootingUnitVector.y, 2))
+			let len = Matter.Vector.magnitude(this.shootingUnitVector)
 			this.shootingUnitVector.x /= len
 			this.shootingUnitVector.y /= len
+			
 			if(len < 70) {
+				this.drawArrow = false
 				this.shootingUnitVector.x = 0
 				this.shootingUnitVector.y = 0
+			} else {
+				switch (this.marbles[this.nowMarble].rebound) {
+					case 0:
+						this.arrow = this.arrow_rebound
+						break
+					case 1:
+						this.arrow = this.arrow_penetrate
+						break
+					case 2:
+						this.arrow = this.arrow_rebound_2
+						break
+					case 3:
+						this.arrow = this.arrow_penetrate_2
+						break
+					default:
+						break;
+				}
+				if(this.arrow.texture) {
+					this.arrow.position = this.marbles[this.nowMarble].position
+					this.arrow.rotation = (Matter.Vector.angle(this.shootingUnitVector, {x: 0, y: 0}) / Math.PI * 180) + 180
+					this.arrow.scale = {x: len / this.arrow.texture.width, y: 1}
+				}
+				this.drawArrow = true
 			}
 		}
 	}

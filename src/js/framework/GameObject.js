@@ -5,11 +5,11 @@ Framework.GameObject = class GameObject {
 		autoBind(this)
 		this.relativePosition = new Framework.Point()
         this.relativeRotation = 0
-        this.relativeScale = 1
+        this.relativeScale = {x: 1, y: 1}
 
         this.absolutePosition = { x: 0, y: 0 }
         this.absoluteRotation = 0
-        this.absoluteScale = 1
+        this.absoluteScale = {x: 1, y: 1}
         this.systemLayer = 1
         //this.spriteParent = {}
         
@@ -18,7 +18,7 @@ Framework.GameObject = class GameObject {
         this.previousHeight = 0
 
         this.rotation = 0
-        this.scale = 1
+        this.scale = {x: 1, y: 1}
         this.position = { x: 0, y: 0 }
 
         this._isRotate = true
@@ -139,12 +139,12 @@ Framework.GameObject = class GameObject {
 				/* if (this.col) {
 					width = this.texture.width / this.col;
 				}*/
-				return Math.floor(width * this.absoluteScale);
+				return Math.floor(width * this.absoluteScale.x);
 			}
 		})
 
 		/**
-		* 絕對寬度的getter/setter
+		* 絕對高度的getter/setter
 		* @property height
 		* @type {number} 
 		* @default 0
@@ -158,7 +158,7 @@ Framework.GameObject = class GameObject {
 				/*if (this.row) {
 					height = this.texture.height / this.row;
 				}*/
-				return Math.floor(height * this.absoluteScale);
+				return Math.floor(height * this.absoluteScale.y);
 			}
 		})
 

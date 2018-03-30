@@ -27,7 +27,7 @@ GameClasses.Marble = class Marble extends MapObject {
 	initialize() {
 		super.initialize()
 		this.component.lockRotation = true
-		this.scale = 1.5
+		this.scale = {x: 1.5, y: 1.5}
 		this.map.level.rootScene.attach(this.pic)
 	}
 	

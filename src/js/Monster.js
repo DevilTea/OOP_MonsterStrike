@@ -20,7 +20,7 @@ GameClasses.Monster = class Monster extends MapObject {
 
     initialize(){
         super.initialize()
-        this.scale = 1
+        //this.scale = 1
         this.map.level.rootScene.attach(this.pic)
     }
 

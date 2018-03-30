@@ -21,9 +21,10 @@ Framework.Component = class Component {
 				return this.sprite.scale
 			},
 			set : function(newValue) {
-				let temp = newValue / this.sprite.scale
+				let tempX = newValue.x / this.sprite.scale.x
+				let tempY = newValue.y / this.sprite.scale.y
 				this.sprite.scale = newValue
-				this.matter.scaleBody(this.body, temp, temp)
+				this.matter.scaleBody(this.body, tempX, tempY)
 			}
 		})
 	}
