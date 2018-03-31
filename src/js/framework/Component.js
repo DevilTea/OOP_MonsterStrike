@@ -5,6 +5,7 @@ Framework.Component = class Component {
         this.sprite = sprite
         this.body = {}
         this.hasFirstUpdate = false
+		this.lockRotation = false
 
         Object.defineProperty(this, 'position', {
 			get : function() {
@@ -34,13 +35,9 @@ Framework.Component = class Component {
     }
     
     update() {
-		if(!this.hasFirstUpdate && this.sprite.texture) {
-			this.hasFirstUpdate = true
-			let a = this.sprite.texture.width
-			this.matter.scaleBody(this.body, a / 2, a / 2)
-		} else if(this.hasFirstUpdate) {
-			this.sprite.position = this.body.position
-			this.sprite.rotation = this.body.angle / Math.PI * 180
+		if(this.lockRotation && this.body.angle != 0 && this.body.angularvelocity != 0) {
+			this.setBody('angularVelocity', 0)
+			this.setBody('angle', 0)
 		}
 	}
 }

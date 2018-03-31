@@ -15,7 +15,7 @@ GameClasses.Monster = class Monster extends MapObject {
         super.load()
         this.pic = new Framework.Sprite(imagePath + 'monster/' + this.monsterID + '.png')
         let componentOptions = { label: 'mapObjectID_' + this.mapObjectID, friction: 0, frictionAir: 0.012, frictionStatic: 0, restitution: 0, isStatic:true }
-        this.component = new Framework.CircleComponent(this.matter, this.pic, componentOptions)
+        this.component = new Framework.RectangleComponent(this.matter, this.pic, componentOptions)
     }
 
     initialize(){

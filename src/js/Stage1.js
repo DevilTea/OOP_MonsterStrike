@@ -227,7 +227,7 @@ class Stage1 extends Framework.Level {
 			this.shootingUnitVector.x /= len
 			this.shootingUnitVector.y /= len
 			
-			if(len < 70) {
+			if(len < 100) {
 				this.drawArrow = false
 				this.shootingUnitVector.x = 0
 				this.shootingUnitVector.y = 0
@@ -246,6 +246,7 @@ class Stage1 extends Framework.Level {
 						this.arrow = this.arrow_penetrate_2
 						break
 					default:
+						this.arrow = this.arrow_rebound
 						break;
 				}
 				if(this.arrow.texture) {
