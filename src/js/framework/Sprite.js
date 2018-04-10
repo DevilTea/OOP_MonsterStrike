@@ -2,26 +2,26 @@
 // include namespace
 'use strict'
 Framework.Sprite = class Sprite extends Framework.GameObject {
-	constructor(options) {
+	constructor(source, options = {}) {
 		super()
-		this._tmpCanvas = document.createElement('canvas')
-		this._tmpContext = this._tmpCanvas.getContext('2d')
 		this.id = undefined
 		this.type = undefined
 		this.texture = undefined
-		this.isDrawBoundry = false
-		this.isDrawPace = false   
-		this.isStartDrawingFromPosition	= false	
-		if(Framework.Util.isString(options)) {
-			this.id = options
-			Framework.ResourceManager.loadImage({id:options, url:options})
+		this.options = {
+			isDrawBoundry: options.isDrawBoundry || false,
+			isDrawPace: options.isDrawPace || false,
+			isStartDrawingFromLeftTop: options.isStartDrawingFromLeftTop || false
+		}
+		if(Framework.Util.isString(source)) {
+			this.id = source
+			Framework.ResourceManager.loadImage({id:source, url:source})
 			this.type = 'image'
 			this.pushSelfToLevel()
-		}else if(Framework.Util.isCanvas(options)){
-			this.texture = options
+		}else if(Framework.Util.isCanvas(source)){
+			this.texture = source
 			this.type = 'canvas'
-		}else if(!Framework.Util.isUndefined(options)){
-			Framework.DebugInfo.Log.error('Sprite 不支援的參數' + options)
+		}else if(!Framework.Util.isUndefined(source)){
+			Framework.DebugInfo.Log.error('Sprite 不支援的參數' + source)
 		}
 	}
 	
@@ -66,23 +66,23 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 					this.context.translate(-tranlateX , -tranlateY)
 					// 縮放
 					this.context.scale(this.absoluteScale.x, this.absoluteScale.y)					
-					// 畫圖                
+					// 產生圖像                
 					this.context.drawImage(this.texture, (this.canvas.width - realWidth) / 2 / this.absoluteScale.x, (this.canvas.height - realHeight) / 2 / this.absoluteScale.y);
 				}
 				
-				// 再畫到主Canvas上                    
-				/*if(this.isDrawBoundry) {
+				// 畫到主Canvas上                    
+				if(this.options.isDrawBoundry) {
 					this.context.rect((this.canvas.width - realWidth) / 2 / this.absoluteScale.x, (this.canvas.height - realHeight) / 2 / this.absoluteScale.y, this.texture.width, this.texture.height)  
 					this.context.stroke()
 				} 
 
-				if(this.isDrawPace) {
+				if(this.options.isDrawPace) {
 					this.context.rect(this.absolutePosition.x, this.absolutePosition.y, 1, 1);
 					this.context.stroke()
-				} */
+				} 
 				
 			}
-			pos = this.isStartDrawingFromPosition ? new Framework.Point(this.absolutePosition.x, this.absolutePosition.y) : new Framework.Point(this.absolutePosition.x - this.canvas.width / 2, this.absolutePosition.y - this.canvas.height / 2)
+			pos = this.options.isStartDrawingFromLeftTop ? new Framework.Point(this.absolutePosition.x, this.absolutePosition.y) : new Framework.Point(this.absolutePosition.x - this.canvas.width / 2, this.absolutePosition.y - this.canvas.height / 2)
 			if(painter instanceof Framework.GameObject) {
 				painter = painter.context;  //表示傳進來的其實是GameObject或其 Concrete Class
 			}
@@ -134,12 +134,12 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 				}
 				
 				// 再畫到主Canvas上                    
-				if(this.isDrawBoundry) {
+				if(this.options.isDrawBoundry) {
 					this.context.rect((this.canvas.width - realWidth) / 2 / this.absoluteScale.x, (this.canvas.height - realHeight) / 2 / this.absoluteScale.y, this.texture.width, this.texture.height);   
 					this.context.stroke();                 
 				} 
 
-				if(this.isDrawPace) {
+				if(this.options.isDrawPace) {
 					this.context.rect(this.absolutePosition.x, this.absolutePosition.y, 1, 1);
 					this.context.stroke();
 				} 

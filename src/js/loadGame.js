@@ -56,8 +56,8 @@ var loadGameEnd;
         { src: jsPath + 'Marble.js'},
         { src: jsPath + 'Monster.js'},
         { src: jsPath + 'Map.js'},
-        { src: jsPath + 'StartPage.js', lookFor: 'StartPage'},
-        { src: jsPath + 'Stage1.js', lookFor: 'Stage1'},
+        { src: jsPath + 'StartPage.js'},
+        { src: jsPath + 'Stage.js'},
         { src: jsPath + 'MainGame.js'}
     ]
     importJS(listScript);

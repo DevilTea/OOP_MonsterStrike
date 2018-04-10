@@ -24,20 +24,26 @@ Framework.Matter = class MatterUtil {
             this.isWireframeRendering = !this.isWireframeRendering
         }
 
+        clearWorld(keepStatic) {
+            Matter.World.clear(this.world, keepStatic)
+        }
+
         createRectangleBody(originX, originY, width, height, options) {
             let body = Matter.Bodies.rectangle(originX, originY, width, height, options)
-            Matter.World.add(this.world, body)
             return body
         }
 
         createCircleBody(originX, originY, radius, options) {
             let body = Matter.Bodies.circle(originX, originY, radius, options)
-            Matter.World.add(this.world, body)
             return body
         }
 
+        addBody(body) {
+            Matter.World.add(this.world, body)
+        }
+
         removeBody(body) {
-            Matter.Composite.remove(this.world, body)
+            Matter.World.remove(this.world, body)
         }
 
         setBody(body, settings, value) {

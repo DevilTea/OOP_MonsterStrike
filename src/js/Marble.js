@@ -11,6 +11,7 @@ GameClasses.Marble = class Marble extends MapObject {
 		this.race = marbleConfig.race				//種族
 		this.skill = marbleConfig.skill				//技能
 		this.comboSkill = marbleConfig.comboSkill1	//友情技能
+		this.initPosition = marbleConfig.initPosition
 		
 		this.nowHp = this.hp
 		this.nowSpeed = 0
@@ -19,16 +20,18 @@ GameClasses.Marble = class Marble extends MapObject {
 	
 	load() {
 		super.load()
-		this.pic = new Framework.Sprite(imagePath + 'marble/Ball' + this.marbleID + '.png')
-		let componentOptions = { label: 'mapObjectID_' + this.mapObjectID, friction: 0, frictionAir: 0.012, frictionStatic: 0, restitution: 1, isSensor: true}
-		this.component = new Framework.CircleComponent(this.matter, this.pic, componentOptions)
+		let sprite = new Framework.Sprite(imagePath + 'marble/Ball' + this.marbleID + '.png')
+		let componentOptions = {friction: 0, frictionAir: 0.012, frictionStatic: 0, restitution: 1, isSensor: true}
+		this.component = new Framework.CircleComponent(this.matter, sprite, componentOptions)
+		this.component.lockRotation = true
+		this.position = this.initPosition
+		this.scale = {x: 1.5, y: 1.5}
 	}
 	
 	initialize() {
 		super.initialize()
-		this.component.lockRotation = true
-		this.scale = {x: 1.5, y: 1.5}
-		this.map.level.rootScene.attach(this.pic)
+		this.map.stage.rootScene.attach(this.component.sprite)
+		this.component.addBodyToWorld()
 	}
 	
 	update() {
@@ -41,6 +44,7 @@ GameClasses.Marble = class Marble extends MapObject {
 	}
 	
 	draw(ctx) {
+
 	}
 
     mousedown(e) {

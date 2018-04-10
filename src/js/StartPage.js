@@ -6,7 +6,7 @@ class StartPage extends Framework.GameMainMenu {
 	
 	initializeProgressResource() {
 		super.initializeProgressResource()
-		this.loading = new Framework.Sprite(imagePath + 'background/loading.png', this)
+		this.loading = new Framework.Sprite(imagePath + 'background/loading.png')
 		this.loading.position = new Framework.Point(Framework.Game.getCanvasWidth() / 2, Framework.Game.getCanvasHeight() / 2 )
         this.loading.scale = {x: 4, y: 4}
 		this.audio = new Framework.AudioManager({
@@ -20,7 +20,7 @@ class StartPage extends Framework.GameMainMenu {
 	
 	load() {
 		super.load()
-		this.menu = new Framework.Sprite(imagePath + 'background/startPage.png', this)
+		this.menu = new Framework.Sprite(imagePath + 'background/startPage.png')
 		this.menu.position = new Framework.Point(Framework.Game.getCanvasWidth() / 2, Framework.Game.getCanvasHeight() / 2 )
         this.menu.scale = {x: 2, y: 2}
         this.rootScene.attach(this.menu);

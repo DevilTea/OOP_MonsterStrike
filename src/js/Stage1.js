@@ -20,7 +20,7 @@ class Stage1 extends Framework.Level {
 	
 	initializeProgressResource() {
 		super.initializeProgressResource()
-		this.loading = new Framework.Sprite(imagePath + 'background/loading.png', this)
+		this.loading = new Framework.Sprite(imagePath + 'background/loading.png')
 		this.loading.position = {x: Framework.Game.getCanvasWidth() / 2 , y: Framework.Game.getCanvasHeight() / 2}
         this.loading.scale = {x: 4, y: 4}
 	}
@@ -130,13 +130,13 @@ class Stage1 extends Framework.Level {
                 //wav: define.musicPath + 'kick2.wav'
             }
         })
-		this.background = new Framework.Sprite(imagePath + 'background/test.png', this)
+		this.background = new Framework.Sprite(imagePath + 'background/test.png')
 		this.background.position = { x: Framework.Game.getCanvasWidth() / 2, y: Framework.Game.getCanvasHeight() / 2 }
 		this.background.scale = {x: 4, y: 4}
-		this.arrow_rebound = new Framework.Sprite(imagePath + 'UI/arrow_rebound.png', this)
-		this.arrow_penetrate = new Framework.Sprite(imagePath + 'UI/arrow_penetrate.png', this)
-		this.arrow_rebound_2 = new Framework.Sprite(imagePath + 'UI/arrow_rebound_2.png', this)
-		this.arrow_penetrate_2 = new Framework.Sprite(imagePath + 'UI/arrow_penetrate_2.png', this)
+		this.arrow_rebound = new Framework.Sprite(imagePath + 'UI/arrow_rebound.png')
+		this.arrow_penetrate = new Framework.Sprite(imagePath + 'UI/arrow_penetrate.png')
+		this.arrow_rebound_2 = new Framework.Sprite(imagePath + 'UI/arrow_rebound_2.png')
+		this.arrow_penetrate_2 = new Framework.Sprite(imagePath + 'UI/arrow_penetrate_2.png')
 		this.loadMarbles()
 		this.loadMonsters()
 		this.map.load()

@@ -1,30 +1,31 @@
 GameClasses.Map = class Map {
-	constructor(level) {
+	constructor(stage) {
 		autoBind(this)
-		this.level = level
+		this.stage = stage
 		this.nextMapObjectID = 0
 		this.mapObjects = []
-		this.matter = this.level.matter
-		let wallThickness = 500
-		let wallOptions = { label: 'mapObjectID_-1', isStatic: true, friction: 0, frictionAir: 0, frictionStatic: 0, restitution: 1}
-		this.walls = {
-			top: this.matter.createRectangleBody(540, - wallThickness, 1080 + wallThickness * 2, wallThickness * 2, wallOptions),
-			bottom: this.matter.createRectangleBody(540, 1600 + wallThickness, 1080 + wallThickness * 2, wallThickness * 2, wallOptions),
-			left: this.matter.createRectangleBody(- wallThickness, 810, wallThickness * 2, 1920 + wallThickness * 2, wallOptions),
-			right: this.matter.createRectangleBody(1080 + wallThickness, 810, wallThickness * 2, 1920 + wallThickness * 2, wallOptions)
-		}
+		this.monsters = []
+		this.marbles = []
+		this.matter = this.stage.matter
 	}
 	
 	load() {
-		this.mapObjects.forEach((value) => value.load())
+		//this.mapObjects.forEach((value) => value.load())
 	}
 	
 	initialize() {
 		this.mapObjects.forEach((value) => value.initialize())
 	}
+
+	remove() {
+		this.monsters.forEach((monster) => {
+			monster.remove()
+		})
+		this.removeMarbles()
+	}
 	
 	update() {
-		this.matter.update()
+		//this.matter.update()
 		this.mapObjects.forEach((value) => value.update())
 	}
 	
@@ -74,7 +75,7 @@ GameClasses.Map = class Map {
 				monster.nowHp = Math.max(monster.nowHp - marble.atk, 0);
 				console.log("attack %d", monster.mapObjectID)
 				if(monster.nowHp == 0) {
-					this.removeMapObject(monster)
+					this.removeMonster(monster)
 					console.log("kill %d", monster.mapObjectID)
 				}
 			}
@@ -99,20 +100,48 @@ GameClasses.Map = class Map {
 		mapObject.mapObjectID = (this.nextMapObjectID++)
 		mapObject.map = this
 		this.mapObjects.push(mapObject)
+		mapObject.component.bodyOptions.label = 'mapObjectID_' + mapObject.mapObjectID
+		mapObject.component.body.label = 'mapObjectID_' + mapObject.mapObjectID
 	}
 	
 	removeMapObject(mapObject) {
 		let indexToRemove = this.mapObjects.indexOf(mapObject)
 		if(indexToRemove != -1) {
 			this.mapObjects.splice(indexToRemove, 1)
-			this.matter.removeBody(mapObject.component.body)
-			this.level.rootScene.detach(mapObject.component.sprite)
 		}
+	}
+
+	addMonster(monster) {
+		this.monsters.push(monster)
+		this.addMapObject(monster)
+	}
+
+	removeMonster(monster) {
+		monster.remove()
+		let indexToRemove = this.monsters.indexOf(monster)
+		if(indexToRemove != -1) {
+			this.monsters.splice(indexToRemove, 1)
+		}
+		this.removeMapObject(monster)
+	}
+
+	addMarbles(marbles) {
+		this.marbles = [...marbles]
+		this.marbles.forEach((marble) => {
+			this.addMapObject(marble)
+		})
+	}
+
+	removeMarbles() {
+		this.marbles.forEach((marble) => {
+			marble.component.removeBodyFromWorld()
+			this.removeMapObject(marble)
+		})
 	}
 	
 	getMapObjectByID(mapObjectID) {
-		var temp
-		this.mapObjects.forEach((value, index) => {
+		let temp
+		this.mapObjects.forEach((value) => {
 			if(value.mapObjectID == mapObjectID) {
 				temp = value
 			}

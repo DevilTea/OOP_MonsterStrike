@@ -3,15 +3,21 @@ Framework.Component = class Component {
         autoBind(this)
         this.matter = matter
         this.sprite = sprite
-        this.body = {}
+		this.body = {}
+		this.bodyOptions = options
+		this.componentPosition = {x: 0, y: 0}
+		this.componentScale = {x: 0, y: 0}
+		this.componentRotation = 0
+		this.hasAddedToWorld = false
         this.hasFirstUpdate = false
 		this.lockRotation = false
 
         Object.defineProperty(this, 'position', {
 			get : function() {
-				return this.body.position
+				return this.componentPosition
 			},
 			set : function(newValue) {
+				this.componentPosition = newValue
 				this.sprite.position = newValue
 				this.setBody('position', newValue)
 			}
@@ -19,15 +25,37 @@ Framework.Component = class Component {
 		
 		Object.defineProperty(this, 'scale', {
 			get : function() {
-				return this.sprite.scale
+				return this.componentScale
 			},
 			set : function(newValue) {
-				let tempX = newValue.x / this.sprite.scale.x
-				let tempY = newValue.y / this.sprite.scale.y
+				let tempX = newValue.x / this.componentScale.x
+				let tempY = newValue.y / this.componentScale.y
+				this.componentScale = newValue
 				this.sprite.scale = newValue
 				this.matter.scaleBody(this.body, tempX, tempY)
 			}
 		})
+		
+        Object.defineProperty(this, 'rotation', {
+			get : function() {
+				return this.componentRotation
+			},
+			set : function(newValue) {
+				this.componentRotation = newValue
+				this.sprite.rotation = newValue
+				this.setBody('angle', newValue * Math.PI / 180)
+			}
+		})
+	}
+
+	addBodyToWorld() {
+		this.matter.addBody(this.body)
+		this.hasAddedToWorld = true
+	}
+
+	removeBodyFromWorld() {
+		this.matter.removeBody(this.body)
+		this.hasAddedToWorld = false
 	}
 
 	setBody(property, value) {
@@ -35,9 +63,6 @@ Framework.Component = class Component {
     }
     
     update() {
-		if(this.lockRotation && this.body.angle != 0 && this.body.angularvelocity != 0) {
-			this.setBody('angularVelocity', 0)
-			this.setBody('angle', 0)
-		}
+		
 	}
 }

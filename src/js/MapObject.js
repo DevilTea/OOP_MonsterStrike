@@ -23,6 +23,15 @@ class MapObject {
 				this.component.scale = newValue
 			}
 		})
+		
+		Object.defineProperty(this, 'rotation', {
+			get : function () {
+				return this.component.rotation
+			},
+			set : function (newValue) {
+				this.component.rotation = newValue
+			}
+		})
 	}
 	
 	load() {
