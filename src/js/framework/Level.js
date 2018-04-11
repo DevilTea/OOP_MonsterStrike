@@ -32,7 +32,7 @@ Framework.Level = class Level {
 		this.traversalAllElement(function(ele) {
 			ele.initialize()
 		})
-		//this.rootScene.initTexture();
+		this.rootScene.initTexture();
 	}
 
 	update() {

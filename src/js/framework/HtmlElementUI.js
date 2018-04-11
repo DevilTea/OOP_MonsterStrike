@@ -5,8 +5,8 @@ Framework.HtmlElementUI = new (class HtmlElementUI {
         this.createdElements = []
     }
 
-    createElement(x, y, width, height, elementName) {
-        let newElement = new HtmlElement(x, y, width, height, document.createElement(elementName))
+    createElement(x, y, width, height, ele) {
+        let newElement = new HtmlElement(x, y, width, height, ele)
         this.createdElements.push(newElement)
         return newElement
     }
