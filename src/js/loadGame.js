@@ -57,7 +57,9 @@ var loadGameEnd;
         { src: jsPath + 'Monster.js'},
         { src: jsPath + 'Map.js'},
         { src: jsPath + 'StartPage.js'},
+        { src: jsPath + 'EndPage.js'},
         { src: jsPath + 'Stage.js'},
+        { src: jsPath + 'StageTest.js'},
         { src: jsPath + 'MainGame.js'}
     ]
     importJS(listScript);

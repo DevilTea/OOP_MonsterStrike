@@ -103,9 +103,14 @@ GameClasses.Stage = class Stage extends Framework.Level {
 			this.canShoot = true
 			this.marbles[this.nowMarble].component.body.isSensor = true
             this.nowMarble = (this.nowMarble + 1) % 4
-            if(this.nowMap < (this.maps.length - 1) && this.maps[this.nowMap].monsters.length == 0) {
+            if(this.maps[this.nowMap].monsters.length == 0) {
                 this.maps[this.nowMap].remove()
-                this.goToNextMap()
+                if(this.nowMap < (this.maps.length - 1)) {
+                    this.goToNextMap()
+                } else {
+                    //所有地圖結束後的動作
+		            Framework.Game.goToNextLevel();
+                }
             }
 		}
     }

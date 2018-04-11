@@ -9,6 +9,7 @@ Framework.Game = new (class Game {
 		this.isBackwardCompatible = this.config.isBackwardCompatible
 		this.widthRatio = 1
 		this.heightRatio = 1
+		this.isFullScreen = false
 		this.isRecording = false
 		this.isRecordMode = isRecordMode
 		this.isTestMode = isTestMode
@@ -324,6 +325,9 @@ Framework.Game = new (class Game {
 	}
 
 	keydown(e) {
+		if(e.key === 'F11') {
+            Framework.Game.fullScreen()
+		}
 		this.currentLevel.keydown(e)
 		if(this.isRecording) {
 			this.record.keydown(e)
