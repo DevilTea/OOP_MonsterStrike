@@ -811,15 +811,16 @@ Framework.Game = new (class Game {
 			base = baseHeight
 		}
 
-		scaledWidth = Math.round(base * this.ideaWidth)
-		scaledHeight = Math.round(base * this.ideaHeight)
+		scaledWidth = base * this.ideaWidth
+		scaledHeight = base * this.ideaHeight
 		this.widthRatio = scaledWidth / this.canvas.width
 		this.heightRatio = scaledHeight / this.canvas.height
 		this.canvas.style.width = scaledWidth + 'px'
 		this.canvas.style.height = scaledHeight + 'px'
+		Framework.HtmlElementUI.resize()
 		if(this.currentLevel.map) {
-			this.currentLevel.map.matter.render.canvas.style.width = scaledWidth + 'px'
-			this.currentLevel.map.matter.render.canvas.style.height = scaledHeight + 'px'
+			this.currentLevel.matter.render.canvas.style.width = scaledWidth + 'px'
+			this.currentLevel.matter.render.canvas.style.height = scaledHeight + 'px'
 		}
 	}
 	

@@ -8,16 +8,6 @@ Framework.Config =  {
 	isOptimize : false,  // 2017.02.20, from V3.1.1
 	isMouseMoveRecorded : false,
 	
-	/*Fixed By NawaNawa */
-	/*遊戲寬與高 在resizeCanvasAsRation=false才有用 */
 	canvasWidth :  1080,
-	canvasHeight : 1920,
-
-	/*遊戲寬高比 在resizeCanvasAsRation=true有用 */
-	/*EX 16:9 ...  */
-	gameWidthRatio : 9,
-	gameHeightRatio : 16,
-
-	/*在視窗變化大小時自動resize */
-	resizeCanvasAsRatio : true
+	canvasHeight : 1920
 }

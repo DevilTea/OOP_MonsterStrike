@@ -61,6 +61,7 @@ let loadFrameworkEnd
         { src: frameworkPath + 'Component.js'},
         { src: frameworkPath + 'CircleComponent.js'},
         { src: frameworkPath + 'RectangleComponent.js'},
+        { src: frameworkPath + 'HtmlElementUI.js'},
         { src: frameworkPath + 'Game.js'},
         { src: frameworkPath + 'MouseManager.js'},/*updated*/
         { src: frameworkPath + 'KeyBoardManager.js'},/*updated*/
