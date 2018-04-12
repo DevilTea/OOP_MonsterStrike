@@ -118,7 +118,7 @@ class HtmlElement {
         let widthRatio = this.parent === Framework.Game.canvasContainer ? Framework.Game.widthRatio : (+this.parent.style.width.slice(0, this.parent.style.width.length - 2) / this.parent.originWidth)
         let heightRatio = this.parent === Framework.Game.canvasContainer ? Framework.Game.heightRatio : (+this.parent.style.height.slice(0, this.parent.style.height.length - 2) / this.parent.originHeight)
         if(re) this.remove()
-        this.style = {top: Framework.Game.canvas.offsetTop + Math.round(heightRatio * this.originY) + 'px', left: Framework.Game.canvas.offsetLeft + Math.round(widthRatio * this.originX) + 'px', width: Math.round(widthRatio * this.originWidth) + 'px', height: Math.round(heightRatio * this.originHeight) + 'px'}
+        this.style = {top: Framework.Game.canvas.offsetTop + heightRatio * this.originY + 'px', left: Framework.Game.canvas.offsetLeft + widthRatio * this.originX + 'px', width: widthRatio * this.originWidth + 'px', height: heightRatio * this.originHeight + 'px'}
         if(re) this.create()
     }
 }

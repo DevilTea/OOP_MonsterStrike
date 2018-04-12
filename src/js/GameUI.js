@@ -47,6 +47,7 @@ GameClasses.GameUI = class GameUI {
 
     drawPlayerInfoUI(ctx) {
         this.playerInfoUISprites.UI.draw(ctx)
+        Framework.HtmlElementUI.resize()
         this.playerInfoUIHtmlElements.marbleSmallHtmlElements.forEach((htmlElement) => htmlElement.create())
         this.playerInfoUIHtmlElements.marbleSmallHtmlElements.forEach((htmlElement, index) => {
             let previousPosition = htmlElement.position

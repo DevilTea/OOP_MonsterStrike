@@ -793,6 +793,7 @@ Framework.Game = new (class Game {
 	}
 	
 	resizeEvent() {
+
 		let base = 0
 		let baseWidth = window.innerWidth / this.ideaWidth
 		let baseHeight = window.innerHeight / this.ideaHeight
@@ -808,10 +809,11 @@ Framework.Game = new (class Game {
 			base = baseHeight
 		}
 
-		scaledWidth = Math.round(base * this.ideaWidth)
-		scaledHeight = Math.round(base * this.ideaHeight)
+		scaledWidth = base * this.ideaWidth
+		scaledHeight = base * this.ideaHeight
 		this.widthRatio = scaledWidth / this.canvas.width
 		this.heightRatio = scaledHeight / this.canvas.height
+		console.log(base + " / " + this.widthRatio)
 		this.canvas.style.width = scaledWidth + 'px'
 		this.canvas.style.height = scaledHeight + 'px'
 		Framework.HtmlElementUI.resize()
