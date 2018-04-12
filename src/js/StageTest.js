@@ -50,7 +50,7 @@ let StageTest = {
         }
     ],
     mapsMonstersOptions: [
-        [
+        /*[
             {
                 monsterID : 1,
                 attribute : 0,
@@ -83,7 +83,7 @@ let StageTest = {
                 skill : [],
                 initPosition : {x: 930, y: 1100}
             }
-        ],
+        ],*/
         [
             {
                 monsterID : 239,

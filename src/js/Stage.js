@@ -26,7 +26,10 @@ GameClasses.Stage = class Stage extends Framework.Level {
 		this.drawArrow = false
 		this.isMousedown = false
 		this.shootingUnitVector = {x: 0, y: 0}
-		this.mousedownCoordinate = {x: 0, y: 0}
+        this.mousedownCoordinate = {x: 0, y: 0}
+        this.marbleSmallSprites = []
+        this.marbleSmallHtmlElements = []
+        this.isFloatUp = true
     }
 
     initializeProgressResource() {
@@ -57,6 +60,14 @@ GameClasses.Stage = class Stage extends Framework.Level {
         })
     }
 
+    /*------------------------*/
+    loadUI(){
+        this.marbles.forEach((marble) => {
+            this.marbleSmallSprites.push(new Framework.Sprite(imagePath + 'marbleButtun/' + marble.marbleID + '.jpg'))
+        })
+    }
+    /*------------------------*/
+
     load() {
         super.load()
         this.audio = new Framework.AudioManager({
@@ -78,6 +89,9 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.info1.position = {x: 540, y: 1708.5}
         this.loadMarbles()
         this.loadMaps()
+        /*------------------------*/
+        this.loadUI()
+        /*------------------------*/
     }
 
     loadingProgress(ctx, requestInfo) {
@@ -93,15 +107,41 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.maps[this.nowMap].addMarbles(this.marbles)
         this.maps[this.nowMap].initialize()
         this.isInitialized = true
+
+        /*------------------------*/
+        this.marbleSmallSprites.forEach((marbleSmall, index) => {
+            marbleSmall.initTexture()
+            let newHtmlElement = Framework.HtmlElementUI.createElement(10 + index * 205, 1600, 205, 205,  marbleSmall.texture)
+            this.marbleSmallHtmlElements.push(newHtmlElement)
+            Framework.HtmlElementUI.attachElement(newHtmlElement)
+            newHtmlElement.create()
+        })
+        /*------------------------*/
     }
 
     update() {
         super.update()
         this.matter.update()
         this.maps[this.nowMap].update()
+
+        /*------------------------------*/
+        if(this.isFloatUp) {
+            let previousPosition = this.marbleSmallHtmlElements[this.nowMarble].position
+            this.marbleSmallHtmlElements[this.nowMarble].position = {x: previousPosition.x, y: previousPosition.y - 20}
+            this.isFloatUp = false
+        }
+        /*------------------------------*/
+
         if(!this.canShoot && !this.marbles[this.nowMarble].isMoving) {
 			this.canShoot = true
-			this.marbles[this.nowMarble].component.body.isSensor = true
+            this.marbles[this.nowMarble].component.body.isSensor = true
+
+            /*------------------------*/
+            let previousPosition = this.marbleSmallHtmlElements[this.nowMarble].position
+            this.marbleSmallHtmlElements[this.nowMarble].position = {x: previousPosition.x, y: previousPosition.y + 20}
+            this.isFloatUp = true
+            /*------------------------*/
+
             this.nowMarble = (this.nowMarble + 1) % 4
             let toRemove = []
             this.maps[this.nowMap].monsters.forEach((monster) => {
@@ -120,7 +160,10 @@ GameClasses.Stage = class Stage extends Framework.Level {
                 } else {
                     //所有地圖結束後的動作
                     this.audio.play({name: 'victoryEnd', loop: false})
-		            Framework.Game.goToNextLevel();
+                    Framework.Game.goToNextLevel()
+                    /*for(let i = 0; i < 4; i++) {
+                        this.imageButton[i].remove()
+                    }*/
                 }
             }
 		}

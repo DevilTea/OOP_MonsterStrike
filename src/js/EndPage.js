@@ -20,6 +20,7 @@ class EndPage extends Framework.GameMainMenu {
 	
 	load() {
 		super.load()
+		Framework.HtmlElementUI.removeAll()
 		this.menu = new Framework.Sprite(imagePath + 'background/endPage.png')
 		this.menu.position = new Framework.Point(Framework.Game.getCanvasWidth() / 2, Framework.Game.getCanvasHeight() / 2 )
         this.menu.scale = {x: 4, y: 4}

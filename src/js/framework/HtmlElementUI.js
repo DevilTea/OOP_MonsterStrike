@@ -14,11 +14,17 @@ Framework.HtmlElementUI = new (class HtmlElementUI {
         this.attachedHtmlElements.push(htmlElement)
     }
 
-    detach(htmlElement) {
+    detachElement(htmlElement) {
         let indexToRemove = this.attachedHtmlElements.indexOf(htmlElement)
         if(indexToRemove !== -1) {
             this.attachedHtmlElements.splice(indexToRemove, 1)
         }
+    }
+
+    removeAll() {
+        let toRemove = [...this.attachedHtmlElements]
+        this.attachedHtmlElements.forEach((htmlElement) => htmlElement.remove())
+        toRemove.forEach((attached) => this.detachElement(attached))
     }
 
     resize() {
