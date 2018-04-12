@@ -22,7 +22,7 @@ class EndPage extends Framework.GameMainMenu {
 		super.load()
 		Framework.HtmlElementUI.removeAll()
 		this.menu = new Framework.Sprite(imagePath + 'background/endPage.png')
-		this.menu.position = new Framework.Point(Framework.Game.getCanvasWidth() / 2, Framework.Game.getCanvasHeight() / 2 )
+		this.menu.position = new Framework.Point(Framework.Game.canvasWidth / 2, Framework.Game.canvasHeight / 2 )
         this.menu.scale = {x: 4, y: 4}
         this.rootScene.attach(this.menu);
 	}
@@ -43,8 +43,11 @@ class EndPage extends Framework.GameMainMenu {
 	
 	draw(parentCtx) {
 		super.draw(parentCtx)
-        this.rootScene.draw(parentCtx);
-        //this.menu.draw(parentCtx);
+		this.rootScene.draw(parentCtx);
+		parentCtx.font = '300px 微軟正黑體'
+		parentCtx.fillStyle = 'white'
+		parentCtx.textAlign = 'center'
+		parentCtx.fillText("ㄅㄅ", Framework.Game.canvasWidth / 2, Framework.Game.canvasHeight / 2)
 	}
 	
 	teardown() {

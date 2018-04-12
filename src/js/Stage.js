@@ -22,14 +22,11 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.nowMarble = 0
         this.canShoot = true
         this.isInitialized = false
-        //UI
-		this.drawArrow = false
 		this.isMousedown = false
 		this.shootingUnitVector = {x: 0, y: 0}
         this.mousedownCoordinate = {x: 0, y: 0}
-        this.marbleSmallSprites = []
-        this.marbleSmallHtmlElements = []
-        this.isFloatUp = true
+        //UI
+        this.gameUI = new GameClasses.GameUI()
     }
 
     initializeProgressResource() {
@@ -60,14 +57,6 @@ GameClasses.Stage = class Stage extends Framework.Level {
         })
     }
 
-    /*------------------------*/
-    loadUI(){
-        this.marbles.forEach((marble) => {
-            this.marbleSmallSprites.push(new Framework.Sprite(imagePath + 'marbleButtun/' + marble.marbleID + '.jpg'))
-        })
-    }
-    /*------------------------*/
-
     load() {
         super.load()
         this.audio = new Framework.AudioManager({
@@ -81,17 +70,12 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.background = new Framework.Sprite(imagePath + 'background/test.png')
 		this.background.position = { x: Framework.Game.getCanvasWidth() / 2, y: Framework.Game.getCanvasHeight() / 2 }
 		this.background.scale = {x: 4, y: 4}
-		this.arrow_rebound = new Framework.Sprite(imagePath + 'UI/arrow_rebound.png')
-		this.arrow_penetrate = new Framework.Sprite(imagePath + 'UI/arrow_penetrate.png')
-		this.arrow_rebound_2 = new Framework.Sprite(imagePath + 'UI/arrow_rebound_2.png')
-		this.arrow_penetrate_2 = new Framework.Sprite(imagePath + 'UI/arrow_penetrate_2.png')
-        this.info1 = new Framework.Sprite(imagePath + 'UI/info1.png')
-        this.info1.position = {x: 540, y: 1708.5}
         this.loadMarbles()
         this.loadMaps()
-        /*------------------------*/
-        this.loadUI()
-        /*------------------------*/
+
+        this.gameUI.loadArrow()
+        this.marblesOptions.forEach((option) => this.gameUI.playerInfoUIOption.marbleIDs.push(option.marbleID))
+        this.gameUI.loadPlayerInfoUI()
     }
 
     loadingProgress(ctx, requestInfo) {
@@ -102,47 +86,24 @@ GameClasses.Stage = class Stage extends Framework.Level {
     initialize() {
         super.initialize()
         this.rootScene.attach(this.background)
-        this.rootScene.attach(this.info1)
 		this.audio.play({name: 'sound_enterStage', loop: false})
         this.maps[this.nowMap].addMarbles(this.marbles)
         this.maps[this.nowMap].initialize()
         this.isInitialized = true
 
-        /*------------------------*/
-        this.marbleSmallSprites.forEach((marbleSmall, index) => {
-            marbleSmall.initTexture()
-            let newHtmlElement = Framework.HtmlElementUI.createElement(10 + index * 205, 1600, 205, 205,  marbleSmall.texture)
-            this.marbleSmallHtmlElements.push(newHtmlElement)
-            Framework.HtmlElementUI.attachElement(newHtmlElement)
-            newHtmlElement.create()
-        })
-        /*------------------------*/
+        this.gameUI.initializeArrow()
+        this.gameUI.initializePlayerInfoUI()
     }
 
     update() {
         super.update()
         this.matter.update()
         this.maps[this.nowMap].update()
-
-        /*------------------------------*/
-        if(this.isFloatUp) {
-            let previousPosition = this.marbleSmallHtmlElements[this.nowMarble].position
-            this.marbleSmallHtmlElements[this.nowMarble].position = {x: previousPosition.x, y: previousPosition.y - 20}
-            this.isFloatUp = false
-        }
-        /*------------------------------*/
-
         if(!this.canShoot && !this.marbles[this.nowMarble].isMoving) {
 			this.canShoot = true
             this.marbles[this.nowMarble].component.body.isSensor = true
-
-            /*------------------------*/
-            let previousPosition = this.marbleSmallHtmlElements[this.nowMarble].position
-            this.marbleSmallHtmlElements[this.nowMarble].position = {x: previousPosition.x, y: previousPosition.y + 20}
-            this.isFloatUp = true
-            /*------------------------*/
-
             this.nowMarble = (this.nowMarble + 1) % 4
+            this.gameUI.playerInfoUIOption.nowMarble = this.nowMarble
             let toRemove = []
             this.maps[this.nowMap].monsters.forEach((monster) => {
                 monster.nowHp = Math.max(monster.nowHp - monster.accumulationDamage, 0)
@@ -152,7 +113,6 @@ GameClasses.Stage = class Stage extends Framework.Level {
                 }
             })
             toRemove.forEach((monster) => this.maps[this.nowMap].removeMonster(monster))
-
             if(this.maps[this.nowMap].monsters.length == 0) {
                 this.maps[this.nowMap].remove()
                 if(this.nowMap < (this.maps.length - 1)) {
@@ -161,9 +121,6 @@ GameClasses.Stage = class Stage extends Framework.Level {
                     //所有地圖結束後的動作
                     this.audio.play({name: 'victoryEnd', loop: false})
                     Framework.Game.goToNextLevel()
-                    /*for(let i = 0; i < 4; i++) {
-                        this.imageButton[i].remove()
-                    }*/
                 }
             }
 		}
@@ -181,10 +138,9 @@ GameClasses.Stage = class Stage extends Framework.Level {
     draw(parentCtx) {
         super.draw(parentCtx)
         this.rootScene.draw(parentCtx);
-		if(this.drawArrow) {
-			this.arrow.draw(parentCtx)
-        }
         this.maps[this.nowMap].draw(parentCtx)
+		this.gameUI.drawArrow(parentCtx)
+		this.gameUI.drawPlayerInfoUI(parentCtx)
     }
 
     teardown() {
@@ -221,33 +177,15 @@ GameClasses.Stage = class Stage extends Framework.Level {
                 this.shootingUnitVector.y /= len
                 
                 if(len < 100) {
-                    this.drawArrow = false
+                    this.gameUI.arrowOption.canDraw = false
                     this.shootingUnitVector.x = 0
                     this.shootingUnitVector.y = 0
                 } else {
-                    switch (this.marbles[this.nowMarble].rebound) {
-                        case 0:
-                            this.arrow = this.arrow_rebound
-                            break
-                        case 1:
-                            this.arrow = this.arrow_penetrate
-                            break
-                        case 2:
-                            this.arrow = this.arrow_rebound_2
-                            break
-                        case 3:
-                            this.arrow = this.arrow_penetrate_2
-                            break
-                        default:
-                            this.arrow = this.arrow_rebound
-                            break;
-                    }
-                    if(this.arrow.texture) {
-                        this.arrow.position = this.marbles[this.nowMarble].position
-                        this.arrow.rotation = (Matter.Vector.angle(this.shootingUnitVector, {x: 0, y: 0}) / Math.PI * 180) + 180
-                        this.arrow.scale = {x: len / this.arrow.texture.width, y: 1}
-                    }
-                    this.drawArrow = true
+                    this.gameUI.arrowOption.arrowType = this.marbles[this.nowMarble].rebound
+                    this.gameUI.arrowOption.position = this.marbles[this.nowMarble].position
+                    this.gameUI.arrowOption.angle = (Matter.Vector.angle(this.shootingUnitVector, {x: 0, y: 0}) / Math.PI * 180) + 180
+                    this.gameUI.arrowOption.length = len
+                    this.gameUI.arrowOption.canDraw = true
                 }
             }
 		}
@@ -263,7 +201,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
                 } else {
                     this.canShoot = false
                     this.isMousedown = false
-                    this.drawArrow = false
+                    this.gameUI.arrowOption.canDraw = false
                     this.marbles[this.nowMarble].component.body.isSensor = false
                     this.marbles[this.nowMarble].shoot(this.shootingUnitVector)
                 }

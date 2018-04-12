@@ -48,9 +48,11 @@ class HtmlElement {
                 return {x: this.originX, y: this.originY}
             },
             set: (newValue) => {
-                this.originX = newValue.x
-                this.originY = newValue.y
-                this.resize()
+                if(newValue.x !== this.originX || newValue.y !== this.originY) {
+                    this.originX = newValue.x
+                    this.originY = newValue.y
+                    this.resize()
+                }
             }
         })
         
@@ -59,18 +61,22 @@ class HtmlElement {
                 return this.originWidth
             },
             set: (newValue) => {
-                this.originWidth = newValue
-                this.resize()
+                if(newValue !== this.originWidth) {
+                    this.originWidth = newValue
+                    this.resize()
+                }
             }
         })
         
         Object.defineProperty(this, 'height', {
             get: () => {
-                return this.originWidth
+                return this.originHeight
             },
             set: (newValue) => {
-                this.originHeight = newValue
-                this.resize()
+                if(newValue !== this.originHeight) {
+                    this.originHeight = newValue
+                    this.resize()
+                }
             }
         })
         
@@ -80,7 +86,7 @@ class HtmlElement {
         this.originHeight = height
         this.ele = ele
         this.parent = parent || Framework.Game.canvasContainer
-        this.hasAppended = false
+        this.hasCreated = false
         this.style = {display: 'inline-box', float: 'left', position: 'absolute'}
         this.resize()
     }
@@ -94,17 +100,21 @@ class HtmlElement {
     }
 
     create() {
-        this.hasAppended = true
-        $(this.parent).append(this.ele)
+        if(!this.hasCreated) {
+            this.hasCreated = true
+            $(this.parent).append(this.ele)
+        }
     }
 
     remove() {
-        this.hasAppended = false
-        $(this.ele).remove()
+        if(this.hasCreated) {
+            this.hasCreated = false
+            $(this.ele).remove()
+        }
     }
 
     resize() {
-        let re = this.hasAppended
+        let re = this.hasCreated
         let widthRatio = this.parent === Framework.Game.canvasContainer ? Framework.Game.widthRatio : (+this.parent.style.width.slice(0, this.parent.style.width.length - 2) / this.parent.originWidth)
         let heightRatio = this.parent === Framework.Game.canvasContainer ? Framework.Game.heightRatio : (+this.parent.style.height.slice(0, this.parent.style.height.length - 2) / this.parent.originHeight)
         if(re) this.remove()

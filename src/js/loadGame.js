@@ -52,6 +52,7 @@ var loadGameEnd;
     //才會繼續loading下一個檔案, 如果沒有需要lookFor, 則以空字串代表
     var listScript = 
     [
+        { src: jsPath + 'GameUI.js'},
         { src: jsPath + 'MapObject.js'},
         { src: jsPath + 'Marble.js'},
         { src: jsPath + 'Monster.js'},
