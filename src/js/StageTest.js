@@ -52,6 +52,7 @@ let StageTest = {
     mapsMonstersOptions: [
         [
             {
+                isBoss: false,
                 monsterID : 1,
                 attribute : 0,
                 hp : 150000,
@@ -60,6 +61,7 @@ let StageTest = {
                 initPosition : {x: 190, y: 400}
             },
             {
+                isBoss: false,
                 monsterID : 1,
                 attribute : 0,
                 hp : 150000,
@@ -68,6 +70,7 @@ let StageTest = {
                 initPosition : {x: 930, y: 400}
             },
             {
+                isBoss: false,
                 monsterID : 1,
                 attribute : 0,
                 hp : 150000,
@@ -76,6 +79,7 @@ let StageTest = {
                 initPosition : {x: 190, y: 1100}
             },
             {
+                isBoss: false,
                 monsterID : 1,
                 attribute : 0,
                 hp : 150000,
@@ -86,6 +90,7 @@ let StageTest = {
         ],
         [
             {
+                isBoss: true,
                 monsterID : 239,
                 attribute : 0,
                 hp : 750000,

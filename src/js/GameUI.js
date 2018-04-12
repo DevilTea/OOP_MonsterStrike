@@ -57,4 +57,24 @@ GameClasses.GameUI = class GameUI {
             }
         })
     }
+
+    drawDamageValue(ctx, value, position) {
+        ctx.font = '60px Arial'
+        ctx.fillStyle = 'white'
+        ctx.textAlign = 'center'
+        ctx.fillText(value, position.x, position.y)
+    }
+
+    drawBossHp(ctx, toMinus, currentValue, maxValue, position, width, height) {
+        ctx.fillStyle = "black"
+        ctx.fillRect(position.x, position.y, width, height)
+        ctx.fillStyle = "red"
+        ctx.fillRect(position.x, position.y, currentValue / maxValue * width, height)
+        ctx.fillStyle = "green"
+        ctx.fillRect(position.x, position.y, (currentValue - toMinus) / maxValue * width, height)
+        ctx.font = '60px Arial'
+        ctx.fillStyle = 'white'
+        ctx.textAlign = 'center'
+        ctx.fillText((currentValue - toMinus) + "/" + maxValue, 540, 60)
+    }
 }

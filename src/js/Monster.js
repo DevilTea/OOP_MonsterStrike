@@ -1,7 +1,8 @@
 GameClasses.Monster = class Monster extends MapObject {
     constructor(monsterConfig, matter) {
         super(matter)
-		autoBind(this)
+        autoBind(this)
+        this.isBoss = monsterConfig.isBoss
         this.monsterID = monsterConfig.monsterID
         this.attribute = monsterConfig.attribute
         this.race = monsterConfig.race
@@ -24,7 +25,6 @@ GameClasses.Monster = class Monster extends MapObject {
 
     initialize(){
         super.initialize()
-        //this.scale = 1
         this.map.stage.rootScene.attach(this.component.sprite)
 		this.component.addBodyToWorld()
     }
@@ -41,10 +41,11 @@ GameClasses.Monster = class Monster extends MapObject {
 
     draw(ctx) {
         if(this.accumulationDamage !== 0) {
-            ctx.font = '60px Arial'
-            ctx.fillStyle = 'white'
-            ctx.textAlign = 'center'
-            ctx.fillText(this.accumulationDamage, this.position.x, this.position.y - this.component.sprite.height / 2 - 30)
+            let pos = {x: this.position.x, y: this.position.y - this.component.sprite.height / 2 - 30}
+            this.map.stage.gameUI.drawDamageValue(ctx, this.accumulationDamage, pos)
+        }
+        if(this.isBoss) {
+            this.map.stage.gameUI.drawBossHp(ctx, this.accumulationDamage, this.nowHp, this.hp, {x: 0, y: 0}, 1080, 60)
         }
     }
 
