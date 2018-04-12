@@ -16,6 +16,9 @@ Framework.KeyBoardManager = new (class KeyBoardManager {
 	}
 	
 	keydownEvent(e) {
+		if(e.key === 'F11') {
+			return
+		}
 		e.preventDefault()
 		var keyCode = this.keyCodeToChar[e.which || e.keyCode]
 		if(!Framework.Util.isUndefined(this.keydownList[keyCode])) {

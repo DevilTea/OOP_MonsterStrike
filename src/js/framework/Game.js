@@ -325,9 +325,6 @@ Framework.Game = new (class Game {
 	}
 
 	keydown(e) {
-		if(e.key === 'F11') {
-            Framework.Game.fullScreen()
-		}
 		this.currentLevel.keydown(e)
 		if(this.isRecording) {
 			this.record.keydown(e)
@@ -766,7 +763,7 @@ Framework.Game = new (class Game {
 	}
 	
 	fullScreen(ele) {
-		var ele = ele || this.canvas			
+		var ele = ele || this.mainContainer			
 		if(!ele.fullscreenElement &&    // alternative standard method
 		  !ele.mozFullScreenElement && 
 		  !ele.webkitFullscreenElement && 
