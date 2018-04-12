@@ -811,8 +811,8 @@ Framework.Game = new (class Game {
 			base = baseHeight
 		}
 
-		scaledWidth = base * this.ideaWidth
-		scaledHeight = base * this.ideaHeight
+		scaledWidth = Math.round(base * this.ideaWidth)
+		scaledHeight = Math.round(base * this.ideaHeight)
 		this.widthRatio = scaledWidth / this.canvas.width
 		this.heightRatio = scaledHeight / this.canvas.height
 		this.canvas.style.width = scaledWidth + 'px'

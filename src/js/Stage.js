@@ -10,7 +10,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         let wallThickness = 500
 		let wallOptions = { label: 'mapObjectID_-1', isStatic: true, friction: 0, frictionAir: 0, frictionStatic: 0, restitution: 1}
         this.matter.addBody(this.matter.createRectangleBody(540, - wallThickness, 1080 + wallThickness * 2, wallThickness * 2, wallOptions))
-        this.matter.addBody(this.matter.createRectangleBody(540, 1600 + wallThickness, 1080 + wallThickness * 2, wallThickness * 2, wallOptions))
+        this.matter.addBody(this.matter.createRectangleBody(540, 1497 + wallThickness, 1080 + wallThickness * 2, wallThickness * 2, wallOptions))
         this.matter.addBody(this.matter.createRectangleBody(- wallThickness, 810, wallThickness * 2, 1920 + wallThickness * 2, wallOptions))
         this.matter.addBody(this.matter.createRectangleBody(1080 + wallThickness, 810, wallThickness * 2, 1920 + wallThickness * 2, wallOptions))
 
@@ -62,6 +62,9 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.audio = new Framework.AudioManager({
 			sound_enterStage: {
                 ogg: musicPath + 'sound/enterStage.ogg'
+            },
+            victoryEnd: {
+                ogg: musicPath + 'sound/victoryEnd.ogg'
             }
         })
         this.background = new Framework.Sprite(imagePath + 'background/test.png')
@@ -71,6 +74,8 @@ GameClasses.Stage = class Stage extends Framework.Level {
 		this.arrow_penetrate = new Framework.Sprite(imagePath + 'UI/arrow_penetrate.png')
 		this.arrow_rebound_2 = new Framework.Sprite(imagePath + 'UI/arrow_rebound_2.png')
 		this.arrow_penetrate_2 = new Framework.Sprite(imagePath + 'UI/arrow_penetrate_2.png')
+        this.info1 = new Framework.Sprite(imagePath + 'UI/info1.png')
+        this.info1.position = {x: 540, y: 1708.5}
         this.loadMarbles()
         this.loadMaps()
     }
@@ -83,6 +88,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
     initialize() {
         super.initialize()
         this.rootScene.attach(this.background)
+        this.rootScene.attach(this.info1)
 		this.audio.play({name: 'sound_enterStage', loop: false})
         this.maps[this.nowMap].addMarbles(this.marbles)
         this.maps[this.nowMap].initialize()
@@ -97,12 +103,23 @@ GameClasses.Stage = class Stage extends Framework.Level {
 			this.canShoot = true
 			this.marbles[this.nowMarble].component.body.isSensor = true
             this.nowMarble = (this.nowMarble + 1) % 4
+            let toRemove = []
+            this.maps[this.nowMap].monsters.forEach((monster) => {
+                monster.nowHp = Math.max(monster.nowHp - monster.accumulationDamage, 0)
+                monster.accumulationDamage = 0
+                if(monster.nowHp === 0) {
+                    toRemove.push(monster)
+                }
+            })
+            toRemove.forEach((monster) => this.maps[this.nowMap].removeMonster(monster))
+
             if(this.maps[this.nowMap].monsters.length == 0) {
                 this.maps[this.nowMap].remove()
                 if(this.nowMap < (this.maps.length - 1)) {
                     this.goToNextMap()
                 } else {
                     //所有地圖結束後的動作
+                    this.audio.play({name: 'victoryEnd', loop: false})
 		            Framework.Game.goToNextLevel();
                 }
             }
@@ -123,7 +140,8 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.rootScene.draw(parentCtx);
 		if(this.drawArrow) {
 			this.arrow.draw(parentCtx)
-		}
+        }
+        this.maps[this.nowMap].draw(parentCtx)
     }
 
     teardown() {

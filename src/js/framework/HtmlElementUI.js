@@ -2,49 +2,107 @@
 //在Canvas上製造出Html元件的class
 Framework.HtmlElementUI = new (class HtmlElementUI {
     constructor() {
-        this.createdElements = []
+        this.attachedHtmlElements = []
     }
 
     createElement(x, y, width, height, ele) {
-        let newElement = new HtmlElement(x, y, width, height, ele)
-        this.createdElements.push(newElement)
-        return newElement
+        let newHtmlElement = new HtmlElement(x, y, width, height, ele)
+        return newHtmlElement
+    }
+
+    attachElement(htmlElement) {
+        this.attachedHtmlElements.push(htmlElement)
+    }
+
+    detach(htmlElement) {
+        let indexToRemove = this.attachedHtmlElements.indexOf(htmlElement)
+        if(indexToRemove !== -1) {
+            this.attachedHtmlElements.splice(indexToRemove, 1)
+        }
     }
 
     resize() {
-        this.createdElements.forEach((ele) => ele.resize())
+        this.attachedHtmlElements.forEach((ele) => ele.resize())
     }
 })
 
 class HtmlElement {
-    constructor(x, y, width, height, ele) {
+    constructor(x, y, width, height, ele, parent) {
         Object.defineProperty(this, 'style', {
-			get : function() {
+			get: () => {
 				return this.ele.style
 			},
-			set : function (newValue) {
+			set: (newValue) => {
                 $(this.ele).css(newValue)
 			}
-		})
-        this.ele = ele
+        })
+        
+        Object.defineProperty(this, 'position', {
+            get: () => {
+                return {x: this.originX, y: this.originY}
+            },
+            set: (newValue) => {
+                this.originX = newValue.x
+                this.originY = newValue.y
+                this.resize()
+            }
+        })
+        
+        Object.defineProperty(this, 'width', {
+            get: () => {
+                return this.originWidth
+            },
+            set: (newValue) => {
+                this.originWidth = newValue
+                this.resize()
+            }
+        })
+        
+        Object.defineProperty(this, 'height', {
+            get: () => {
+                return this.originWidth
+            },
+            set: (newValue) => {
+                this.originHeight = newValue
+                this.resize()
+            }
+        })
+        
         this.originX = x
         this.originY = y
         this.originWidth = width
         this.originHeight = height
+        this.ele = ele
+        this.parent = parent || Framework.Game.canvasContainer
+        this.hasAppended = false
         this.style = {display: 'inline-box', float: 'left', position: 'absolute'}
         this.resize()
-        $(Framework.Game.canvasContainer).append(this.ele)
     }
 
     addEventListener(eventName, callback, useCapture = false) {
         this.ele.addEventListener(eventName, callback, useCapture)
     }
 
-    resize() {
-        let widthRatio = Framework.Game.widthRatio
-        let heightRatio = Framework.Game.heightRatio
+    removeEventListener(eventName, callback) {
+        this.ele.removeEventListener(eventName, callback)
+    }
+
+    create() {
+        this.hasAppended = true
+        $(this.parent).append(this.ele)
+    }
+
+    remove() {
+        this.hasAppended = false
         $(this.ele).remove()
-        this.style = {top: Framework.Game.canvas.offsetTop + heightRatio * this.originY + 'px', left: Framework.Game.canvas.offsetLeft + widthRatio * this.originX + 'px', width: widthRatio * this.originWidth + 'px', height: heightRatio * this.originHeight + 'px'}
-        $(Framework.Game.canvasContainer).append(this.ele)
+    }
+
+    resize() {
+        let re = this.hasAppended
+        let widthRatio = this.parent === Framework.Game.canvasContainer ? Framework.Game.widthRatio : (+this.parent.style.width.slice(0, this.parent.style.width.length - 2) / this.parent.originWidth)
+        let heightRatio = this.parent === Framework.Game.canvasContainer ? Framework.Game.heightRatio : (+this.parent.style.height.slice(0, this.parent.style.height.length - 2) / this.parent.originHeight)
+        if(re) this.remove()
+        this.style = {top: Framework.Game.canvas.offsetTop + Math.round(heightRatio * this.originY) + 'px', left: Framework.Game.canvas.offsetLeft + Math.round(widthRatio * this.originX) + 'px', width: Math.round(widthRatio * this.originWidth) + 'px', height: Math.round(heightRatio * this.originHeight) + 'px'}
+        if(re) this.create()
     }
 }

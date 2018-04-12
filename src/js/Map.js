@@ -11,6 +11,11 @@ GameClasses.Map = class Map {
 	
 	load() {
 		//this.mapObjects.forEach((value) => value.load())
+		this.audio = new Framework.AudioManager({
+			hit: {
+                ogg: musicPath + 'sound/hit.ogg'
+            }
+        })
 	}
 	
 	initialize() {
@@ -30,7 +35,7 @@ GameClasses.Map = class Map {
 	}
 	
 	draw(ctx) {
-		this.mapObjects.forEach((value) => value.draw())
+		this.mapObjects.forEach((value) => value.draw(ctx))
 	}
 	
 	mouseup(e) {
@@ -72,12 +77,11 @@ GameClasses.Map = class Map {
 					marble = this.getMapObjectByID(mapObjID_B)
 					monster = this.getMapObjectByID(mapObjID_A)
 				}
-				monster.nowHp = Math.max(monster.nowHp - marble.atk, 0);
-				console.log("attack %d", monster.mapObjectID)
-				if(monster.nowHp == 0) {
-					this.removeMonster(monster)
-					console.log("kill %d", monster.mapObjectID)
+				if(this.stage.marbles[this.stage.nowMarble] === marble) {
+					this.audio.play({name: 'hit', loop: false})
+					monster.accumulationDamage += marble.atk
 				}
+				//monster.nowHp = Math.max(monster.nowHp - marble.atk, 0)
 			}
 		})
 		//this.mapObjects.forEach((value) => value.collisionStart(event))

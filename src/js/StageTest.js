@@ -2,51 +2,51 @@ let StageTest = {
     marblesOptions: [
         {
             marbleID : 1743,
-            attribute : 0,
+            attribute : 4,
             rebound : 0,
-            hp : 100,
-            atk : 100,
-            speed : 400,
+            hp : 23865,
+            atk : 23001,
+            speed : 319.33,
             race : 0,
             skill : [],
             comboSkill : [],
-            initPosition : {x: 216, y: 1500}
+            initPosition : {x: 216, y: 1400}
         },
         {
             marbleID : 1032,
-            attribute : 0,
-            rebound : 1,
-            hp : 100,
-            atk : 200,
-            speed : 400,
+            attribute : 1,
+            rebound : 0,
+            hp : 21698,
+            atk : 24483,
+            speed : 312.73,
             race : 0,
             skill : [],
             comboSkill : [],
-            initPosition : {x: 432, y: 1500}
+            initPosition : {x: 432, y: 1400}
         },
         {
             marbleID : 1746,
             attribute : 0,
-            rebound : 2,
-            hp : 100,
-            atk : 300,
-            speed : 400,
+            rebound : 1,
+            hp : 24602,
+            atk : 22578,
+            speed : 394.87,
             race : 0,
             skill : [],
             comboSkill : [],
-            initPosition : {x: 648, y: 1500}
+            initPosition : {x: 648, y: 1400}
         },
         {
             marbleID : 3090,
-            attribute : 0,
-            rebound : 3,
-            hp : 100,
-            atk : 400,
-            speed : 400,
+            attribute : 2,
+            rebound : 0,
+            hp : 16072,
+            atk : 18187,
+            speed : 250.60,
             race : 0,
             skill : [],
             comboSkill : [],
-            initPosition : {x: 864, y: 1500}
+            initPosition : {x: 864, y: 1400}
         }
     ],
     mapsMonstersOptions: [
@@ -54,7 +54,7 @@ let StageTest = {
             {
                 monsterID : 1,
                 attribute : 0,
-                hp : 500,
+                hp : 150000,
                 atk : 0,
                 skill : [],
                 initPosition : {x: 190, y: 400}
@@ -62,7 +62,7 @@ let StageTest = {
             {
                 monsterID : 1,
                 attribute : 0,
-                hp : 500,
+                hp : 150000,
                 atk : 0,
                 skill : [],
                 initPosition : {x: 930, y: 400}
@@ -70,7 +70,7 @@ let StageTest = {
             {
                 monsterID : 1,
                 attribute : 0,
-                hp : 500,
+                hp : 150000,
                 atk : 0,
                 skill : [],
                 initPosition : {x: 190, y: 1100}
@@ -78,7 +78,7 @@ let StageTest = {
             {
                 monsterID : 1,
                 attribute : 0,
-                hp : 500,
+                hp : 150000,
                 atk : 0,
                 skill : [],
                 initPosition : {x: 930, y: 1100}
@@ -88,7 +88,7 @@ let StageTest = {
             {
                 monsterID : 239,
                 attribute : 0,
-                hp : 500,
+                hp : 750000,
                 atk : 0,
                 skill : [],
                 initPosition : {x: 540, y: 750}

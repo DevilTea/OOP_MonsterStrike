@@ -11,6 +11,7 @@ GameClasses.Monster = class Monster extends MapObject {
         this.initPosition = monsterConfig.initPosition
 
         this.nowHp = this.hp
+        this.accumulationDamage = 0
     }
 
     load(){
@@ -39,6 +40,12 @@ GameClasses.Monster = class Monster extends MapObject {
     }
 
     draw(ctx) {
+        if(this.accumulationDamage !== 0) {
+            ctx.font = '60px Arial'
+            ctx.fillStyle = 'white'
+            ctx.textAlign = 'center'
+            ctx.fillText(this.accumulationDamage, this.position.x, this.position.y - this.component.sprite.height / 2 - 30)
+        }
     }
 
     mousedown(e) {
