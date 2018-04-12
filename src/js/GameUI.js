@@ -66,15 +66,16 @@ GameClasses.GameUI = class GameUI {
     }
 
     drawBossHp(ctx, toMinus, currentValue, maxValue, position, width, height) {
+        let valueLeft = Math.max(currentValue - toMinus, 0)
         ctx.fillStyle = "black"
         ctx.fillRect(position.x, position.y, width, height)
         ctx.fillStyle = "red"
         ctx.fillRect(position.x, position.y, currentValue / maxValue * width, height)
         ctx.fillStyle = "green"
-        ctx.fillRect(position.x, position.y, (currentValue - toMinus) / maxValue * width, height)
+        ctx.fillRect(position.x, position.y, valueLeft / maxValue * width, height)
         ctx.font = '60px Arial'
         ctx.fillStyle = 'white'
         ctx.textAlign = 'center'
-        ctx.fillText((currentValue - toMinus) + "/" + maxValue, 540, 60)
+        ctx.fillText(valueLeft + "/" + maxValue, 540, 60)
     }
 }
