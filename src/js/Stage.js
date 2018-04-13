@@ -63,6 +63,9 @@ GameClasses.Stage = class Stage extends Framework.Level {
 			sound_enterStage: {
                 ogg: musicPath + 'sound/enterStage.ogg'
             },
+			NTUT: {
+                mp3: musicPath + 'bgm/NTUT_classic.mp3'
+            },
             victoryEnd: {
                 ogg: musicPath + 'sound/victoryEnd.ogg'
             }
@@ -86,7 +89,12 @@ GameClasses.Stage = class Stage extends Framework.Level {
     initialize() {
         super.initialize()
         this.rootScene.attach(this.background)
-		this.audio.play({name: 'sound_enterStage', loop: false})
+        this.audio.play({name: 'sound_enterStage', loop: false})
+        window.setTimeout(() => {
+            //this.audio.setVolume('NTUT', 0.5)
+            this.audio.play({name: 'NTUT', loop: true})
+            this.audio.setVolume('NTUT', 0.5)
+        }, 4000)
         this.maps[this.nowMap].addMarbles(this.marbles)
         this.maps[this.nowMap].initialize()
         this.isInitialized = true
@@ -120,6 +128,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
                 } else {
                     //所有地圖結束後的動作
                     this.audio.play({name: 'victoryEnd', loop: false})
+                    this.audio.stop('NTUT')
                     Framework.Game.goToNextLevel()
                 }
             }

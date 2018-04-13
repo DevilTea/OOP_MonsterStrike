@@ -813,7 +813,6 @@ Framework.Game = new (class Game {
 		scaledHeight = base * this.ideaHeight
 		this.widthRatio = scaledWidth / this.canvas.width
 		this.heightRatio = scaledHeight / this.canvas.height
-		console.log(base + " / " + this.widthRatio)
 		this.canvas.style.width = scaledWidth + 'px'
 		this.canvas.style.height = scaledHeight + 'px'
 		Framework.HtmlElementUI.resize()
