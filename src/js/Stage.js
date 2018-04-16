@@ -32,7 +32,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
     initializeProgressResource() {
 		super.initializeProgressResource()
 		this.loading = new Framework.Sprite(imagePath + 'background/loading.png')
-		this.loading.position = {x: Framework.Game.getCanvasWidth() / 2 , y: Framework.Game.getCanvasHeight() / 2}
+		this.loading.position = {x: Framework.Game.canvasWidth / 2 , y: Framework.Game.canvasHeight / 2}
         this.loading.scale = {x: 4, y: 4}
     }
     
@@ -57,6 +57,12 @@ GameClasses.Stage = class Stage extends Framework.Level {
         })
     }
 
+    loadUI() {
+        this.gameUI.loadArrow()
+        this.marblesOptions.forEach((option) => this.gameUI.playerInfoUIOption.marbleIDs.push(option.marbleID))
+        this.gameUI.loadPlayerInfoUI()
+    }
+
     load() {
         super.load()
         this.audio = new Framework.AudioManager({
@@ -71,14 +77,11 @@ GameClasses.Stage = class Stage extends Framework.Level {
             }
         })
         this.background = new Framework.Sprite(imagePath + 'background/test.png')
-		this.background.position = { x: Framework.Game.getCanvasWidth() / 2, y: Framework.Game.getCanvasHeight() / 2 }
+		this.background.position = { x: Framework.Game.canvasWidth / 2, y: Framework.Game.canvasHeight / 2 }
 		this.background.scale = {x: 4, y: 4}
         this.loadMarbles()
         this.loadMaps()
-
-        this.gameUI.loadArrow()
-        this.marblesOptions.forEach((option) => this.gameUI.playerInfoUIOption.marbleIDs.push(option.marbleID))
-        this.gameUI.loadPlayerInfoUI()
+        this.loadUI()
     }
 
     loadingProgress(ctx, requestInfo) {
@@ -90,11 +93,6 @@ GameClasses.Stage = class Stage extends Framework.Level {
         super.initialize()
         this.rootScene.attach(this.background)
         this.audio.play({name: 'sound_enterStage', loop: false})
-        window.setTimeout(() => {
-            //this.audio.setVolume('NTUT', 0.5)
-            this.audio.play({name: 'NTUT', loop: true})
-            this.audio.setVolume('NTUT', 0.5)
-        }, 4000)
         this.maps[this.nowMap].addMarbles(this.marbles)
         this.maps[this.nowMap].initialize()
         this.isInitialized = true
@@ -103,24 +101,32 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.gameUI.initializePlayerInfoUI()
     }
 
+    turnNextMarble() {
+        this.marbles[this.nowMarble].component.body.isSensor = true
+        this.nowMarble = (this.nowMarble + 1) % 4
+        this.gameUI.playerInfoUIOption.nowMarble = this.nowMarble
+    }
+
+    damageMonsters() {
+        let toRemove = []
+        this.maps[this.nowMap].monsters.forEach((monster) => {
+            monster.nowHp = Math.max(monster.nowHp - monster.accumulationDamage, 0)
+            monster.accumulationDamage = 0
+            if(monster.nowHp === 0) {
+                toRemove.push(monster)
+            }
+        })
+        toRemove.forEach((monster) => this.maps[this.nowMap].removeMonster(monster))
+    }
+
     update() {
         super.update()
         this.matter.update()
         this.maps[this.nowMap].update()
         if(!this.canShoot && !this.marbles[this.nowMarble].isMoving) {
 			this.canShoot = true
-            this.marbles[this.nowMarble].component.body.isSensor = true
-            this.nowMarble = (this.nowMarble + 1) % 4
-            this.gameUI.playerInfoUIOption.nowMarble = this.nowMarble
-            let toRemove = []
-            this.maps[this.nowMap].monsters.forEach((monster) => {
-                monster.nowHp = Math.max(monster.nowHp - monster.accumulationDamage, 0)
-                monster.accumulationDamage = 0
-                if(monster.nowHp === 0) {
-                    toRemove.push(monster)
-                }
-            })
-            toRemove.forEach((monster) => this.maps[this.nowMap].removeMonster(monster))
+            this.turnNextMarble()
+            this.damageMonsters()
             if(this.maps[this.nowMap].monsters.length == 0) {
                 this.maps[this.nowMap].remove()
                 if(this.nowMap < (this.maps.length - 1)) {
@@ -128,7 +134,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
                 } else {
                     //所有地圖結束後的動作
                     this.audio.play({name: 'victoryEnd', loop: false})
-                    this.audio.stop('NTUT')
+                    //this.audio.stop('NTUT')
                     Framework.Game.goToNextLevel()
                 }
             }

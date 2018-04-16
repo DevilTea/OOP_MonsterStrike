@@ -3,7 +3,7 @@ GameClasses.GameUI = class GameUI {
         autoBind(this)
         this.arrowOption = {canDraw: false, arrowType: 0, position: {x: 0, y: 0}, angle: 0, length: 0}
         this.arrowSprites = []
-        this.playerInfoUIOption = {marbleIDs: [], nowMarble: 0}
+        this.playerInfoUIOption = {marbleIDs: [], nowMarble: 0, hpBar: {}}
         this.playerInfoUISprites = {UI: undefined, marbleSmallSprites: []}
         this.playerInfoUIHtmlElements = {marbleSmallHtmlElements: []}
     }
@@ -46,6 +46,10 @@ GameClasses.GameUI = class GameUI {
     }
 
     drawPlayerInfoUI(ctx) {
+        ctx.fillStyle = "black"
+        ctx.fillRect(170, 1542, 855, 30)
+        ctx.fillStyle = "green"
+        ctx.fillRect(170, 1542, 855, 30)
         this.playerInfoUISprites.UI.draw(ctx)
         this.playerInfoUIHtmlElements.marbleSmallHtmlElements.forEach((htmlElement) => htmlElement.create())
         this.playerInfoUIHtmlElements.marbleSmallHtmlElements.forEach((htmlElement, index) => {

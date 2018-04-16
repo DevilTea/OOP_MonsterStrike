@@ -80,14 +80,19 @@ class HtmlElement {
             }
         })
         
+        this.hasCreated = false
+        this.isRootElement = Framework.Util.isUndefined(parent)
         this.originX = x
         this.originY = y
         this.originWidth = width
         this.originHeight = height
+        this.nowX = x
+        this.nowY = y
+        this.nowWidth = width
+        this.nowHeight = height
         this.ele = ele
-        this.parent = parent || Framework.Game.canvasContainer
-        this.hasCreated = false
-        this.style = {display: 'inline-box', float: 'left', position: 'absolute'}
+        this.parent = parent
+        this.style = {display: 'box', float: 'left', position: 'absolute'}
         this.resize()
     }
 
@@ -102,7 +107,11 @@ class HtmlElement {
     create() {
         if(!this.hasCreated) {
             this.hasCreated = true
-            $(this.parent).append(this.ele)
+            if(this.isRootElement) {
+                $(Framework.Game.canvasContainer).append(this.ele)
+            } else {
+                $(this.parent.ele).append(this.ele)
+            }
         }
     }
 
@@ -115,10 +124,14 @@ class HtmlElement {
 
     resize() {
         let re = this.hasCreated
-        let widthRatio = this.parent === Framework.Game.canvasContainer ? Framework.Game.widthRatio : (+this.parent.style.width.slice(0, this.parent.style.width.length - 2) / this.parent.originWidth)
-        let heightRatio = this.parent === Framework.Game.canvasContainer ? Framework.Game.heightRatio : (+this.parent.style.height.slice(0, this.parent.style.height.length - 2) / this.parent.originHeight)
+        let widthRatio = this.isRootElement ? Framework.Game.widthRatio : (+this.parent.ele.style.width.slice(0, this.parent.ele.style.width.length - 2) / this.parent.ele.originWidth)
+        let heightRatio = this.isRootElement ? Framework.Game.heightRatio : (+this.parent.ele.style.height.slice(0, this.parent.ele.style.height.length - 2) / this.parent.ele.originHeight)
         if(re) this.remove()
-        this.style = {top: Framework.Game.canvas.offsetTop + heightRatio * this.originY + 'px', left: Framework.Game.canvas.offsetLeft + widthRatio * this.originX + 'px', width: widthRatio * this.originWidth + 'px', height: heightRatio * this.originHeight + 'px'}
+        this.nowX = (this.isRootElement ? Framework.Game.canvas.offsetLeft : this.parent.nowX) + widthRatio * this.originX
+        this.nowY = (this.isRootElement ? Framework.Game.canvas.offsetTop : this.parent.nowY) + heightRatio * this.originY
+        this.nowWidth = widthRatio * this.originWidth
+        this.nowHeight = heightRatio * this.originHeight
+        this.style = {left: this.nowX + 'px', top: this.nowY, width: this.nowWidth, height: this.nowHeight}
         if(re) this.create()
     }
 }

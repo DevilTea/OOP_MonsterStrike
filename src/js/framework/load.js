@@ -7,6 +7,7 @@ const musicPath = mainPath + 'music/'
 const imagePath = mainPath + 'image/'
 let Framework = {}
 let GameClasses = {}
+let Stages = {}
 let autoBind = function(obj) {
     for (let o = obj; o; o = Object.getPrototypeOf(o)){
         for (let name of Object.getOwnPropertyNames(o)){
