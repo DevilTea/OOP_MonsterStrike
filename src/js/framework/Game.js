@@ -62,6 +62,7 @@ Framework.Game = new (class Game {
 		this.canvasContainer.style.display = 'table-cell';
 		this.canvasContainer.style.textAlign = 'center';
 		this.canvasContainer.style.verticalAlign = 'middle';
+		//this.canvasContainer.style.position = 'relative';
 		this.canvas = document.createElement('canvas');	
 		this.canvas.style.backgroundColor = '#fff';		
 		this.canvas.setAttribute('id', '__game_canvas__');
