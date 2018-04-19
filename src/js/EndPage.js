@@ -56,6 +56,7 @@ class EndPage extends Framework.GameMainMenu {
 	
     click(e) {
 		super.click(e)
+		Framework.Game.goToLevel('StageSelect')
     }
 	
 	mouseup(e) {

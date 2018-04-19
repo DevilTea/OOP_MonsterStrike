@@ -16,7 +16,7 @@ Framework.KeyBoardManager = new (class KeyBoardManager {
 	}
 	
 	keydownEvent(e) {
-		if(e.key === 'F11') {
+		if(e.key === 'F11' || e.key === 'F5') {
 			return
 		}
 		e.preventDefault()

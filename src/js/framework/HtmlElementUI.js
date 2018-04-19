@@ -6,8 +6,8 @@ Framework.HtmlElementUI = new (class HtmlElementUI {
         this.attachedHtmlElements = []
     }
 
-    createElement(x, y, width, height, ele, parentHtmlElement) {
-        let newHtmlElement = new HtmlElement(x, y, width, height, ele, parentHtmlElement)
+    createElement(x, y, width, height, ele, parentHtmlElement, onCanvas = true) {
+        let newHtmlElement = new HtmlElement(x, y, width, height, ele, parentHtmlElement, onCanvas)
         return newHtmlElement
     }
 
@@ -32,25 +32,54 @@ Framework.HtmlElementUI = new (class HtmlElementUI {
         this.attachedHtmlElements.forEach((ele) => ele.resize())
     }
 
-    testDialog(msg) {
-        let back = this.createElement(140, 360, 800, 600, document.createElement('div'))
-        back.style = {backgroundColor: '#eeeeee'}
-        let text = this.createElement(20, 20, 760, 480, document.createElement('div'), back)
-        text.style = {backgroundColor: '#ffffff', overflowY: 'scroll', textAlign: 'left'}
-        text.ele.innerText = msg
-        let btn = this.createElement(300, 530, 200, 60, document.createElement('button'), back)
-        btn.ele.innerText = "Touch"
-        btn.addEventListener('click', () => {
-            back.remove()
-            this.detachElement(back)
-        })
-        this.attachElement(back)
-        back.create()
+    createTestDialog(msg, callback, ...args) {
+        let fullContainer = this.createElement(0, 0, 'full', 'full', document.createElement('div'), undefined, false)
+        let dialogBackground = this.createElement(140, 360, 800, 600, document.createElement('div'), fullContainer, true)
+        let dialogText = this.createElement(20, 20, 760, 480, document.createElement('div'), dialogBackground, false)
+        let enterButton = this.createElement(300, 520, 200, 60, document.createElement('button'), dialogBackground, false)
+        let mouseOffset = {x: 0, y: 0}
+        fullContainer.style = {userSelect: 'none'}
+        dialogBackground.style = {backgroundColor: '#333333', borderRadius: '5px'}
+        dialogText.style = {padding: '10px', color: '#ffffff', fontFamily: '微軟正黑體', fontWeight: 'bold', backgroundColor: '#999999', overflowY: 'auto', textAlign: 'left', borderRadius: '5px'}
+        dialogText.ele.innerText = msg
+        enterButton.style = {border: '2px #999999 solid', borderRadius: '3px', color: '#ffffff', backgroundColor: '#333333'}
+        enterButton.ele.innerText = '確認'
+
+        fullContainer.clickEvent = (e) => e.stopPropagation()
+        fullContainer.mousedownEvent = (e) => e.stopPropagation()
+        fullContainer.mouseupEvent = (e) => e.stopPropagation()
+        fullContainer.mousemoveEvent = (e) => e.stopPropagation()
+
+        dialogBackground.mousedownEvent = (e) => {
+            e.preventDefault()
+            e = Framework.MouseManager.countCanvasOffset(e)
+            mouseOffset.x = dialogBackground.originX - e.x
+            mouseOffset.y = dialogBackground.originY - e.y
+        }
+
+        fullContainer.mousemoveEvent = (e) => {
+            if(e.buttons === 1) {
+                e.preventDefault()
+                e = Framework.MouseManager.countCanvasOffset(e)
+                dialogBackground.position = {x: mouseOffset.x + e.x, y: mouseOffset.y + e.y}
+            }
+        }
+
+        enterButton.clickEvent = (e) => {
+            this.detachElement(fullContainer)
+            fullContainer.remove()
+            Framework.MouseManager.startHandle()
+        }
+
+        this.attachElement(fullContainer)
+        fullContainer.create()
+        Framework.MouseManager.stopHandle()
+        return fullContainer
     }
 })
 
 class HtmlElement {
-    constructor(x, y, width, height, ele, parent) {
+    constructor(x, y, width, height, ele, parent, onCanvas) {
         autoBind(this)
         Object.defineProperty(this, 'style', {
 			get: () => {
@@ -98,8 +127,6 @@ class HtmlElement {
             }
         })
         
-        this.hasCreated = false
-        this.isRootElement = Framework.Util.isUndefined(parent)
         this.originX = x
         this.originY = y
         this.originWidth = width
@@ -110,6 +137,19 @@ class HtmlElement {
         this.nowHeight = height
         this.ele = ele
         this.parent = parent
+        this.hasCreated = false
+        this.onCanvas = onCanvas
+        this.isRootElement = Framework.Util.isUndefined(parent)
+
+        this.clickEvent = (e) => {}
+        this.mousedownEvent = (e) => {}
+        this.mouseupEvent = (e) => {}
+        this.mousemoveEvent = (e) => {}
+        this.addEventListener('click', this.click, false)
+        this.addEventListener('mousedown', this.mousedown, false)
+        this.addEventListener('mouseup', this.mouseup, false)
+        this.addEventListener('mousemove', this.mousemove, false)
+
         if(!this.isRootElement) {
             this.parent.childs.push(this)
         }
@@ -122,20 +162,32 @@ class HtmlElement {
         this.ele.addEventListener(eventName, callback, useCapture)
     }
 
-    removeEventListener(eventName, callback) {
-        this.ele.removeEventListener(eventName, callback)
+    click(e) {
+        this.clickEvent(e)
+    }
+
+    mouseup(e) {
+        this.mouseupEvent(e)
+    }
+
+    mousedown(e) {
+        this.mousedownEvent(e)
+    }
+
+    mousemove(e) {
+        this.mousemoveEvent(e)
     }
 
     create() {
         if(!this.hasCreated) {
             this.hasCreated = true
             if(this.isRootElement) {
-                $(Framework.Game.canvasContainer).append(this.ele)
+                Framework.Game.mainContainer.appendChild(this.ele)
             } else {
-                $(this.parent.ele).append(this.ele)
+                this.parent.ele.appendChild(this.ele)
             }
             this.childs.forEach((child) => {
-                $(this.ele).append(child.ele)
+                child.create()
             })
         }
     }
@@ -143,7 +195,11 @@ class HtmlElement {
     remove() {
         if(this.hasCreated) {
             this.hasCreated = false
-            $(this.ele).remove()
+            if(this.isRootElement) {
+                Framework.Game.mainContainer.removeChild(this.ele)
+            } else {
+                this.parent.ele.removeChild(this.ele)
+            }
             this.childs.forEach((child) => {
                 child.remove()
             })
@@ -152,14 +208,68 @@ class HtmlElement {
 
     resize() {
         let re = this.hasCreated
-        let widthRatio = this.isRootElement ? Framework.Game.widthRatio : (+this.parent.ele.style.width.slice(0, this.parent.ele.style.width.length - 2) / this.parent.originWidth)
-        let heightRatio = this.isRootElement ? Framework.Game.heightRatio : (+this.parent.ele.style.height.slice(0, this.parent.ele.style.height.length - 2) / this.parent.originHeight)
+        let widthRatio
+        let heightRatio
+        
+        if(this.isRootElement) {
+            widthRatio = Framework.Game.widthRatio
+            heightRatio = Framework.Game.heightRatio
+        } else {
+            if(this.originWidth === 'full') {
+                widthRatio = Framework.Game.widthRatio
+            } else {
+                if(this.parent.originWidth === 'full') {
+                    widthRatio = Framework.Game.widthRatio
+                } else {
+                    widthRatio = (+this.parent.ele.style.width.slice(0, this.parent.ele.style.width.length - 2) / this.parent.originWidth)
+                }
+            }
+            
+            if(this.originHeight === 'full') {
+                heightRatio = Framework.Game.heightRatio
+            } else {
+                if(this.parent.originWidth === 'full') {
+                    heightRatio = Framework.Game.heightRatio
+                } else {
+                    heightRatio = (+this.parent.ele.style.height.slice(0, this.parent.ele.style.height.length - 2) / this.parent.originHeight)
+                }
+            }
+        }
+        
         if(re) this.remove()
-        this.nowX = (this.isRootElement ? Framework.Game.canvas.offsetLeft : 0) + widthRatio * this.originX
-        this.nowY = (this.isRootElement ? Framework.Game.canvas.offsetTop : 0) + heightRatio * this.originY
-        this.nowWidth = widthRatio * this.originWidth
-        this.nowHeight = heightRatio * this.originHeight
-        this.style = {left: this.nowX + 'px', top: this.nowY, width: this.nowWidth, height: this.nowHeight}
+        this.nowX = (this.onCanvas ? Framework.Game.canvas.offsetLeft : 0) + widthRatio * this.originX
+        this.nowY = (this.onCanvas ? Framework.Game.canvas.offsetTop : 0) + heightRatio * this.originY
+        
+        if(this.originWidth === 'full') {
+            if(this.isRootElement) {
+                if(this.onCanvas) {
+                    this.nowWidth = Framework.Config.canvasWidth * widthRatio
+                } else {
+                    this.nowWidth = '100%'
+                }
+            } else {
+                this.nowWidth = this.parent.nowWidth
+            }
+        } else {
+            this.nowWidth = widthRatio * this.originWidth
+        }
+        
+        if(this.originHeight === 'full') {
+            if(this.isRootElement) {
+                if(this.onCanvas) {
+                    this.nowHeight = Framework.Config.canvasHeight * heightRatio
+                } else {
+                    this.nowHeight = '100%'
+                }
+            } else {
+                this.nowHeight = this.parent.nowHeight
+            }
+        } else {
+            this.nowHeight = heightRatio * this.originHeight
+        }
+        
+        
+        this.style = {left: this.nowX, top: this.nowY, width: this.nowWidth, height: this.nowHeight}
         if(re) this.create()
         this.childs.forEach((child) => {
             child.resize()

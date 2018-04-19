@@ -69,7 +69,15 @@ Framework.AudioManager = class AudioManager {
 			tempSource.src= song[tempName]
 			audio.appendChild(tempSource)
 		} 
-		audio.play()
+
+		let promise = audio.play();
+		if (promise !== undefined) {
+			promise.then((value) => {
+				
+			}, (reason) => {
+				console.log('Autoplay Policy Changes!! User must have interacted with the domain (click, tap, etc.).')
+			})
+		}
 	}
 	
 	pause(audioName) {

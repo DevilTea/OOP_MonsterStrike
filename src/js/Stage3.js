@@ -1,4 +1,4 @@
-Stages.stageTest = (() => {
+Stages.Stage3 = (() => {
     let marble_1 = {
         marbleID : 1743,
         attribute : 4,
@@ -106,5 +106,5 @@ Stages.stageTest = (() => {
 
     let monstersOptions = [monstersOptionsMap_1, monstersOptionsMap_2]
 
-    return (new GameClasses.Stage(marblesOptions, monstersOptions))
+    return (new GameClasses.Stage('測試關卡3', marblesOptions, monstersOptions))
 })()

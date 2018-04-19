@@ -36,7 +36,19 @@ Framework.Game = new (class Game {
 		this.tempDraw = function(context) {}
 		this.stopLoop = this.stopAnimationFrame
 		
-		this.mainContainer = document.createElement('div');
+		this.mainContainer = document.createElement('div')
+		this.mainContainer.setAttribute('id', 'main-container')
+		$(this.mainContainer).css({backgroundColor: '#000000', width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'})
+		this.canvas = document.createElement('canvas');
+		this.canvas.setAttribute('id', 'game-canvas')
+		this.canvas.width = this.canvasWidth;
+		this.canvas.height = this.canvasHeight;
+		$(this.canvas).css({backgroundColor: '#000000'})
+		this.context = this.canvas.getContext('2d')
+		this.mainContainer.appendChild(this.canvas)
+
+
+		/*this.mainContainer = document.createElement('div');
 		if(this.isRecordMode){
 			this.mainContainer.style.position = "relative";
 			this.mainContainer.style.float = "left";
@@ -62,7 +74,7 @@ Framework.Game = new (class Game {
 		this.canvasContainer.style.display = 'table-cell';
 		this.canvasContainer.style.textAlign = 'center';
 		this.canvasContainer.style.verticalAlign = 'middle';
-		//this.canvasContainer.style.position = 'relative';
+		this.canvasContainer.style.position = 'relative';
 		this.canvas = document.createElement('canvas');	
 		this.canvas.style.backgroundColor = '#fff';		
 		this.canvas.setAttribute('id', '__game_canvas__');
@@ -70,7 +82,7 @@ Framework.Game = new (class Game {
 		this.canvas.height = this.canvasHeight;
 		this.canvasContainer.appendChild(this.canvas);
 		this.mainContainer.appendChild(this.canvasContainer);
-		this.context = this.canvas.getContext('2d');
+		this.context = this.canvas.getContext('2d');*/
 	}
 	
 	recordStart() {
@@ -580,11 +592,10 @@ Framework.Game = new (class Game {
 		Framework.TouchManager.userTouchendEvent = this.touchend
 		Framework.TouchManager.userTouchmoveEvent = this.touchmove			
 
-		Framework.MouseManager.subject = this.currentLevel;
-		Framework.MouseManager.userClickEvent = this.click;
-		Framework.MouseManager.userMouseDownEvent = this.mousedown;
-		Framework.MouseManager.userMouseUpEvent = this.mouseup;
-		Framework.MouseManager.userMouseMoveEvent = this.mousemove;
+		Framework.MouseManager.userClickEvent = ((e) => this.click(e))
+		Framework.MouseManager.userMouseDownEvent = ((e) => this.mousedown(e))
+		Framework.MouseManager.userMouseUpEvent = ((e) => this.mouseup(e))
+		Framework.MouseManager.userMouseMoveEvent = ((e) => this.mousemove(e))
 		//Framework.MouseManager.userContextMenuEvent = this.contextmenu;
 
 		Framework.KeyBoardManager.subject = this.currentLevel

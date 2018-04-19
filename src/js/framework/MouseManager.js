@@ -2,17 +2,25 @@
 Framework.MouseManager = new (class MouseManager {
 	constructor() {
 		autoBind(this)
+		this.isHandling = true
 		this.userClickEvent = function() {}
 		this.userMouseDownEvent = function() {}
 		this.userMouseUpEvent = function() {}
 		this.userMouseMoveEvent = function() {}
 		this.userContextMenuEvent = function() {}
-		this.subject
-		Framework.Game.canvas.addEventListener('click', this.clickEvent, false);
-		Framework.Game.canvas.addEventListener('mousedown', this.mousedownEvent, false);
-		Framework.Game.canvas.addEventListener('mouseup', this.mouseupEvent, false);
-		Framework.Game.canvas.addEventListener('mousemove', this.mousemoveEvent, false);
-		Framework.Game.canvas.addEventListener('contextmenu', this.contextmenuEvent, false);
+		Framework.Game.mainContainer.addEventListener('click', this.clickEvent, false);
+		Framework.Game.mainContainer.addEventListener('mousedown', this.mousedownEvent, false);
+		Framework.Game.mainContainer.addEventListener('mouseup', this.mouseupEvent, false);
+		Framework.Game.mainContainer.addEventListener('mousemove', this.mousemoveEvent, false);
+		Framework.Game.mainContainer.addEventListener('contextmenu', this.contextmenuEvent, false);
+	}
+
+	stopHandle() {
+		this.isHandling = false
+	}
+
+	startHandle() {
+		this.isHandling = true
 	}
 	
 	countCanvasOffset(e) {
@@ -36,32 +44,42 @@ Framework.MouseManager = new (class MouseManager {
 	}
 	
 	clickEvent(e) {
-		e.preventDefault()
-		e = this.countCanvasOffset(e)
-		this.userClickEvent.call(this.subject, e)
+		if(this.isHandling) {
+			e.preventDefault()
+			e = this.countCanvasOffset(e)
+			this.userClickEvent(e)
+		}
 	}
 	
 	mousedownEvent(e) {
-		e.preventDefault()
-		e = this.countCanvasOffset(e)
-		this.userMouseDownEvent.call(this.subject, e)
+		if(this.isHandling) {
+			e.preventDefault()
+			e = this.countCanvasOffset(e)
+			this.userMouseDownEvent(e)
+		}
 	}
 	
 	mouseupEvent(e) {
-		e.preventDefault()
-		e = this.countCanvasOffset(e)
-		this.userMouseUpEvent.call(this.subject, e)
+		if(this.isHandling) {
+			e.preventDefault()
+			e = this.countCanvasOffset(e)
+			this.userMouseUpEvent(e)
+		}
 	}
 	
 	mousemoveEvent(e) {
-		e.preventDefault()
-		e = this.countCanvasOffset(e)
-		this.userMouseMoveEvent.call(this.subject, e)
+		if(this.isHandling) {
+			e.preventDefault()
+			e = this.countCanvasOffset(e)
+			this.userMouseMoveEvent(e)
+		}
 	}
 	
 	contextmenuEvent(e) {
-		e.preventDefault()
-		e = this.countCanvasOffset(e)
-		this.userContextMenuEvent.call(this.subject, e)
+		if(this.isHandling) {
+			e.preventDefault()
+			e = this.countCanvasOffset(e)
+			this.userContextMenuEvent(e)
+		}
 	}
 })()

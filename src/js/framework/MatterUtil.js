@@ -3,7 +3,7 @@ Framework.Matter = class MatterUtil {
             this.engine = Matter.Engine.create()
             this.world = this.engine.world
             this.render = Matter.Render.create({
-                element: Framework.Game.canvasContainer,
+                element: Framework.Game.mainContainer,
                 canvas: Framework.Game.canvas,
                 engine: this.engine,
                 options: {

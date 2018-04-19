@@ -1,32 +1,10 @@
 GameClasses.Stage = class Stage extends Framework.Level {
-    constructor(marblesOptions, mapsMonstersOptions) {
+    constructor(stageName, marblesOptions, mapsMonstersOptions) {
         super()
         autoBind(this)
-        this.matter = new Framework.Matter()
-		this.matter.addEventListener('collisionStart', this.collisionStart)
-		this.matter.addEventListener('collisionEnd', this.collisionEnd)
-        this.matter.world.gravity = {x: 0, y: 0, scale: 0}
-
-        let wallThickness = 500
-		let wallOptions = { label: 'mapObjectID_-1', isStatic: true, friction: 0, frictionAir: 0, frictionStatic: 0, restitution: 1}
-        this.matter.addBody(this.matter.createRectangleBody(540, - wallThickness, 1080 + wallThickness * 2, wallThickness * 2, wallOptions))
-        this.matter.addBody(this.matter.createRectangleBody(540, 1497 + wallThickness, 1080 + wallThickness * 2, wallThickness * 2, wallOptions))
-        this.matter.addBody(this.matter.createRectangleBody(- wallThickness, 810, wallThickness * 2, 1920 + wallThickness * 2, wallOptions))
-        this.matter.addBody(this.matter.createRectangleBody(1080 + wallThickness, 810, wallThickness * 2, 1920 + wallThickness * 2, wallOptions))
-
-        this.marbles = []
+        this.stageName = stageName
         this.marblesOptions = marblesOptions
-        this.maps = []
         this.mapsMonstersOptions = mapsMonstersOptions
-        this.nowMap = 0
-        this.nowMarble = 0
-        this.canShoot = true
-        this.isInitialized = false
-		this.isMousedown = false
-		this.shootingUnitVector = {x: 0, y: 0}
-        this.mousedownCoordinate = {x: 0, y: 0}
-        //UI
-        this.gameUI = new GameClasses.GameUI()
     }
 
     initializeProgressResource() {
@@ -65,6 +43,30 @@ GameClasses.Stage = class Stage extends Framework.Level {
 
     load() {
         super.load()
+        this.matter = new Framework.Matter()
+		this.matter.addEventListener('collisionStart', this.collisionStart)
+		this.matter.addEventListener('collisionEnd', this.collisionEnd)
+        this.matter.world.gravity = {x: 0, y: 0, scale: 0}
+
+        let wallThickness = 500
+		let wallOptions = { label: 'mapObjectID_-1', isStatic: true, friction: 0, frictionAir: 0, frictionStatic: 0, restitution: 1}
+        this.matter.addBody(this.matter.createRectangleBody(540, - wallThickness, 1080 + wallThickness * 2, wallThickness * 2, wallOptions))
+        this.matter.addBody(this.matter.createRectangleBody(540, 1497 + wallThickness, 1080 + wallThickness * 2, wallThickness * 2, wallOptions))
+        this.matter.addBody(this.matter.createRectangleBody(- wallThickness, 810, wallThickness * 2, 1920 + wallThickness * 2, wallOptions))
+        this.matter.addBody(this.matter.createRectangleBody(1080 + wallThickness, 810, wallThickness * 2, 1920 + wallThickness * 2, wallOptions))
+
+        this.marbles = []
+        this.maps = []
+        this.nowMap = 0
+        this.nowMarble = 0
+        this.canShoot = true
+        this.isInitialized = false
+		this.isMousedown = false
+		this.shootingUnitVector = {x: 0, y: 0}
+        this.mousedownCoordinate = {x: 0, y: 0}
+        //UI
+        this.gameUI = new GameClasses.GameUI()
+        /*---------------------------------------*/
         this.audio = new Framework.AudioManager({
 			sound_enterStage: {
                 ogg: musicPath + 'sound/enterStage.ogg'
@@ -135,7 +137,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
                     //所有地圖結束後的動作
                     this.audio.play({name: 'victoryEnd', loop: false})
                     //this.audio.stop('NTUT')
-                    Framework.Game.goToNextLevel()
+                    Framework.Game.goToLevel('End')
                 }
             }
 		}
