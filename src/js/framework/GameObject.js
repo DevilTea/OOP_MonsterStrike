@@ -251,7 +251,6 @@ Framework.GameObject = class GameObject {
 		}
 
 		if(this.absoluteScale !== this.scale) {
-			console.log('sccccale')
 			this._isScale = true;
 		}
 
