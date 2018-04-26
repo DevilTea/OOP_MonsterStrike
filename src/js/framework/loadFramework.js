@@ -37,6 +37,7 @@
         { src: frameworkPath + 'Sprite.js'},/*updated*/
         { src: frameworkPath + 'AnimationSprite.js'},/*updated*/
         { src: frameworkPath + 'Scene.js'},/*updated*/
+        { src: frameworkPath + 'GameObjectAnimator.js'},/*updated*/
         { src: frameworkPath + 'ResourceManager.js'},
         { src: frameworkPath + 'Level.js'},/*updated*/
         { src: frameworkPath + 'Matter-0.14.1.js'},

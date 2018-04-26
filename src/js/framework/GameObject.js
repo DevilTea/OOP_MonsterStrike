@@ -9,7 +9,8 @@ Framework.GameObject = class GameObject {
 
         this.absolutePosition = { x: 0, y: 0 }
         this.absoluteRotation = 0
-        this.absoluteScale = {x: 1, y: 1}
+		this.absoluteScale = {x: 1, y: 1}
+		this.absoluteOpacity = 1
         this.systemLayer = 1
         //this.spriteParent = {}
         
@@ -19,11 +20,13 @@ Framework.GameObject = class GameObject {
 
         this.rotation = 0
         this.scale = {x: 1, y: 1}
-        this.position = { x: 0, y: 0 }
+		this.position = { x: 0, y: 0 }
+		this.opacity = 1
 
         this._isRotate = true
         this._isScale = true
         this._isMove = true
+        this._isFade = true
         this._changeFrame = true
         this._isCountAbsolute = false
 		
@@ -41,7 +44,7 @@ Framework.GameObject = class GameObject {
 					   }
 					});
 				}
-				return this._isRotate || this._isScale || this._isMove || this._changeFrame || isParentChanged;
+				return this._isRotate || this._isScale || this._isFade || this._isMove || this._changeFrame || isParentChanged;
 			}
 		})
 	
@@ -53,7 +56,7 @@ Framework.GameObject = class GameObject {
 						x2: this.absolutePosition.x + halfDiagonal, 
 						y2: this.absolutePosition.y + halfDiagonal,
 					},
-					changedRect = Framework.Game.currentLevel.getChangedRect(1600, 900);
+					changedRect = Framework.Game.currentLevel.getChangedRect(Framework.Config.canvasWidth, Framework.Config.canvasHeight);
 
 				if((thisRect.x < changedRect.x2 && thisRect.y < changedRect.y2) || 
 					(thisRect.x2 > changedRect.x && thisRect.y2 > changedRect.y) ||
@@ -287,6 +290,7 @@ Framework.GameObject = class GameObject {
 		this._isRotate = false;
 		this._isScale = false;
 		this._isMove = false;
+		this._isFade = false
 		this._changeFrame = false;
 	}
 
@@ -313,8 +317,13 @@ Framework.GameObject = class GameObject {
 			this._isMove = true
 		}
 
+		if(this.absoluteOpacity !== this.opacity) {
+			this._isFade = true
+		}
+
 		this.absoluteRotation = this.rotation;
 		this.absoluteScale = this.scale;
+		this.absoluteOpacity = this.opacity
 
 		this.absolutePosition.x = this.position.x;
 		this.absolutePosition.y = this.position.y;

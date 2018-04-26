@@ -98,7 +98,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         super.initialize()
         this.rootScene.attach(this.background)
         this.audio.play({name: 'sound_enterStage', loop: false})
-        this.audio.play({name: 'bang', loop: false})
+        //this.audio.play({name: 'bang', loop: false})
         this.maps[this.nowMap].addMarbles(this.marbles)
         this.maps[this.nowMap].initialize()
         this.isInitialized = true

@@ -46,8 +46,8 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 		let realHeight
 		if(this.type === 'image' || this.type === 'canvas') {
 			// 計算縮放後的大小
-			if(this.isObjectChanged) {                    
-				if(!Framework.Util.isAbout(this.absoluteScale.x,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.y,1,0.00001) || !Framework.Util.isAbout(this.absoluteRotation,0,0.001)) {
+			if(this.isObjectChanged) {
+				if(!Framework.Util.isAbout(this.absoluteOpacity,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.x,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.y,1,0.00001) || !Framework.Util.isAbout(this.absoluteRotation,0,0.001)) {
 					realWidth = this.texture.width * this.scale.x
 					realHeight = this.texture.height * this.scale.y
 					// 將canvas 放大才不會被切到
@@ -65,8 +65,10 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 					// 移回來
 					this.context.translate(-tranlateX , -tranlateY)
 					// 縮放
-					this.context.scale(this.absoluteScale.x, this.absoluteScale.y)					
-					// 產生圖像                
+					this.context.scale(this.absoluteScale.x, this.absoluteScale.y)
+					// 設定透明度
+					this.context.globalAlpha = this.absoluteOpacity
+					// 產生圖像
 					this.context.drawImage(this.texture, (this.canvas.width - realWidth) / 2 / this.absoluteScale.x, (this.canvas.height - realHeight) / 2 / this.absoluteScale.y);
 				}
 				
@@ -82,11 +84,12 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 				} 
 				
 			}
+			
 			pos = this.options.isStartDrawingFromLeftTop ? new Framework.Point(this.absolutePosition.x, this.absolutePosition.y) : new Framework.Point(this.absolutePosition.x - this.canvas.width / 2, this.absolutePosition.y - this.canvas.height / 2)
 			if(painter instanceof Framework.GameObject) {
 				painter = painter.context;  //表示傳進來的其實是GameObject或其 Concrete Class
 			}
-			if(!Framework.Util.isAbout(this.absoluteScale.x,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.y,1,0.00001) || !Framework.Util.isAbout(this.absoluteRotation,0,0.001)) {
+			if(!Framework.Util.isAbout(this.absoluteOpacity,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.x,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.y,1,0.00001) || !Framework.Util.isAbout(this.absoluteRotation,0,0.001)) {
 				painter.drawImage(this.canvas, pos.x, pos.y)
 			}
 			else{
