@@ -20,6 +20,7 @@ Framework.FpsAnalysis = class FpsAnalysis {
 		this.fpsData[this.currentPoint] = this.timeData[this.currentPoint] - (this.currentPoint === 0 ? this.timeData[this.timeData.length - 1] : this.timeData[this.currentPoint - 1])
 		this.fps += this.fpsData[this.currentPoint]
 		this.currentPoint = (++this.currentPoint) % this.fpsData.length
+		//console.log(Math.floor((1000 / (this.fps / this.fpsData.length)) * 10) / 10)
 	}
 	
 	getUpdateFPS() {

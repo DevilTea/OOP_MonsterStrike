@@ -11,6 +11,7 @@ Framework.Component = class Component {
 		this.hasAddedToWorld = false
         this.hasFirstUpdate = false
 		this.lockRotation = false
+		this.syncSprite = true
 
         Object.defineProperty(this, 'position', {
 			get : function() {
@@ -18,7 +19,9 @@ Framework.Component = class Component {
 			},
 			set : function(newValue) {
 				this.componentPosition = newValue
-				this.sprite.position = newValue
+				if(this.syncSprite && !this.sprite.isDuringAnimation) {
+					this.sprite.position = newValue
+				}
 				this.setBody('position', newValue)
 			}
 		})
@@ -31,7 +34,9 @@ Framework.Component = class Component {
 				let tempX = newValue.x / this.componentScale.x
 				let tempY = newValue.y / this.componentScale.y
 				this.componentScale = newValue
-				this.sprite.scale = newValue
+				if(this.syncSprite && !this.sprite.isDuringAnimation) {
+					this.sprite.scale = newValue
+				}
 				this.matter.scaleBody(this.body, tempX, tempY)
 			}
 		})
@@ -42,12 +47,14 @@ Framework.Component = class Component {
 			},
 			set : function(newValue) {
 				this.componentRotation = newValue
-				this.sprite.rotation = newValue
+				if(this.syncSprite && !this.sprite.isDuringAnimation) {
+					this.sprite.rotation = newValue
+				}
 				this.setBody('angle', newValue * Math.PI / 180)
 			}
 		})
 	}
-
+	
 	addBodyToWorld() {
 		this.matter.addBody(this.body)
 		this.hasAddedToWorld = true

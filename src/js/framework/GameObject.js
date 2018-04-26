@@ -3,9 +3,6 @@
 Framework.GameObject = class GameObject {
 	constructor() {
 		autoBind(this)
-		this.relativePosition = new Framework.Point()
-        this.relativeRotation = 0
-        this.relativeScale = {x: 1, y: 1}
 
         this.absolutePosition = { x: 0, y: 0 }
         this.absoluteRotation = 0
@@ -28,7 +25,10 @@ Framework.GameObject = class GameObject {
         this._isMove = true
         this._isFade = true
         this._changeFrame = true
-        this._isCountAbsolute = false
+		this._isCountAbsolute = false
+		
+		this.animator = new Framework.GameObjectAnimator(this)
+		this.isDuringAnimation = false
 		
 		Object.defineProperty(this, 'isObjectChanged', {
 			get: function() {
@@ -68,65 +68,6 @@ Framework.GameObject = class GameObject {
 			}
 		})
 		
-		/**
-		* 相對位置的getter/setter
-		* @property position
-		* @type {Object} 
-		* @default { x: 0, y: 0 }
-		**/
-		Object.defineProperty(this, 'position', {
-			get: function() {   
-				//this._isChanged = false;
-				return this.relativePosition;
-			},
-
-			set: function(newValue) {
-				if(!Framework.Util.isUndefined(newValue.x)) {               
-					this.relativePosition.x = Math.floor(newValue.x);
-					//this._isMove = true;
-				}   
-
-				if(!Framework.Util.isUndefined(newValue.y)) {
-					this.relativePosition.y = Math.floor(newValue.y);
-					//this._isMove = true;
-				}
-			}
-		})
-
-		/**
-		* 相對旋轉角度的getter/setter
-		* @property rotation
-		* @type {number} 
-		* @default 0
-		*/
-		Object.defineProperty(this, 'rotation', {
-			get: function() {
-				return this.relativeRotation;
-			},
-
-			set: function(newValue) {
-				this.relativeRotation = newValue;
-				//this._isRotate = true;
-			}
-		})
-
-		/**
-		* 相對放大縮小的getter/setter
-		* @property scale
-		* @type {number} 
-		* @default 1
-		*/
-		Object.defineProperty(this, 'scale', {
-			get: function() {
-				return this.relativeScale;
-			},
-
-			set: function(newValue) {
-				this.relativeScale = newValue;
-				//this._isScale = true;
-			}
-		})
-
 		/**
 		* 絕對寬度的getter/setter
 		* @property width
@@ -310,6 +251,7 @@ Framework.GameObject = class GameObject {
 		}
 
 		if(this.absoluteScale !== this.scale) {
+			console.log('sccccale')
 			this._isScale = true;
 		}
 
@@ -346,7 +288,11 @@ Framework.GameObject = class GameObject {
         let pointX =  point.x * cosRatio - point.y * sinRatio
         let pointY = point.x * sinRatio + point.y * cosRatio
         return { x: pointX, y: pointY };
-    }
+	}
+	
+	animate(animationObj, duration) {
+		this.animator.addAnimation(animationObj, duration)
+	}
 	
 	load() {}
 	initialize() {}

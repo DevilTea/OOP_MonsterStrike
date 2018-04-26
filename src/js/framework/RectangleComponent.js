@@ -22,7 +22,7 @@ Framework.RectangleComponent = class RectangleComponent extends Framework.Compon
                     this.setBody('angularVelocity', 0)
                     this.setBody('angle', 0)
                 }
-                this.position = this.body.position
+                this.position = {x: this.body.position.x, y: this.body.position.y}
                 this.rotation = this.body.angle / Math.PI * 180
             }
         }

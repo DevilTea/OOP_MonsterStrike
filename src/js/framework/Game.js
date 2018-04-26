@@ -35,6 +35,7 @@ Framework.Game = new (class Game {
 		this.tempUpdate = function() {}
 		this.tempDraw = function(context) {}
 		this.stopLoop = this.stopAnimationFrame
+		//this.stopLoop = this.stopInterval
 		
 		this.mainContainer = document.createElement('div')
 		this.mainContainer.setAttribute('id', 'main-container')
@@ -646,7 +647,11 @@ Framework.Game = new (class Game {
 			}
 		}).bind(this)
 		let gameLoopFunc = (function() {
-
+			/*let currentUpdate = Date.now()
+			if(this.lastUpdate) {
+				console.log(currentUpdate - this.lastUpdate + ' ms')
+			}
+			this.lastUpdate = currentUpdate*/
 			let preDraw = Date.now()
 			updateFunc()
 			drawFunc()
@@ -662,7 +667,8 @@ Framework.Game = new (class Game {
 			}						
 		}).bind(this)
 		this.isRunning = true
-		this.runAnimationFrame(gameLoopFunc)
+		//this.runAnimationFrame(gameLoopFunc)
+		this.runInterval(gameLoopFunc)
 	}
 	
 	countAverage(list) {
