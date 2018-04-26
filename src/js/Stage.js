@@ -74,6 +74,9 @@ GameClasses.Stage = class Stage extends Framework.Level {
 			NTUT: {
                 mp3: musicPath + 'bgm/NTUT_classic.mp3'
             },
+            bang: {
+                mp3: musicPath + 'bgm/朋友BANG不見.mp3'
+            },
             victoryEnd: {
                 ogg: musicPath + 'sound/victoryEnd.ogg'
             }
@@ -95,6 +98,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         super.initialize()
         this.rootScene.attach(this.background)
         this.audio.play({name: 'sound_enterStage', loop: false})
+        this.audio.play({name: 'bang', loop: false})
         this.maps[this.nowMap].addMarbles(this.marbles)
         this.maps[this.nowMap].initialize()
         this.isInitialized = true

@@ -5,6 +5,8 @@ const frameworkPath = mainPath + 'js/framework/'
 const jsPath = mainPath + 'js/'
 const musicPath = mainPath + 'music/'
 const imagePath = mainPath + 'image/'
+let loadFrameworkEnd = false
+let loadGameEnd = false
 let Framework = {}
 let GameClasses = {}
 let Stages = {}
@@ -29,7 +31,18 @@ let loadEnd
         newJs.type = 'text/javascript'
         newJs.src= jsConf[0].src
         headID.appendChild(newJs)
-        wait_for_script_load(jsConf, function() {
+        newJs.onload = () => {
+            jsConf.splice(0, 1)
+            if(jsConf.length > 0) {
+                let interval = setInterval(function() {
+                    if(loadFrameworkEnd) {
+                        importJS(jsConf)
+                        clearInterval(interval)
+                    }
+                }, 50)
+            }
+        }
+        /*wait_for_script_load(jsConf, function() {
             jsConf.splice(0, 1)
             if(jsConf.length > 0) {
                 importJS(jsConf)
@@ -37,10 +50,10 @@ let loadEnd
             {
                 loadEnd = true
             }
-        })
+        })*/
     }
 
-    let wait_for_script_load = function(jsConf, callback) {
+    /*let wait_for_script_load = function(jsConf, callback) {
         let interval = setInterval(function() {
             if (typeof jsConf[0].lookFor === 'undefined') {
                 jsConf[0].lookFor = ''
@@ -58,7 +71,7 @@ let loadEnd
                     callback()      
                 }
             }, 50);
-    }
+    }*/
 
     //陣列和載入JS檔的順序相同, lookFor為在要載入的檔案中, 
     //有用到的全域變數, importJS這個function, 會在找到lookFor的變數後

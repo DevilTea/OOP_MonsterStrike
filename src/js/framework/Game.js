@@ -391,7 +391,7 @@ Framework.Game = new (class Game {
 		}
 	}
 	
-	update() {		
+	update() {
 		this.currentLevel.update()
 	}
 	

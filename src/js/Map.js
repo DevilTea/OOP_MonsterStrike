@@ -1,6 +1,6 @@
 GameClasses.Map = class Map {
 	constructor(stage) {
-		autoBind(this)
+		//autoBind(this)
 		this.stage = stage
 		this.nextMapObjectID = 0
 		this.mapObjects = []
@@ -12,8 +12,17 @@ GameClasses.Map = class Map {
 	load() {
 		//this.mapObjects.forEach((value) => value.load())
 		this.audio = new Framework.AudioManager({
-			hit: {
-                ogg: musicPath + 'sound/hit.ogg'
+			hit1: {
+                mp3: musicPath + 'sound/hit1.mp3'
+			},
+			hit2: {
+                mp3: musicPath + 'sound/hit2.mp3'
+            },
+			hit3: {
+                mp3: musicPath + 'sound/hit3.mp3'
+            },
+			hit4: {
+                mp3: musicPath + 'sound/hit4.mp3'
             }
         })
 	}
@@ -78,7 +87,8 @@ GameClasses.Map = class Map {
 					monster = this.getMapObjectByID(mapObjID_A)
 				}
 				if(this.stage.marbles[this.stage.nowMarble] === marble) {
-					this.audio.play({name: 'hit', loop: false})
+					let songNamelist = Object.keys(this.audio.mainPlaylist)
+					this.audio.play({name: songNamelist[Math.floor(Math.random() * songNamelist.length)], loop: false})
 					monster.accumulationDamage += marble.atk
 				}
 				//monster.nowHp = Math.max(monster.nowHp - marble.atk, 0)
