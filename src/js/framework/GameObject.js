@@ -262,6 +262,7 @@ Framework.GameObject = class GameObject {
 			this._isFade = true
 		}
 
+		this.rotation %= 360
 		this.absoluteRotation = this.rotation;
 		this.absoluteScale = this.scale;
 		this.absoluteOpacity = this.opacity

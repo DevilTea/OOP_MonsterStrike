@@ -37,6 +37,15 @@ Framework.GameObjectAnimator = class GameObjectAnimator {
             } else {
                 this.currentAnimation = this.animationQueue[0]
                 this.animationQueue.splice(0, 1)
+                Object.keys(this.currentAnimation.finishStatus).forEach((key) => {
+                    if(key === 'rotation' || key === 'opacity') {
+                        this.currentAnimation.animationDelta[key] = (this.currentAnimation.finishStatus[key] - this.gameObject[key]) / this.currentAnimation.remainingUpdateCount
+                    } else {
+                        this.currentAnimation.animationDelta[key] = {}
+                        this.currentAnimation.animationDelta[key].x = (this.currentAnimation.finishStatus[key].x - this.gameObject[key].x) / this.currentAnimation.remainingUpdateCount
+                        this.currentAnimation.animationDelta[key].y = (this.currentAnimation.finishStatus[key].y - this.gameObject[key].y) / this.currentAnimation.remainingUpdateCount
+                    }
+                })
                 this.gameObject.isDuringAnimation = true
             }
         }
