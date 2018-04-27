@@ -7,7 +7,7 @@ Framework.GameObjectAnimator = class GameObjectAnimator {
         this.currentAnimation
     }
 
-    addAnimation(animationObj, duration) {
+    addAnimation(animationObj, duration, callback, ...args) {
         let animation = {}
         animation.animationDelta = {}
         animation.remainingUpdateCount = Math.round(duration / 1000 * this.gameFps)
@@ -27,6 +27,8 @@ Framework.GameObjectAnimator = class GameObjectAnimator {
             }
         })
         animation.finishStatus = animationObj
+        animation.callback = callback
+        animation.args = args
         this.animationQueue.push(animation)
     }
 
@@ -54,9 +56,12 @@ Framework.GameObjectAnimator = class GameObjectAnimator {
             Object.keys(this.currentAnimation.finishStatus).forEach((key) => {
                 this.gameObject[key] = this.currentAnimation.finishStatus[key]
             })
+            if(this.currentAnimation.callback) {
+                this.currentAnimation.callback(this.currentAnimation.args)
+            }
+            this.gameObject.isDuringAnimation = false
             delete this.currentAnimation
             this.currentAnimation = undefined
-            this.gameObject.isDuringAnimation = false
         } else {
             Object.keys(this.currentAnimation.animationDelta).forEach((key) => {
                 if(key === 'rotation' || key === 'opacity') {

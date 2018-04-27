@@ -42,8 +42,7 @@ class StageSelect extends Framework.GameMainMenu {
             listItemDescription.style = {color: '#ffffff', fontWeight: 'bold', fontSize: '2em'}
             listItemDescription.ele.innerText = Stages[key].stageName
 
-            listItem.clickEvent = (e) => {
-                console.log(key)
+            listItem.clickEvent = (e) => {  
                 Framework.HtmlElementUI.detachElement(listContainer)
                 listContainer.remove()
                 Framework.Game.goToLevel(key)

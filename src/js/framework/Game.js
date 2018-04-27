@@ -667,8 +667,8 @@ Framework.Game = new (class Game {
 			}						
 		}).bind(this)
 		this.isRunning = true
-		//this.runAnimationFrame(gameLoopFunc)
-		this.runInterval(gameLoopFunc)
+		this.runAnimationFrame(gameLoopFunc)
+		//this.runInterval(gameLoopFunc)
 	}
 	
 	countAverage(list) {

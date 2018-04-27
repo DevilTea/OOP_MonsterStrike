@@ -290,8 +290,8 @@ Framework.GameObject = class GameObject {
         return { x: pointX, y: pointY };
 	}
 	
-	animate(animationObj, duration) {
-		this.animator.addAnimation(animationObj, duration)
+	animate(animationObj, duration, callback, ...args) {
+		this.animator.addAnimation(animationObj, duration, callback, ...args)
 	}
 	
 	load() {}

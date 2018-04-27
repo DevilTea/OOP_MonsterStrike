@@ -98,7 +98,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         super.initialize()
         this.rootScene.attach(this.background)
         this.audio.play({name: 'sound_enterStage', loop: false})
-        //this.audio.play({name: 'bang', loop: false})
+        //this.audio.play({name: 'bang', loop: true})
         this.maps[this.nowMap].addMarbles(this.marbles)
         this.maps[this.nowMap].initialize()
         this.isInitialized = true
@@ -139,6 +139,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
                     this.goToNextMap()
                 } else {
                     //所有地圖結束後的動作
+                    this.audio.stopAll()
                     this.audio.play({name: 'victoryEnd', loop: false})
                     //this.audio.stop('NTUT')
                     Framework.Game.goToLevel('End')
