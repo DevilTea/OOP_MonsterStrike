@@ -48,7 +48,7 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 		if(this.type === 'image' || this.type === 'canvas') {
 			// 計算縮放後的大小
 			if(this.isObjectChanged) {
-				if(!Framework.Util.isAbout(this.absoluteOpacity,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.x,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.y,1,0.00001) || !Framework.Util.isAbout(this.absoluteRotation,0,0.001)) {
+				//if(!Framework.Util.isAbout(this.absoluteOpacity,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.x,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.y,1,0.00001) || !Framework.Util.isAbout(this.absoluteRotation,0,0.001)) {
 				//if(this.absoluteOpacity !== 1 || this.absoluteScale.x !== 1 || this.absoluteScale.y !== 1) {
 					realWidth = this.texture.width * this.scale.x
 					realHeight = this.texture.height * this.scale.y
@@ -72,7 +72,7 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 					this.context.globalAlpha = this.absoluteOpacity
 					// 產生圖像
 					this.context.drawImage(this.texture, (this.canvas.width - realWidth) / 2 / this.absoluteScale.x, (this.canvas.height - realHeight) / 2 / this.absoluteScale.y);
-				}
+				//}
 				
 				// 畫到主Canvas上                    
 				if(this.options.isDrawBoundry) {
@@ -91,13 +91,13 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 			if(painter instanceof Framework.GameObject) {
 				painter = painter.context;  //表示傳進來的其實是GameObject或其 Concrete Class
 			}
-			if(!Framework.Util.isAbout(this.absoluteOpacity,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.x,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.y,1,0.00001) || !Framework.Util.isAbout(this.absoluteRotation,0,0.001)) {
+			//if(!Framework.Util.isAbout(this.absoluteOpacity,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.x,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.y,1,0.00001) || !Framework.Util.isAbout(this.absoluteRotation,0,0.001)) {
 			//if(this.absoluteOpacity !== 1 || this.absoluteScale.x !== 1 || this.absoluteScale.y !== 1) {
 				painter.drawImage(this.canvas, pos.x, pos.y)
-			}
-			else{
-				painter.drawImage(this.texture, pos.x, pos.y)
-			}
+			//}
+			//else{
+			//	painter.drawImage(this.texture, pos.x, pos.y)
+			//}
 		}
 
 	}

@@ -47,43 +47,6 @@ Framework.Game = new (class Game {
 		$(this.canvas).css({backgroundColor: '#000000'})
 		this.context = this.canvas.getContext('2d')
 		this.mainContainer.appendChild(this.canvas)
-
-
-		/*this.mainContainer = document.createElement('div');
-		if(this.isRecordMode){
-			this.mainContainer.style.position = "relative";
-			this.mainContainer.style.float = "left";
-			this.mainContainer.style.width = '70%';
-			this.mainContainer.style.height = '100%';
-			this.mainContainer.style.display = 'table';
-		}
-		else if(this.isTestMode){
-			this.mainContainer.style.position = "relative";
-			this.mainContainer.style.float = "left";
-			this.mainContainer.style.width = '70%';
-			this.mainContainer.style.height = '100%';
-		}
-		else{
-			this.mainContainer.style.width = '100%';
-			this.mainContainer.style.height = '100%';
-			this.mainContainer.style.display = 'table';
-		}
-
-
-		this.mainContainer.style.backgroundColor = '#000';
-		this.canvasContainer = document.createElement('div');		
-		this.canvasContainer.style.display = 'table-cell';
-		this.canvasContainer.style.textAlign = 'center';
-		this.canvasContainer.style.verticalAlign = 'middle';
-		this.canvasContainer.style.position = 'relative';
-		this.canvas = document.createElement('canvas');	
-		this.canvas.style.backgroundColor = '#fff';		
-		this.canvas.setAttribute('id', '__game_canvas__');
-		this.canvas.width = this.canvasWidth;
-		this.canvas.height = this.canvasHeight;
-		this.canvasContainer.appendChild(this.canvas);
-		this.mainContainer.appendChild(this.canvasContainer);
-		this.context = this.canvas.getContext('2d');*/
 	}
 	
 	recordStart() {

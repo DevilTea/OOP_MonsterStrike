@@ -6,7 +6,7 @@ Framework.Component = class Component {
 		this.body = {}
 		this.bodyOptions = options
 		this.componentPosition = {x: 0, y: 0}
-		this.componentScale = {x: 0, y: 0}
+		this.componentScale = {x: 1, y: 1}
 		this.componentRotation = 0
 		this.hasAddedToWorld = false
         this.hasFirstUpdate = false
@@ -18,11 +18,11 @@ Framework.Component = class Component {
 				return this.componentPosition
 			},
 			set : function(newValue) {
-				this.componentPosition = newValue
+				this.componentPosition = {x: newValue.x, y: newValue.y}
 				if(this.syncSprite && !this.sprite.isDuringAnimation) {
-					this.sprite.position = newValue
+					this.sprite.position = {x: newValue.x, y: newValue.y}
 				}
-				this.setBody('position', newValue)
+				this.setBody('position', {x: newValue.x, y: newValue.y})
 			}
 		})
 		
@@ -33,9 +33,9 @@ Framework.Component = class Component {
 			set : function(newValue) {
 				let tempX = newValue.x / this.componentScale.x
 				let tempY = newValue.y / this.componentScale.y
-				this.componentScale = newValue
+				this.componentScale = {x: newValue.x, y: newValue.y}
 				if(this.syncSprite && !this.sprite.isDuringAnimation) {
-					this.sprite.scale = newValue
+					this.sprite.scale = {x: newValue.x, y: newValue.y}
 				}
 				this.matter.scaleBody(this.body, tempX, tempY)
 			}
@@ -51,6 +51,16 @@ Framework.Component = class Component {
 					this.sprite.rotation = newValue
 				}
 				this.setBody('angle', newValue * Math.PI / 180)
+			}
+		})
+
+		Object.defineProperty(this, 'label', {
+			get: () => {
+				return this.body.label
+			},
+			set: (newValue) => {
+				this.bodyOptions.label = newValue
+				this.body.label = newValue
 			}
 		})
 	}

@@ -29,7 +29,7 @@ Framework.GameObject = class GameObject {
 		
 		this.animator = new Framework.GameObjectAnimator(this)
 		this.isDuringAnimation = false
-		
+		//this.pushSelfToLevel()
 		Object.defineProperty(this, 'isObjectChanged', {
 			get: function() {
 				var isParentChanged = false

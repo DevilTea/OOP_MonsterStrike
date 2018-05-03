@@ -1,7 +1,7 @@
 GameClasses.GameUI = class GameUI {
     constructor() {
         autoBind(this)
-        this.arrowOption = {canDraw: false, arrowType: 0, position: {x: 0, y: 0}, angle: 0, length: 0}
+        this.arrowOption = {canDraw: false, arrowType: 'bounce', position: {x: 0, y: 0}, angle: 0, length: 0}
         this.arrowSprites = []
         this.playerInfoUIOption = {marbleIDs: [], nowMarble: 0, hpBar: {}}
         this.playerInfoUISprites = {UI: undefined, marbleSmallSprites: []}
@@ -9,15 +9,16 @@ GameClasses.GameUI = class GameUI {
     }
 
     loadArrow() {
-        let arrowRebound = new Framework.Sprite(imagePath + 'UI/arrow_rebound.png')
-		let arrowPenetrate = new Framework.Sprite(imagePath + 'UI/arrow_penetrate.png')
-		let arrowRebound_2 = new Framework.Sprite(imagePath + 'UI/arrow_rebound_2.png')
-        let arrowPenetrate_2 = new Framework.Sprite(imagePath + 'UI/arrow_penetrate_2.png')
-        this.arrowSprites = [arrowRebound, arrowPenetrate, arrowRebound_2, arrowPenetrate_2]
+        this.arrowSprites = {
+            bounce: new Framework.Sprite(imagePath + 'UI/arrow_bounce.png'),
+            pierce: new Framework.Sprite(imagePath + 'UI/arrow_pierce.png'),
+            bounce_2: new Framework.Sprite(imagePath + 'UI/arrow_bounce_2.png'),
+            pierce_2: new Framework.Sprite(imagePath + 'UI/arrow_pierce_2.png')
+        }
     }
 
     initializeArrow() {
-        this.arrowSprites.forEach((sprite) => sprite.initTexture())
+        Objects.keys(this.arrowSprites).forEach((key) => this.arrowSprites[key].initTexture())
     }
 
     drawArrow(ctx) {
@@ -61,26 +62,5 @@ GameClasses.GameUI = class GameUI {
                 htmlElement.position = {x: previousPosition.x, y: 1600}
             }
         })
-    }
-
-    drawDamageValue(ctx, value, position) {
-        ctx.font = '60px Arial'
-        ctx.fillStyle = 'white'
-        ctx.textAlign = 'center'
-        ctx.fillText(value, position.x, position.y)
-    }
-
-    drawBossHp(ctx, toMinus, currentValue, maxValue, position, width, height) {
-        let valueLeft = Math.max(currentValue - toMinus, 0)
-        ctx.fillStyle = "black"
-        ctx.fillRect(position.x, position.y, width, height)
-        ctx.fillStyle = "red"
-        ctx.fillRect(position.x, position.y, currentValue / maxValue * width, height)
-        ctx.fillStyle = "green"
-        ctx.fillRect(position.x, position.y, valueLeft / maxValue * width, height)
-        ctx.font = '60px Arial'
-        ctx.fillStyle = 'white'
-        ctx.textAlign = 'center'
-        ctx.fillText(valueLeft + "/" + maxValue, 540, 60)
     }
 }

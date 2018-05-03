@@ -1,110 +1,42 @@
-Stages.Stage1 = (() => {
-    let marble_1 = {
-        marbleID : 1743,
-        attribute : 4,
-        rebound : 0,
-        hp : 23865,
-        atk : 23001,
-        speed : 319.33,
-        race : 0,
-        skill : [],
-        comboSkill : [],
-        initPosition : {x: 216, y: 1400}
+GameClasses.Stage1 = class Stage1 extends GameClasses.Stage {
+    constructor(marbles) {
+        super("Stage1", marbles)
+        autoBind(this)
+        this.addMap1()
+        this.addMap2()
+        this.addMap3()
     }
 
-    let marble_2 = {
-        marbleID : 1032,
-        attribute : 1,
-        rebound : 0,
-        hp : 21698,
-        atk : 24483,
-        speed : 312.73,
-        race : 0,
-        skill : [],
-        comboSkill : [],
-        initPosition : {x: 432, y: 1400}
+    addMap1() {
+        let map = new GameClasses.Map()
+        this.addMap(map)
+        let monster1 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 190, y: 400}})
+        let monster2 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 930, y: 400}})
+        let monster3 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 190, y: 1100}})
+        let monster4 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 930, y: 1100}})
+        map.addMonster(monster1)
+        map.addMonster(monster2)
+        map.addMonster(monster3)
+        map.addMonster(monster4)
     }
 
-    let marble_3 = {
-        marbleID : 1746,
-        attribute : 0,
-        rebound : 1,
-        hp : 24602,
-        atk : 22578,
-        speed : 394.87,
-        race : 0,
-        skill : [],
-        comboSkill : [],
-        initPosition : {x: 648, y: 1400}
+    addMap2() {
+        let map = new GameClasses.Map()
+        this.addMap(map)
+        let monster1 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 540, y: 400}})
+        let monster2 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 540, y: 1100}})
+        let monster3 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 190, y: 750}})
+        let monster4 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 890, y: 750}})
+        map.addMonster(monster1)
+        map.addMonster(monster2)
+        map.addMonster(monster3)
+        map.addMonster(monster4)
     }
 
-    let marble_4 = {
-        marbleID : 3090,
-        attribute : 2,
-        rebound : 0,
-        hp : 16072,
-        atk : 18187,
-        speed : 250.60,
-        race : 0,
-        skill : [],
-        comboSkill : [],
-        initPosition : {x: 864, y: 1400}
+    addMap3() {
+        let map = new GameClasses.Map()
+        this.addMap(map)
+        let monster1 = new GameClasses.Monster({monsterID: 239, isBoss: true, HP: 400000, initPosition: {x: 540, y: 960}})
+        map.addMonster(monster1)
     }
-
-    let marblesOptions = [marble_1, marble_2, marble_3, marble_4]
-
-    let monstersOptionsMap_1 = [
-        {
-            isBoss: false,
-            monsterID : 1,
-            attribute : 0,
-            hp : 150000,
-            atk : 0,
-            skill : [],
-            initPosition : {x: 190, y: 400}
-        },
-        {
-            isBoss: false,
-            monsterID : 1,
-            attribute : 0,
-            hp : 150000,
-            atk : 0,
-            skill : [],
-            initPosition : {x: 930, y: 400}
-        },
-        {
-            isBoss: false,
-            monsterID : 1,
-            attribute : 0,
-            hp : 150000,
-            atk : 0,
-            skill : [],
-            initPosition : {x: 190, y: 1100}
-        },
-        {
-            isBoss: false,
-            monsterID : 1,
-            attribute : 0,
-            hp : 150000,
-            atk : 0,
-            skill : [],
-            initPosition : {x: 930, y: 1100}
-        }
-    ]
-
-    let monstersOptionsMap_2 = [
-        {
-            isBoss: true,
-            monsterID : 239,
-            attribute : 0,
-            hp : 750000,
-            atk : 0,
-            skill : [],
-            initPosition : {x: 540, y: 750}
-        }
-    ]
-
-    let monstersOptions = [monstersOptionsMap_1, monstersOptionsMap_2]
-
-    return (new GameClasses.Stage('測試關卡1', marblesOptions, monstersOptions))
-})()
+}

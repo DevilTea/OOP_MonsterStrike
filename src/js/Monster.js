@@ -1,73 +1,82 @@
-GameClasses.Monster = class Monster extends MapObject {
-    constructor(monsterConfig, matter) {
-        super(matter)
+GameClasses.Monster = class Monster extends GameClasses.MapObject {
+    constructor(monsterData) {
+        super()
         autoBind(this)
-        this.isBoss = monsterConfig.isBoss
-        this.monsterID = monsterConfig.monsterID
-        this.attribute = monsterConfig.attribute
-        this.race = monsterConfig.race
-        this.hp = monsterConfig.hp
-        this.atk = monsterConfig.atk
-        this.skill = monsterConfig.skill
-        this.initPosition = monsterConfig.initPosition
-
-        this.nowHp = this.hp
+        this.monsterID = monsterData.monsterID
+        this.isBoss = monsterData.isBoss
+        this.maxHP = monsterData.HP
+        this.nowHP = monsterData.HP
+        this.initPosition = monsterData.initPosition
         this.accumulationDamage = 0
+        this.monsterSprite
+        this.isInitialized = false
     }
 
-    load(){
-        super.load()
-        let sprite = new Framework.Sprite(imagePath + 'monster/' + this.monsterID + '.png')
-        let componentOptions = {friction: 0, frictionAir: 0.012, frictionStatic: 0, restitution: 0, isStatic:true}
-        this.component = new Framework.RectangleComponent(this.matter, sprite, componentOptions)
-		this.position = this.initPosition
+    load() {
+        this.monsterSprite = new Framework.Sprite(imagePath + 'monster/' + this.monsterID + '.png')
     }
 
-    initialize(){
-        super.initialize()
-        this.map.stage.rootScene.attach(this.component.sprite)
-		this.component.addBodyToWorld()
+    initialize() {
+        if(!this.isInitialized) {
+            this.component = new Framework.RectangleComponent(this.matter, this.monsterSprite, {label: 'mapObjectID_' + this.mapObjectID, friction: 0, frictionAir: 0.012, frictionStatic: 0, restitution: 0, isStatic: true})
+            this.component.position = this.initPosition
+            this.component.addBodyToWorld()
+            this.isInitialized = true
+        }
     }
 
-    remove() {
-        this.map.stage.rootScene.detach(this.component.sprite)
-		this.component.removeBodyFromWorld()
-    }
-
-    update(){
-        super.update()
+    update() {
         this.component.update()
     }
 
     draw(ctx) {
-        if(this.accumulationDamage !== 0) {
-            let pos = {x: this.position.x, y: this.position.y - this.component.sprite.height / 2 - 30}
-            this.map.stage.gameUI.drawDamageValue(ctx, this.accumulationDamage, pos)
+        if(this.isInitialized) {
+            this.monsterSprite.draw(ctx)
+            if(this.isBoss) {
+                this.drawHpBar(ctx, this.accumulationDamage, this.nowHP, this.maxHP, 0, 0, 1080, 40, true)
+            } else {
+                this.drawHpBar(ctx, this.accumulationDamage, this.nowHP, this.maxHP, this.component.position.x - this.monsterSprite.texture.width / 2 + 50, this.component.position.y - this.monsterSprite.texture.height / 2 - 20, 100, 10, false)
+            }
+            if(this.accumulationDamage !== 0) {
+                this.drawDamageValue(ctx, this.accumulationDamage)
+            }
         }
-        if(this.isBoss) {
-            this.map.stage.gameUI.drawBossHp(ctx, this.accumulationDamage, this.nowHp, this.hp, {x: 0, y: 0}, 1080, 60)
+        
+    }
+
+    drawDamageValue(ctx, value) {
+        ctx.font = '60px Arial'
+        ctx.fillStyle = 'white'
+        ctx.textAlign = 'center'
+        ctx.fillText(value, this.component.position.x, this.component.position.y - this.monsterSprite.texture.height / 2 - 50)
+    }
+
+    drawHpBar(ctx, accumulationDamage, nowHP, maxHP, x, y, width, height, showHP) {
+        let valueLeft = Math.max(nowHP - accumulationDamage, 0)
+        ctx.fillStyle = "black"
+        ctx.fillRect(x, y, width, height)
+        ctx.fillStyle = "red"
+        ctx.fillRect(x, y, nowHP / maxHP * width, height)
+        ctx.fillStyle = "green"
+        ctx.fillRect(x, y, valueLeft / maxHP * width, height)
+        if(showHP) {
+            ctx.font = '60px Arial'
+            ctx.fillStyle = 'white'
+            ctx.textAlign = 'center'
+            ctx.fillText(valueLeft + "/" + maxHP, x + width / 2, y + height)
         }
     }
 
-    mousedown(e) {
-        super.mousedown(e)
+    accumulateDamage(damage) {
+        this.accumulationDamage += damage
     }
 
-    mouseup(e) {
-        super.mouseup(e)
+    calculateHP() {
+        this.nowHP = Math.max(this.nowHP - this.accumulationDamage, 0)
+        this.accumulationDamage = 0
     }
 
-    mousemove(e) {
-        super.mousemove(e)
+    remove() {
+        this.component.removeBodyFromWorld()
     }
-
-    touchstart(e) {
-        super.touchstart(e)
-        this.mousedown(e[0])
-    }
-
-    touchend(e) {
-		super.touchend(e)
-        this.mousemove(e[0])
-    }    
 }

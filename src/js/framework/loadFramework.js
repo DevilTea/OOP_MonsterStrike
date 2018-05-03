@@ -41,7 +41,7 @@
         { src: frameworkPath + 'ResourceManager.js'},
         { src: frameworkPath + 'Level.js'},/*updated*/
         { src: frameworkPath + 'Matter-0.14.1.js'},
-        { src: frameworkPath + 'MatterUtil.js'},
+        { src: frameworkPath + 'Matter.js'},
         { src: frameworkPath + 'Component.js'},
         { src: frameworkPath + 'CircleComponent.js'},
         { src: frameworkPath + 'RectangleComponent.js'},

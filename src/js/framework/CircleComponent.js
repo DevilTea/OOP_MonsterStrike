@@ -10,7 +10,8 @@ Framework.CircleComponent = class CircleComponent extends Framework.Component {
 		if(this.hasAddedToWorld) {
 			if(!this.hasFirstUpdate && this.sprite.texture) {
 				this.hasFirstUpdate = true
-				let radius = this.sprite.texture.width * this.scale.x / 2
+				let radius = this.sprite.texture.width * this.sprite.scale.x / 2
+
 				this.removeBodyFromWorld()
 				this.body = this.matter.createCircleBody(0, 0, radius, this.bodyOptions)
 				this.addBodyToWorld()
@@ -22,7 +23,7 @@ Framework.CircleComponent = class CircleComponent extends Framework.Component {
 					this.setBody('angularVelocity', 0)
 					this.setBody('angle', 0)
 				}
-				this.position = {x: this.body.position.x, y: this.body.position.y}
+				this.position = this.body.position
 				this.rotation = this.body.angle / Math.PI * 180
 			}
 		}

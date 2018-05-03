@@ -29,13 +29,11 @@
         { src: jsPath + 'Marble.js'},
         { src: jsPath + 'Monster.js'},
         { src: jsPath + 'Map.js'},
+        { src: jsPath + 'Stage.js'},
         { src: jsPath + 'StartPage.js'},
+        { src: jsPath + 'Stage1.js'},
         { src: jsPath + 'StageSelect.js'},
         { src: jsPath + 'EndPage.js'},
-        { src: jsPath + 'Stage.js'},
-        { src: jsPath + 'Stage1.js'},
-        { src: jsPath + 'Stage2.js'},
-        { src: jsPath + 'Stage3.js'},
         { src: jsPath + 'MainGame.js'}
     ]
     importJS(listScript);

@@ -31,6 +31,10 @@ Framework.Level = class Level {
 		this.cycleCount = 0
 		this.traversalAllElement(function(ele) {
 			ele.initialize()
+			if(!Framework.Util.isUndefined(ele.initTexture))
+			{
+				ele.initTexture()
+			}
 		})
 		this.rootScene.initTexture();
 	}
