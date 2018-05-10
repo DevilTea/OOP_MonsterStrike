@@ -51,30 +51,30 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 			// 計算縮放後的大小
 			if(this.isObjectChanged) {
 				//if(!Framework.Util.isAbout(this.absoluteOpacity,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.x,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.y,1,0.00001) || !Framework.Util.isAbout(this.absoluteRotation,0,0.001)) {
-				//if(this.absoluteOpacity !== 1 || this.absoluteScale.x !== 1 || this.absoluteScale.y !== 1) {
-				realWidth = this.texture.width * this.scale.x
-				realHeight = this.texture.height * this.scale.y
-				// 將canvas 放大才不會被切到
-				let diagonalLength = Math.ceil(Math.sqrt(Math.pow(realHeight, 2) + Math.pow(realWidth, 2)))
-				this.canvas.width = diagonalLength
-				this.canvas.height = diagonalLength
+				if(this.absoluteOpacity !== 1 || this.absoluteScale.x !== 1 || this.absoluteScale.y !== 1) {
+					realWidth = this.texture.width * this.scale.x
+					realHeight = this.texture.height * this.scale.y
+					// 將canvas 放大才不會被切到
+					let diagonalLength = Math.ceil(Math.sqrt(Math.pow(realHeight, 2) + Math.pow(realWidth, 2)))
+					this.canvas.width = diagonalLength
+					this.canvas.height = diagonalLength
 
-				let tranlateX = this.canvas.width / 2
-				let tranlateY = this.canvas.height / 2
+					let tranlateX = this.canvas.width / 2
+					let tranlateY = this.canvas.height / 2
 
-				// 將Canvas 中心點移動到左上角(0,0)
-				this.context.translate(tranlateX, tranlateY)
-				// 旋轉Canvas
-				this.context.rotate(this.absoluteRotation / 180 * Math.PI)
-				// 移回來
-				this.context.translate(-tranlateX, -tranlateY)
-				// 縮放
-				this.context.scale(this.absoluteScale.x, this.absoluteScale.y)
-				// 設定透明度
-				this.context.globalAlpha = this.absoluteOpacity
-				// 產生圖像
-				this.context.drawImage(this.texture, (this.canvas.width - realWidth) / 2 / this.absoluteScale.x, (this.canvas.height - realHeight) / 2 / this.absoluteScale.y);
-				//}
+					// 將Canvas 中心點移動到左上角(0,0)
+					this.context.translate(tranlateX, tranlateY)
+					// 旋轉Canvas
+					this.context.rotate(this.absoluteRotation / 180 * Math.PI)
+					// 移回來
+					this.context.translate(-tranlateX, -tranlateY)
+					// 縮放
+					this.context.scale(this.absoluteScale.x, this.absoluteScale.y)
+					// 設定透明度
+					this.context.globalAlpha = this.absoluteOpacity
+					// 產生圖像
+					this.context.drawImage(this.texture, (this.canvas.width - realWidth) / 2 / this.absoluteScale.x, (this.canvas.height - realHeight) / 2 / this.absoluteScale.y);
+				}
 
 				// 畫到主Canvas上                    
 				if(this.options.isDrawBoundry) {
@@ -93,13 +93,13 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 			if(painter instanceof Framework.GameObject) {
 				painter = painter.context;  //表示傳進來的其實是GameObject或其 Concrete Class
 			}
-			//if(!Framework.Util.isAbout(this.absoluteOpacity,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.x,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.y,1,0.00001) || !Framework.Util.isAbout(this.absoluteRotation,0,0.001)) {
+			if(!Framework.Util.isAbout(this.absoluteOpacity,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.x,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.y,1,0.00001) || !Framework.Util.isAbout(this.absoluteRotation,0,0.001)) {
 			//if(this.absoluteOpacity !== 1 || this.absoluteScale.x !== 1 || this.absoluteScale.y !== 1) {
 			painter.drawImage(this.canvas, pos.x, pos.y)
-			//}
-			//else{
-			//	painter.drawImage(this.texture, pos.x, pos.y)
-			//}
+			}
+			else{
+				painter.drawImage(this.texture, this.absolutePosition.x - this.texture.width / 2, this.absolutePosition.y - this.texture.height / 2)
+			}
 		}
 
 	}
