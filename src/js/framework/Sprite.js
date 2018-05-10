@@ -14,21 +14,21 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 			/*-------------------------------------*/
 			isSection: options.isSection || false,
 		}
-		if (Framework.Util.isString(source)) {
+		if(Framework.Util.isString(source)) {
 			this.id = source
 			Framework.ResourceManager.loadImage({ id: source, url: source })
 			this.type = 'image'
 			this.pushSelfToLevel()
-		} else if (Framework.Util.isCanvas(source)) {
+		} else if(Framework.Util.isCanvas(source)) {
 			this.texture = source
 			this.type = 'canvas'
-		} else if (!Framework.Util.isUndefined(source)) {
+		} else if(!Framework.Util.isUndefined(source)) {
 			Framework.DebugInfo.Log.error('Sprite 不支援的參數' + source)
 		}
 	}
 
 	initTexture() {
-		if (Framework.Util.isUndefined(this.texture)) {
+		if(Framework.Util.isUndefined(this.texture)) {
 			this.texture = Framework.ResourceManager.getResource(this.id);
 		}
 	}
@@ -37,10 +37,10 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 
 		this.animator.update()
 		this.countAbsoluteProperty()
-		if (Framework.Util.isUndefined(this.texture)) {
+		if(Framework.Util.isUndefined(this.texture)) {
 			this.texture = Framework.ResourceManager.getResource(this.id)
 		}
-		if (Framework.Game.isBackwardCompatiable) {
+		if(Framework.Game.isBackwardCompatiable) {
 			this.testDraw(painter)
 			return
 		}
@@ -48,9 +48,9 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 		let pos
 		let realWidth
 		let realHeight
-		if (this.type === 'image' || this.type === 'canvas') {
+		if(this.type === 'image' || this.type === 'canvas') {
 			// 計算縮放後的大小
-			if (this.isObjectChanged) {
+			if(this.isObjectChanged) {
 				//if(!Framework.Util.isAbout(this.absoluteOpacity,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.x,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.y,1,0.00001) || !Framework.Util.isAbout(this.absoluteRotation,0,0.001)) {
 				//if(this.absoluteOpacity !== 1 || this.absoluteScale.x !== 1 || this.absoluteScale.y !== 1) {
 				realWidth = this.texture.width * this.scale.x
@@ -78,12 +78,12 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 				//}
 
 				// 畫到主Canvas上                    
-				if (this.options.isDrawBoundry) {
+				if(this.options.isDrawBoundry) {
 					this.context.rect((this.canvas.width - realWidth) / 2 / this.absoluteScale.x, (this.canvas.height - realHeight) / 2 / this.absoluteScale.y, this.texture.width, this.texture.height)
 					this.context.stroke()
 				}
 
-				if (this.options.isDrawPace) {
+				if(this.options.isDrawPace) {
 					this.context.rect(this.absolutePosition.x, this.absolutePosition.y, 1, 1);
 					this.context.stroke()
 				}
@@ -91,7 +91,7 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 			}
 
 			pos = this.options.isStartDrawingFromLeftTop ? new Framework.Point(this.absolutePosition.x, this.absolutePosition.y) : new Framework.Point(this.absolutePosition.x - this.canvas.width / 2, this.absolutePosition.y - this.canvas.height / 2)
-			if (painter instanceof Framework.GameObject) {
+			if(painter instanceof Framework.GameObject) {
 				painter = painter.context;  //表示傳進來的其實是GameObject或其 Concrete Class
 			}
 			//if(!Framework.Util.isAbout(this.absoluteOpacity,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.x,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.y,1,0.00001) || !Framework.Util.isAbout(this.absoluteRotation,0,0.001)) {
@@ -109,13 +109,13 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 		var painter = painter || Framework.Game._context;
 		this.countAbsoluteProperty();
 		var texture, tmp, realWidth, realHeight, tmpContext;
-		if (Framework.Util.isUndefined(this.texture)) {
+		if(Framework.Util.isUndefined(this.texture)) {
 			this.texture = Framework.ResourceManager.getResource(this.id);
 		}
-		if (this.type === 'image' || this.type === 'canvas') {
+		if(this.type === 'image' || this.type === 'canvas') {
 			// 計算縮放後的大小
-			if (this.isObjectChanged) {
-				if (!Framework.Util.isAbout(this.absoluteScale.x, 1, 0.00001) || !Framework.Util.isAbout(this.absoluteScale.y, 1, 0.00001) || !Framework.Util.isAbout(this.absoluteRotation, 0, 0.001)) {
+			if(this.isObjectChanged) {
+				if(!Framework.Util.isAbout(this.absoluteScale.x, 1, 0.00001) || !Framework.Util.isAbout(this.absoluteScale.y, 1, 0.00001) || !Framework.Util.isAbout(this.absoluteRotation, 0, 0.001)) {
 					realWidth = this.texture.width * this.scale.x;
 					realHeight = this.texture.height * this.scale.y;
 					// 將canvas 放大才不會被切到
@@ -143,22 +143,22 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 				}
 
 				// 再畫到主Canvas上                    
-				if (this.options.isDrawBoundry) {
+				if(this.options.isDrawBoundry) {
 					this.context.rect((this.canvas.width - realWidth) / 2 / this.absoluteScale.x, (this.canvas.height - realHeight) / 2 / this.absoluteScale.y, this.texture.width, this.texture.height);
 					this.context.stroke();
 				}
 
-				if (this.options.isDrawPace) {
+				if(this.options.isDrawPace) {
 					this.context.rect(this.absolutePosition.x, this.absolutePosition.y, 1, 1);
 					this.context.stroke();
 				}
 
 			}
 
-			if (painter instanceof Framework.GameObject) {
+			if(painter instanceof Framework.GameObject) {
 				painter = painter.context;  //表示傳進來的其實是GameObject或其 Concrete Class
 			}
-			if (!Framework.Util.isAbout(this.absoluteScale.x, 1, 0.00001) || !Framework.Util.isAbout(this.absoluteScale.y, 1, 0.00001) || !Framework.Util.isAbout(this.absoluteRotation, 0, 0.001)) {
+			if(!Framework.Util.isAbout(this.absoluteScale.x, 1, 0.00001) || !Framework.Util.isAbout(this.absoluteScale.y, 1, 0.00001) || !Framework.Util.isAbout(this.absoluteRotation, 0, 0.001)) {
 				painter.drawImage(this.canvas, this.absolutePosition.x - this.canvas.width / 2, this.absolutePosition.y - this.canvas.height / 2);
 			}
 			else {
@@ -173,26 +173,11 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 	}
 
 	teardown() {
-		if (this.type === 'image') {
+		if(this.type === 'image') {
 			Framework.ResourceManager.destroyResource(this.id)
 		}
 	}
-
-	/*
-	texture:
-		width 512
-		height 1024
-	需要的圖案大小 = canvas
-	realWidth = 125
-	realHeight = 125
 	
-	upperLeft.x = 0
-	upperLeft.y = 0
-	bottomRight.x = 125
-	bottomRight.y = 125
-
-	*/
-	/*--------getSection--------*/
 	getSection(upperLeft, bottomRight) {
 		let tmpCanvas, tmpContext, realWidth, realHeight, tempResult
 		tmpCanvas = document.createElement('canvas')
@@ -208,7 +193,7 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 		tmpContext.drawImage(this.texture, -upperLeft.x, -upperLeft.y)
 		//設定回傳
 		tempResult = new Framework.Sprite(tmpCanvas)
-		tempResult.position = new Framework.Point(Framework.Game.getCanvasWidth() / 2, Framework.Game.getCanvasHeight() / 2)
+		//tempResult.position = new Framework.Point(Framework.Game.getCanvasWidth() / 2, Framework.Game.getCanvasHeight() / 2)
 		tempResult.scale = { x: 1.5, y: 1.5 }
 		return tempResult
 	}

@@ -20,9 +20,6 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.hasCreatedEndingDialog = false
         /*background sprite*/
         this.backgroundSprite = { loading: undefined, }
-        this.test
-        this.temptest
-        this.num = 1
     }
 
     /*FrameworkGameState*/
@@ -38,10 +35,6 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.loadMaps()
         this.gameUI.loadArrow()
         this.gameUI.loadPlayerInfoUI()
-        //-------------------------------------------------------------------------------------------- 
-        this.test = new Framework.Sprite(imagePath + 'effect/8064F854.png', )
-        //this.test.position = new Framework.Point(Framework.Game.getCanvasWidth() / 2, Framework.Game.getCanvasHeight() / 2)
-        //-------------------------------------------------------------------------------------------- 
     }
 
     loadingProgress(ctx, requestInfo) {
@@ -53,23 +46,14 @@ GameClasses.Stage = class Stage extends Framework.Level {
 
     initialize() {
         super.initialize()
-        //-------------------------------------------------------------------------------------------- 
-        this.temptest = this.test.getSection({ x: 620, y: 730 }, { x: 680, y: 940 })
-        //-------------------------------------------------------------------------------------------- 
-        if (this.stageState === 'start') {
+        if(this.stageState === 'start') {
             this.backgroundSprite.game.position = { x: Framework.Game.canvasWidth / 2, y: Framework.Game.canvasHeight / 2 }
             this.backgroundSprite.game.scale = { x: 4, y: 4 }
             this.rootScene.attach(this.backgroundSprite.game)
-            //-------------------------------------------------------------------------------------------- 
-            //this.test.scale = { x: 1.5, y: 1.5 }
-            //this.temptest.scale = { x: 1.5, y: -1.5 }
-
-            this.rootScene.attach(this.temptest)
-            //-------------------------------------------------------------------------------------------- 
             this.initializeMatter()
             this.initializeMarbles()
             this.gameUI.initializePlayerInfoUI()
-            if (this.hasNextMap()) {
+            if(this.hasNextMap()) {
                 this.stageState = 'enterIntoMap'
             } else {
                 this.stageState = 'endingDialog'
@@ -80,49 +64,31 @@ GameClasses.Stage = class Stage extends Framework.Level {
     update() {
         super.update()
         this.matter.update()
-        if (this.stageState === 'enterIntoMap') {
+        if(this.stageState === 'enterIntoMap') {
             this.enterIntoMapUpdate()
-        } else if (this.stageState === 'spawnMonsters') {
+        } else if(this.stageState === 'spawnMonsters') {
             this.spawnMonstersUpdate()
-        } else if (this.stageState === 'playerAction') {
+        } else if(this.stageState === 'playerAction') {
             this.playerActionUpdate()
-        } else if (this.stageState === 'monstersAction') {
+        } else if(this.stageState === 'monstersAction') {
             this.monstersActionUpdate()
-        } else if (this.stageState === 'endingDialog') {
+        } else if(this.stageState === 'endingDialog') {
             this.endingDialogUpdate()
         }
-
-        this.sectionAmimate()
-
-
-    }
-    sectionAmimate() {
-        // setInterval(() => {
-        //     if (this.num > 5) return
-        //         console.log(this.num)
-        //         this.num += 0.1
-        //         this.temptest.scale = { x: 1.5, y: this.num }
-            
-        // }, 1000)
-        // this.temptest.animate({ begin_scale: 1, scale: 6 }, 2000, () => {
-        //     this.stageState = 'playerAction'
-        //     this.spawnMonstersAnimationPlayed = false
-        // })
-        
     }
 
     draw(ctx) {
         super.draw(ctx)
         this.rootScene.draw(ctx)
-        if (this.stageState === 'enterIntoMap') {
+        if(this.stageState === 'enterIntoMap') {
             this.enterIntoMapDraw(ctx)
-        } else if (this.stageState === 'spawnMonsters') {
+        } else if(this.stageState === 'spawnMonsters') {
             this.spawnMonstersDraw(ctx)
-        } else if (this.stageState === 'playerAction') {
+        } else if(this.stageState === 'playerAction') {
             this.playerActionDraw(ctx)
-        } else if (this.stageState === 'monstersAction') {
+        } else if(this.stageState === 'monstersAction') {
             this.monstersActionDraw(ctx)
-        } else if (this.stageState === 'endingDialog') {
+        } else if(this.stageState === 'endingDialog') {
             this.endingDialogDraw(ctx)
         }
     }
@@ -135,60 +101,60 @@ GameClasses.Stage = class Stage extends Framework.Level {
 
     click(e) {
         super.click(e)
-        if (this.stageState === 'enterIntoMap') {
+        if(this.stageState === 'enterIntoMap') {
             this.enterIntoMapClick(e)
-        } else if (this.stageState === 'spawnMonsters') {
+        } else if(this.stageState === 'spawnMonsters') {
             this.spawnMonstersClick(e)
-        } else if (this.stageState === 'playerAction') {
+        } else if(this.stageState === 'playerAction') {
             this.playerActionClick(e)
-        } else if (this.stageState === 'monstersAction') {
+        } else if(this.stageState === 'monstersAction') {
             this.monstersActionClick(e)
-        } else if (this.stageState === 'endingDialog') {
+        } else if(this.stageState === 'endingDialog') {
             this.endingDialogClick(e)
         }
     }
 
     mousedown(e) {
         super.mousedown(e)
-        if (this.stageState === 'enterIntoMap') {
+        if(this.stageState === 'enterIntoMap') {
             this.enterIntoMapMousedown(e)
-        } else if (this.stageState === 'spawnMonsters') {
+        } else if(this.stageState === 'spawnMonsters') {
             this.spawnMonstersMousedown(e)
-        } else if (this.stageState === 'playerAction') {
+        } else if(this.stageState === 'playerAction') {
             this.playerActionMousedown(e)
-        } else if (this.stageState === 'monstersAction') {
+        } else if(this.stageState === 'monstersAction') {
             this.monstersActionMousedown(e)
-        } else if (this.stageState === 'endingDialog') {
+        } else if(this.stageState === 'endingDialog') {
             this.endingDialogMousedown(e)
         }
     }
 
     mousemove(e) {
         super.mousemove(e)
-        if (this.stageState === 'enterIntoMap') {
+        if(this.stageState === 'enterIntoMap') {
             this.enterIntoMapMousemove(e)
-        } else if (this.stageState === 'spawnMonsters') {
+        } else if(this.stageState === 'spawnMonsters') {
             this.spawnMonstersMousemove(e)
-        } else if (this.stageState === 'playerAction') {
+        } else if(this.stageState === 'playerAction') {
             this.playerActionMousemove(e)
-        } else if (this.stageState === 'monstersAction') {
+        } else if(this.stageState === 'monstersAction') {
             this.monstersActionMousemove(e)
-        } else if (this.stageState === 'endingDialog') {
+        } else if(this.stageState === 'endingDialog') {
             this.endingDialogMousemove(e)
         }
     }
 
     mouseup(e) {
         super.mouseup(e)
-        if (this.stageState === 'enterIntoMap') {
+        if(this.stageState === 'enterIntoMap') {
             this.enterIntoMapMouseup(e)
-        } else if (this.stageState === 'spawnMonsters') {
+        } else if(this.stageState === 'spawnMonsters') {
             this.spawnMonstersMouseup(e)
-        } else if (this.stageState === 'playerAction') {
+        } else if(this.stageState === 'playerAction') {
             this.playerActionMouseup(e)
-        } else if (this.stageState === 'monstersAction') {
+        } else if(this.stageState === 'monstersAction') {
             this.monstersActionMouseup(e)
-        } else if (this.stageState === 'endingDialog') {
+        } else if(this.stageState === 'endingDialog') {
             this.endingDialogMouseup(e)
         }
     }
@@ -207,7 +173,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.maps[this.nowMap].initializeMonsters()
         this.maps[this.nowMap].updateMonsters()
         this.maps[this.nowMap].addMarbles(this.marbles)
-        if (!this.spawnMonstersAnimationPlayed) {
+        if(!this.spawnMonstersAnimationPlayed) {
             this.maps[this.nowMap].monsters.forEach((monster) => {
                 monster.monsterSprite.animate({ begin_opacity: 0, opacity: 1 }, 2000, () => {
                     this.stageState = 'playerAction'
@@ -222,24 +188,20 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.updateMarbles()
         this.maps[this.nowMap].updateMonsters()
         //console.log('playerActionUpdate')
-<<<<<<< HEAD
-        if (this.isShooted && !this.marbles[this.nowMarble].isMoving) {
-=======
         if(this.isShooted && !this.marbles[this.nowMarble].isMoving) {
->>>>>>> 8a9aaccdfcb6362ebc7f28e0624d79817668a692
             this.playerActionDone = true
             let toRemove = []
             this.maps[this.nowMap].monsters.forEach((monster) => {
                 monster.calculateHP()
-                if (monster.nowHP === 0) {
+                if(monster.nowHP === 0) {
                     toRemove.push(monster)
                 }
             })
             toRemove.forEach((monster) => this.maps[this.nowMap].removeMonster(monster))
         }
-        if (this.playerActionDone) {
-            if (this.maps[this.nowMap].isAllMonstersDead()) {
-                if (this.hasNextMap()) {
+        if(this.playerActionDone) {
+            if(this.maps[this.nowMap].isAllMonstersDead()) {
+                if(this.hasNextMap()) {
                     this.stageState = 'enterIntoMap'
                 } else {
                     this.stageState = 'endingDialog'
@@ -259,22 +221,15 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.maps[this.nowMap].updateMonsters()
         //console.log('monstersActionUpdate')
         this.monstersActionDone = true
-        if (this.monstersActionDone) {
+        if(this.monstersActionDone) {
             this.monstersActionDone = false
             this.stageState = 'playerAction'
         }
     }
 
     endingDialogUpdate() {
-<<<<<<< HEAD
-        if (!this.hasCreatedEndingDialog) {
-            this.createDialog('結束的對話框')
-=======
         if(!this.hasCreatedEndingDialog) {
-            GameClasses.HtmlElementView.createDialog('結束的對話框', () => {
-                Framework.Game.goToLevel('End')
-            })
->>>>>>> 8a9aaccdfcb6362ebc7f28e0624d79817668a692
+            this.createDialog('結束的對話框')
             this.hasCreatedEndingDialog = true
         }
         //console.log('endingDialogUpdate')
@@ -332,7 +287,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
     }
 
     playerActionMousedown(e) {
-        if (!this.isShooted) {
+        if(!this.isShooted) {
             this.isAiming = true
             this.shootingUnitVector.x = 0
             this.shootingUnitVector.y = 0
@@ -354,14 +309,14 @@ GameClasses.Stage = class Stage extends Framework.Level {
     }
 
     playerActionMousemove(e) {
-        if (this.isAiming) {
+        if(this.isAiming) {
             this.shootingUnitVector.x = this.mousedownPosition.x - e.x
             this.shootingUnitVector.y = this.mousedownPosition.y - e.y
             let len = Matter.Vector.magnitude(this.shootingUnitVector)
             this.shootingUnitVector.x /= len
             this.shootingUnitVector.y /= len
 
-            if (len < 100) {
+            if(len < 100) {
                 this.gameUI.arrowOption.canDraw = false
                 this.shootingUnitVector.x = 0
                 this.shootingUnitVector.y = 0
@@ -389,8 +344,8 @@ GameClasses.Stage = class Stage extends Framework.Level {
     }
 
     playerActionMouseup(e) {
-        if (this.isAiming) {
-            if (this.shootingUnitVector.x == 0 && this.shootingUnitVector.y == 0) {
+        if(this.isAiming) {
+            if(this.shootingUnitVector.x == 0 && this.shootingUnitVector.y == 0) {
                 this.isAiming = false
             } else {
                 this.isShooted = true
@@ -471,7 +426,6 @@ GameClasses.Stage = class Stage extends Framework.Level {
             marble.draw(ctx)
         })
     }
-<<<<<<< HEAD
 
     createDialog(msg) {
         let fullContainer = Framework.HtmlElementUI.createElement(0, 0, 'full', 'full', document.createElement('div'), undefined, false)
@@ -505,7 +459,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         }
 
         fullContainer.mousemoveEvent = (e) => {
-            if (e.buttons === 1 && canDrag) {
+            if(e.buttons === 1 && canDrag) {
                 e.preventDefault()
                 e = Framework.MouseManager.countCanvasOffset(e)
                 dialogBackground.position = { x: mouseOffset.x + e.x, y: mouseOffset.y + e.y }
@@ -523,6 +477,4 @@ GameClasses.Stage = class Stage extends Framework.Level {
         Framework.MouseManager.stopHandle()
         return fullContainer
     }
-=======
->>>>>>> 8a9aaccdfcb6362ebc7f28e0624d79817668a692
 }
