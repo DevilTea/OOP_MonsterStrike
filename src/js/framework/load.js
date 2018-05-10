@@ -1,8 +1,9 @@
 const isTestMode = false
 const isRecordMode = false
 const mainPath = 'src/'
-const frameworkPath = mainPath + 'js/framework/'
 const jsPath = mainPath + 'js/'
+const frameworkPath = mainPath + 'js/framework/'
+const gameclassesPath = mainPath + 'js/gameclasses/'
 const musicPath = mainPath + 'music/'
 const imagePath = mainPath + 'image/'
 let loadFrameworkEnd = false
@@ -79,7 +80,7 @@ let loadEnd
     let listScript = 
     [
         { src: frameworkPath + 'loadFramework.js',lookFor: 'loadFrameworkEnd'},
-        { src: jsPath + 'loadGame.js',lookFor: 'loadGameEnd'},
+        { src: gameclassesPath + 'loadGame.js',lookFor: 'loadGameEnd'},
     ]
     importJS(listScript)
     

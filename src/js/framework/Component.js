@@ -2,12 +2,14 @@ Framework.Component = class Component {
     constructor(matter, sprite, options) {
         autoBind(this)
         this.matter = matter
-        this.sprite = sprite
+		this.sprite = sprite
+		this.componentMagician = new Framework.ComponentMagician(this)
 		this.body = {}
 		this.bodyOptions = options
 		this.componentPosition = {x: 0, y: 0}
 		this.componentScale = {x: 1, y: 1}
 		this.componentRotation = 0
+		this.componentOpacity = 1
 		this.hasAddedToWorld = false
         this.hasFirstUpdate = false
 		this.lockRotation = false
@@ -53,6 +55,18 @@ Framework.Component = class Component {
 				this.setBody('angle', newValue * Math.PI / 180)
 			}
 		})
+		
+        Object.defineProperty(this, 'opacity', {
+			get : function() {
+				return this.componentOpacity
+			},
+			set : function(newValue) {
+				this.componentOpacity = newValue
+				if(this.syncSprite && !this.sprite.isDuringAnimation) {
+					this.sprite.opacity = newValue
+				}
+			}
+		})
 
 		Object.defineProperty(this, 'label', {
 			get: () => {
@@ -80,6 +94,6 @@ Framework.Component = class Component {
     }
     
     update() {
-		
+		this.componentMagician.update()
 	}
 }

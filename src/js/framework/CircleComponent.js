@@ -7,6 +7,7 @@ Framework.CircleComponent = class CircleComponent extends Framework.Component {
 	}
 
 	update() {
+        super.update()
 		if(this.hasAddedToWorld) {
 			if(!this.hasFirstUpdate && this.sprite.texture) {
 				this.hasFirstUpdate = true
