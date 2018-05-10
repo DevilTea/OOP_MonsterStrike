@@ -7,7 +7,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.nowMarble = 0
         this.maps = []
         this.nowMap = -1
-        this.matter = new Framework.Matter()
+        //this.matter = new Framework.Matter()
         this.gameUI = new GameClasses.GameUI()
         this.stageState = 'start'
         this.spawnMonstersAnimationPlayed = false
@@ -50,7 +50,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
             this.backgroundSprite.game.position = { x: Framework.Game.canvasWidth / 2, y: Framework.Game.canvasHeight / 2 }
             this.backgroundSprite.game.scale = {x: 4, y: 4}
             this.rootScene.attach(this.backgroundSprite.game)
-            this.initializeMatter()
+            //this.initializeMatter()
             this.initializeMarbles()
             this.gameUI.initializePlayerInfoUI()
             if(this.hasNextMap()) {
@@ -357,7 +357,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
     }
 
     /*Matter*/
-    initializeMatter() {
+    /*initializeMatter() {
         this.matter.addEventListener('collisionStart', this.collisionStart)
 		this.matter.addEventListener('collisionEnd', this.collisionEnd)
         this.matter.world.gravity = {x: 0, y: 0, scale: 0}
@@ -375,7 +375,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
 
 	collisionEnd(event) {
 		this.maps[this.nowMap].collisionEnd(event)
-	}
+    }*/
 
     /*Map*/
     addMap(map) {

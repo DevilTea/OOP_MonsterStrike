@@ -1,10 +1,10 @@
 GameClasses.MapObject = class MapObject {
-    constructor() {
+    constructor(rectangleBody) {
         autoBind(this)
         this.mapObjectID
         this.map
         this.matter
-        this.component
+        this.rectangleBody = rectangleBody
     }
 
     load() {}

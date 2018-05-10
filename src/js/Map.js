@@ -105,7 +105,7 @@ GameClasses.Map = class Map {
     }
 
     /*Matter*/
-    collisionStart(event) {
+    /*collisionStart(event) {
 		event.pairs.forEach((value) => {
 			let mapObjID_A = parseInt(value.bodyA.label.slice(12))
 			let mapObjID_B = parseInt(value.bodyB.label.slice(12))
@@ -128,5 +128,5 @@ GameClasses.Map = class Map {
 	}
 
 	collisionEnd(event) {
-	}
+    }*/
 }

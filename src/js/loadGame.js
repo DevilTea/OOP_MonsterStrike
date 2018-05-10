@@ -25,6 +25,8 @@
     var listScript = 
     [
         { src: jsPath + 'GameUI.js'},
+        { src: jsPath + 'BodyWorld.js'},
+        { src: jsPath + 'RectangleBody.js'},
         { src: jsPath + 'MapObject.js'},
         { src: jsPath + 'Marble.js'},
         { src: jsPath + 'Monster.js'},
