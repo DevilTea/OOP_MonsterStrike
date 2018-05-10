@@ -4,6 +4,7 @@ GameClasses.Marble = class Marble extends GameClasses.MapObject {
         autoBind(this)
         this.marbleID = marbleData.marbleID
         this.sling = marbleData.sling
+        this.element = GameClasses.elementTypeEnum.LIGHT//marbleData.element
         this.maxHP = marbleData.HP
         this.nowHP = marbleData.HP
         this.maxSpeed = marbleData.speed
@@ -31,7 +32,7 @@ GameClasses.Marble = class Marble extends GameClasses.MapObject {
     }
 
     update() {
-        this.component.update()
+        super.update()
         if(this.isMoving && this.component.body.speed < 1) {
             this.component.setBody('velocity', {x: 0, y: 0})
             this.component.body.isSensor = true

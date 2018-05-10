@@ -19,7 +19,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.monstersActionDone = false
         this.hasCreatedEndingDialog = false
 
-        this.skillFactory = new GameClasses.SkillFactory()
+        this.skillFactory = new GameClasses.SkillFactory(this.matter)
         /*background sprite*/
         this.backgroundSprite = { loading: undefined, }
     }
@@ -168,6 +168,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.nowMap++
         //console.log('enterIntoMapUpdate')
         this.stageState = 'spawnMonsters'
+        this.spawnMonstersAnimationPlayed = false
     }
 
     spawnMonstersUpdate() {
@@ -178,9 +179,9 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.maps[this.nowMap].addMarbles(this.marbles)
         if(!this.spawnMonstersAnimationPlayed) {
             this.maps[this.nowMap].monsters.forEach((monster) => {
-                monster.monsterSprite.animate({ begin_opacity: 0, opacity: 1 }, 2000, () => {
+                monster.component.opacity = 0
+                monster.component.componentMagician.addEffect({opacity: 1 }, 1000, () => {
                     this.stageState = 'playerAction'
-                    this.spawnMonstersAnimationPlayed = false
                 })
             })
             this.spawnMonstersAnimationPlayed = true
@@ -190,9 +191,9 @@ GameClasses.Stage = class Stage extends Framework.Level {
     playerActionUpdate() {
         this.updateMarbles()
         this.maps[this.nowMap].updateMonsters()
+        this.maps[this.nowMap].updateSkillObjects()
         //console.log('playerActionUpdate')
         if(this.isShooted && !this.marbles[this.nowMarble].isMoving) {
-            console.log('waa')
             this.playerActionDone = true
             let toRemove = []
             this.maps[this.nowMap].monsters.forEach((monster) => {
@@ -211,7 +212,6 @@ GameClasses.Stage = class Stage extends Framework.Level {
                     this.stageState = 'endingDialog'
                 }
             } else {
-                console.log('done')
                 this.maps[this.nowMap].allMonsterCountdown()
                 this.stageState = 'monstersAction'
             }
@@ -225,6 +225,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
     monstersActionUpdate() {
         this.updateMarbles()
         this.maps[this.nowMap].updateMonsters()
+        this.maps[this.nowMap].updateSkillObjects()
         this.maps[this.nowMap].monsterAttack()
         //console.log('monstersActionUpdate')
         
@@ -257,6 +258,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
     playerActionDraw(ctx) {
         this.drawMarbles(ctx)
         this.maps[this.nowMap].drawMonsters(ctx)
+        this.maps[this.nowMap].drawSkillObjects(ctx)
         this.gameUI.drawArrow(ctx)
         this.gameUI.drawPlayerInfoUI(ctx)
     }
@@ -264,6 +266,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
     monstersActionDraw(ctx) {
         this.drawMarbles(ctx)
         this.maps[this.nowMap].drawMonsters(ctx)
+        this.maps[this.nowMap].drawSkillObjects(ctx)
         this.gameUI.drawPlayerInfoUI(ctx)
     }
 

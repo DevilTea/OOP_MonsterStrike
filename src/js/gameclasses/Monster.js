@@ -3,6 +3,7 @@ GameClasses.Monster = class Monster extends GameClasses.MapObject {
         super()
         autoBind(this)
         this.monsterID = monsterData.monsterID
+        this.element = this.element = GameClasses.elementTypeEnum.LIGHT//marbleData.element//monsterData.element
         this.isBoss = monsterData.isBoss
         this.maxHP = monsterData.HP
         this.nowHP = monsterData.HP
@@ -13,6 +14,7 @@ GameClasses.Monster = class Monster extends GameClasses.MapObject {
         this.monsterSprite
         this.isInitialized = false
         this.isAttacking = false
+        this.isRemoving = false
     }
 
     load() {
@@ -28,32 +30,42 @@ GameClasses.Monster = class Monster extends GameClasses.MapObject {
         }
     }
 
-    update() {
-        this.component.update()
-    }
+    /*update() {
+        super.update()
+    }*/
 
-    attack() {
-        this.isAttacking = true
-        console.log('怪物攻擊')
-        this.isAttacking = false
-        this.nowAttackCountdown = this.maxAttackCountdown
+    attack(callback) {
+        if(!this.isAttacking) {
+            this.isAttacking = true
+            console.log('怪物攻擊')
+            //this.component.body.isSensor = true
+            /***********/
+            this.map.stage.skillFactory.createSkill(this, GameClasses.skillTypeEnum.LAZER_SINGLE_UP, GameClasses.skillLevelEnum.LAZER_S, () => {
+                this.isAttacking = false
+                this.nowAttackCountdown = this.maxAttackCountdown
+                //this.component.body.isSensor = true
+                callback()
+            }).use()
+            /***********/
+        }
     }
 
     draw(ctx) {
         if(this.isInitialized) {
             this.monsterSprite.draw(ctx)
-            if(this.isBoss) {
-                this.drawHpBar(ctx, this.accumulationDamage, this.nowHP, this.maxHP, 0, 0, 1080, 40, true)
-            } else {
-                this.drawHpBar(ctx, this.accumulationDamage, this.nowHP, this.maxHP, this.component.position.x - this.monsterSprite.texture.width / 2 + 50, this.component.position.y - this.monsterSprite.texture.height / 2 - 20, 100, 10, false)
-            }
-            this.drawAttackCountdown(ctx, this.nowAttackCountdown)
+            if(!this.isRemoving) {
+                if(this.isBoss) {
+                    this.drawHpBar(ctx, this.accumulationDamage, this.nowHP, this.maxHP, 0, 0, 1080, 40, true)
+                } else {
+                    this.drawHpBar(ctx, this.accumulationDamage, this.nowHP, this.maxHP, this.component.position.x - this.monsterSprite.texture.width / 2 + 50, this.component.position.y - this.monsterSprite.texture.height / 2 - 20, 100, 10, false)
+                }
+                this.drawAttackCountdown(ctx, this.nowAttackCountdown)
 
-            if(this.accumulationDamage !== 0) {
-                this.drawDamageValue(ctx, this.accumulationDamage)
+                if(this.accumulationDamage !== 0) {
+                    this.drawDamageValue(ctx, this.accumulationDamage)
+                }
             }
         }
-        
     }
 
     drawAttackCountdown(ctx, value) {

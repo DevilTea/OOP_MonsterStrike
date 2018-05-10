@@ -24,6 +24,7 @@
     //才會繼續loading下一個檔案, 如果沒有需要lookFor, 則以空字串代表
     var listScript = 
     [
+        { src: gameclassesPath + 'GameEnums.js'},
         { src: gameclassesPath + 'HtmlElementView.js'},
         { src: gameclassesPath + 'GameUI.js'},
         { src: gameclassesPath + 'MapObject.js'},
@@ -34,6 +35,7 @@
         { src: gameclassesPath + 'Stage.js'},
         { src: gameclassesPath + 'SkillFactory.js'},
         { src: gameclassesPath + 'Skill.js'},
+        { src: gameclassesPath + 'SkillObject.js'},
         { src: gameclassesPath + 'StartPage.js'},
         { src: gameclassesPath + 'Stage1.js'},
         { src: gameclassesPath + 'Stage2.js'},

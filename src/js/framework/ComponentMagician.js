@@ -43,7 +43,7 @@ Framework.ComponentMagician = class ComponentMagician {
                         }    
                     }
                 })
-                this.component.isDuringEffect = true
+                //this.component.isDuringEffect = true
             }
         }
 

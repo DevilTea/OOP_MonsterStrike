@@ -1,7 +1,7 @@
 GameClasses.MapObject = class MapObject {
     constructor() {
         autoBind(this)
-        this.mapObjectID
+        this.mapObjectID = -2
         this.map
         this.matter
         this.component
@@ -49,7 +49,9 @@ GameClasses.MapObject = class MapObject {
 
     initialize() {}
 
-    update() {}
+    update() {
+		this.component.update()
+	}
 
     draw(ctx) {}
 

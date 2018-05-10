@@ -50,8 +50,7 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 		if(this.type === 'image' || this.type === 'canvas') {
 			// 計算縮放後的大小
 			if(this.isObjectChanged) {
-				//if(!Framework.Util.isAbout(this.absoluteOpacity,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.x,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.y,1,0.00001) || !Framework.Util.isAbout(this.absoluteRotation,0,0.001)) {
-				if(this.absoluteOpacity !== 1 || this.absoluteScale.x !== 1 || this.absoluteScale.y !== 1) {
+				if(!Framework.Util.isAbout(this.absoluteOpacity,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.x,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.y,1,0.00001) || !Framework.Util.isAbout(this.absoluteRotation,0,0.001)) {
 					realWidth = this.texture.width * this.scale.x
 					realHeight = this.texture.height * this.scale.y
 					// 將canvas 放大才不會被切到
@@ -94,10 +93,8 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 				painter = painter.context;  //表示傳進來的其實是GameObject或其 Concrete Class
 			}
 			if(!Framework.Util.isAbout(this.absoluteOpacity,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.x,1,0.00001) || !Framework.Util.isAbout(this.absoluteScale.y,1,0.00001) || !Framework.Util.isAbout(this.absoluteRotation,0,0.001)) {
-			//if(this.absoluteOpacity !== 1 || this.absoluteScale.x !== 1 || this.absoluteScale.y !== 1) {
-			painter.drawImage(this.canvas, pos.x, pos.y)
-			}
-			else{
+				painter.drawImage(this.canvas, pos.x, pos.y)
+			} else {
 				painter.drawImage(this.texture, this.absolutePosition.x - this.texture.width / 2, this.absolutePosition.y - this.texture.height / 2)
 			}
 		}
@@ -159,9 +156,7 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 			}
 			if(!Framework.Util.isAbout(this.absoluteScale.x, 1, 0.00001) || !Framework.Util.isAbout(this.absoluteScale.y, 1, 0.00001) || !Framework.Util.isAbout(this.absoluteRotation, 0, 0.001)) {
 				painter.drawImage(this.canvas, this.absolutePosition.x - this.canvas.width / 2, this.absolutePosition.y - this.canvas.height / 2);
-			}
-			else {
-
+			} else {
 				painter.drawImage(this.texture, this.absolutePosition.x - this.texture.width / 2, this.absolutePosition.y - this.texture.height / 2);
 			}
 		}
@@ -178,7 +173,7 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 	}
 	
 	getSection(upperLeft, bottomRight) {
-		let tmpCanvas, tmpContext, realWidth, realHeight, tempResult
+		let tmpCanvas, tmpContext, realWidth, realHeight
 		tmpCanvas = document.createElement('canvas')
 		//取得局部圖片大小
 		realWidth = bottomRight.x - upperLeft.x
@@ -190,8 +185,16 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 		tmpContext = tmpCanvas.getContext('2d')
 		//因canvas跟局部圖片大小一樣，就直接從局部圖片的左上角的-x, -y開始畫
 		tmpContext.drawImage(this.texture, -upperLeft.x, -upperLeft.y)
-		//設定回傳
-		tempResult = new Framework.Sprite(tmpCanvas)
-		return tempResult
+		return new Framework.Sprite(tmpCanvas)
+	}
+
+	clone() {
+		let tmpCanvas, tmpContext, realWidth, realHeight, tempResult
+		tmpCanvas = document.createElement('canvas')
+		tmpCanvas.width = this.texture.width
+		tmpCanvas.height = this.texture.height
+		tmpContext = tmpCanvas.getContext('2d')
+		tmpContext.drawImage(this.texture, 0, 0)
+		return new Framework.Sprite(tmpCanvas)
 	}
 }

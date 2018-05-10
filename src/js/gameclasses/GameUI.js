@@ -9,12 +9,12 @@ GameClasses.GameUI = class GameUI {
     }
 
     loadArrow() {
-        this.arrowSprites = {
-            bounce: new Framework.Sprite(imagePath + 'UI/arrow_bounce.png'),
-            pierce: new Framework.Sprite(imagePath + 'UI/arrow_pierce.png'),
-            bounce_2: new Framework.Sprite(imagePath + 'UI/arrow_bounce_2.png'),
-            pierce_2: new Framework.Sprite(imagePath + 'UI/arrow_pierce_2.png')
-        }
+        this.arrowSprites = [
+            new Framework.Sprite(imagePath + 'UI/arrow_bounce.png'),
+            new Framework.Sprite(imagePath + 'UI/arrow_pierce.png'),
+            new Framework.Sprite(imagePath + 'UI/arrow_bounce_2.png'),
+            new Framework.Sprite(imagePath + 'UI/arrow_pierce_2.png')
+        ]
     }
 
     initializeArrow() {

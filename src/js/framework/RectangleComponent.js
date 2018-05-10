@@ -10,10 +10,8 @@ Framework.RectangleComponent = class RectangleComponent extends Framework.Compon
         if(this.hasAddedToWorld) {
             if(!this.hasFirstUpdate && this.sprite.texture) {
                 this.hasFirstUpdate = true
-                let realWidth = this.sprite.texture.width * this.sprite.scale.x
-                let realHeight = this.sprite.texture.height * this.sprite.scale.y
                 this.removeBodyFromWorld()
-                this.body = this.matter.createRectangleBody(0, 0, realWidth, realHeight, this.bodyOptions)
+                this.body = this.matter.createRectangleBody(0, 0, this.sprite.width, this.sprite.height, this.bodyOptions)
                 this.addBodyToWorld()
 
                 this.position = this.position

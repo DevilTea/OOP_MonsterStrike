@@ -15,10 +15,10 @@ Stages.Stage1 = class Stage1 extends GameClasses.Stage {
     addMap1() {
         let map = new GameClasses.Map()
         this.addMap(map)
-        let monster1 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 190, y: 400}, attackCountdown: 2})
-        let monster2 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 930, y: 400}, attackCountdown: 4})
-        let monster3 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 190, y: 1100}, attackCountdown: 4})
-        let monster4 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 930, y: 1100}, attackCountdown: 4})
+        let monster1 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 190, y: 400}, attackCountdown: 1})
+        let monster2 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 930, y: 400}, attackCountdown: 1})
+        let monster3 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 190, y: 1100}, attackCountdown: 1})
+        let monster4 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 930, y: 1100}, attackCountdown: 1})
         map.addMonster(monster1)
         map.addMonster(monster2)
         map.addMonster(monster3)
@@ -28,10 +28,10 @@ Stages.Stage1 = class Stage1 extends GameClasses.Stage {
     addMap2() {
         let map = new GameClasses.Map()
         this.addMap(map)
-        let monster1 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 540, y: 400}, attackCountdown: 4})
-        let monster2 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 540, y: 1100}, attackCountdown: 4})
-        let monster3 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 190, y: 750}, attackCountdown: 4})
-        let monster4 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 890, y: 750}, attackCountdown: 4})
+        let monster1 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 540, y: 400}, attackCountdown: 1})
+        let monster2 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 540, y: 1100}, attackCountdown: 1})
+        let monster3 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 190, y: 750}, attackCountdown: 1})
+        let monster4 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 890, y: 750}, attackCountdown: 1})
         map.addMonster(monster1)
         map.addMonster(monster2)
         map.addMonster(monster3)
@@ -41,7 +41,7 @@ Stages.Stage1 = class Stage1 extends GameClasses.Stage {
     addMap3() {
         let map = new GameClasses.Map()
         this.addMap(map)
-        let monster1 = new GameClasses.Monster({monsterID: 239, isBoss: true, HP: 400000, initPosition: {x: 540, y: 960}, attackCountdown: 4})
+        let monster1 = new GameClasses.Monster({monsterID: 239, isBoss: true, HP: 400000, initPosition: {x: 540, y: 960}, attackCountdown: 1})
         map.addMonster(monster1)
     }
 }

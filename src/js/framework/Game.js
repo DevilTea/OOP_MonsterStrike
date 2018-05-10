@@ -433,6 +433,7 @@ Framework.Game = new (class Game {
 				toChange = index
 			}
 		})
+		delete this.levels[toChange]
 		this.levels[toChange] = {name : levelName , level : levelObj}
 	}
 

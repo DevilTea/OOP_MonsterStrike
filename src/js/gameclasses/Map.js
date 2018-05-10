@@ -9,6 +9,7 @@ GameClasses.Map = class Map {
         this.attackingMonsters = []
         this.marbles = []
         this.hasAddMarbles = false
+        this.skillObjects = []
     }
 
     load() {
@@ -81,9 +82,9 @@ GameClasses.Map = class Map {
     updateMonsters() {
         this.monsters.forEach((monster) => {
             let marble = this.stage.marbles[this.stage.nowMarble]
-            if(marble.sling === 'pierce') {
+            if(marble.sling === GameClasses.slingTypeEnum.PIERCE || marble.sling === GameClasses.slingTypeEnum.PIERCE_2) {
                 monster.component.body.isSensor = true
-            } else if(marble.sling === 'bounce') {
+            } else if(marble.sling === GameClasses.slingTypeEnum.BOUNCE || marble.sling === GameClasses.slingTypeEnum.BOUNCE_2) {
                 monster.component.body.isSensor = false
             }
             monster.update()
@@ -102,9 +103,13 @@ GameClasses.Map = class Map {
     }
 
     removeMonster(monster) {
-        this.removeMapObject(monster)
-        this.monsters.splice(this.monsters.indexOf(monster), 1)
-        monster.remove()
+        monster.isRemoving = true
+        monster.component.opacity = 1
+        //monster.component.componentMagician.addEffect({opacity: 0 }, 1000, () => {
+            this.removeMapObject(monster)
+            this.monsters.splice(this.monsters.indexOf(monster), 1)
+            monster.remove()
+        //})
     }
 
     allMonsterCountdown() {
@@ -117,17 +122,55 @@ GameClasses.Map = class Map {
     }
 
     monsterAttack() {
+        
         if(this.attackingMonsters.length === 0) {
             this.stage.monstersActionDone = true
             return
         } else {
-            this.attackingMonsters.shift().attack()
-            this.monsterAttack()
+            this.attackingMonsters[0].attack(() => {
+                this.attackingMonsters.shift()
+                this.monsterAttack()
+            })
         }
+    }
+
+    hasAliveMonster() {
+        let alive = 0
+        this.monsters.forEach((monster) => {
+            alive = monster.isRemoving ? alive : (alive + 1)
+        })
+        return alive > 0
     }
 
     isAllMonstersDead() {
         return this.monsters.length === 0
+    }
+
+    /*SkillObject*/
+    addSkillObject(skillObject) {
+        this.addMapObject(skillObject)
+        this.skillObjects.push(skillObject)
+        skillObject.initialize()
+    }
+
+    removeSkillObject(skillObject) {
+        this.removeMapObject(skillObject)
+        this.skillObjects.splice(this.skillObjects.indexOf(skillObject), 1)
+    }
+
+    updateSkillObjects() {
+        this.skillObjects.forEach((skillObject) => {
+            skillObject.update()
+            if(skillObject.isRemoved) {
+                this.removeSkillObject(skillObject)
+            }
+        })
+    }
+
+    drawSkillObjects(ctx) {
+        this.skillObjects.forEach((skillObject) => {
+            skillObject.draw(ctx)
+        })
     }
 
     /*Matter*/
@@ -151,6 +194,27 @@ GameClasses.Map = class Map {
                 if(this.stage.stageState === 'playerAction' && this.stage.marbles[this.stage.nowMarble] === marble) {
 					monster.accumulateDamage(marble.damage)
 				}
+            } else if((mapObj_A instanceof GameClasses.SkillObject && !(mapObj_B instanceof GameClasses.SkillObject)) || (mapObj_B instanceof GameClasses.SkillObject && !(mapObj_A instanceof GameClasses.SkillObject))) {
+                //其中一個一定是技能物件而另一個一定不是
+                let skillObject
+                let mapObject
+                if(mapObj_A instanceof GameClasses.SkillObject) {
+                    skillObject = mapObj_A
+                    mapObject = mapObj_B
+                } else if(mapObj_B instanceof GameClasses.SkillObject) {
+                    skillObject = mapObj_B
+                    mapObject = mapObj_A
+                }
+                //限制另一物件一定是彈珠或怪物
+                if(mapObject instanceof GameClasses.Marble || mapObject instanceof GameClasses.Monster) {
+                    if(skillObject.skill.skillOwner.constructor.name.replace(/bound /g, '') === mapObject.constructor.name.replace(/bound /g, '')) {
+                        if(skillObject.skill.skillOwner !== mapObject) {
+                            console.log('技能持有者與技能施放對象為同一陣營')
+                        }
+                    } else {
+                        console.log('技能持有者與技能施放對象為對立陣營')
+                    }
+                }
             }
 		})
 	}

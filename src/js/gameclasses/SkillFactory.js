@@ -1,7 +1,9 @@
 GameClasses.SkillFactory = class SkillFactory {
-    constructor() {
+    constructor(matter) {
         autoBind(this)
+        this.matter = matter
         this.effectSprites = {}
+        this.typeEnum = {lazer: 0}
     }
 
     load() {
@@ -9,23 +11,47 @@ GameClasses.SkillFactory = class SkillFactory {
         this.effectSprites.effect2 = new Framework.Sprite(imagePath + 'effect/effect2.png')
     }
 
-    getOrangeLazerSprite() {
-        return this.effectSprites.effect1.getSection({x:865, y:810}, {x:925, y:1020})
+    createSkill(skillOwner, skillType, skillLevel, doAfter) {
+        let skillSprite
+        if(SkillFactory.isLazerSkill(skillType)) {
+            skillSprite = this.getLazerSprite(skillOwner.element)
+        }
+        return new GameClasses.Skill(skillOwner, skillType, skillLevel, skillSprite, doAfter)
     }
 
-    getPurpleLazerSprite() {
-        return this.effectSprites.effect1.getSection({x:740, y:605}, {x:800, y:810})
+    static isLazerSkill(skillType) {
+        return skillType === GameClasses.skillTypeEnum.LAZER_SINGLE_UP || skillType === GameClasses.skillTypeEnum.LAZER_SINGLE_DOWN ||
+                skillType === GameClasses.skillTypeEnum.LAZER_SINGLE_UP || skillType === GameClasses.skillTypeEnum.LAZER_SINGLE_DOWN
     }
 
-    getOrangeLazerSprite() {
-        return this.effectSprites.effect1.getSection({x:733, y:810}, {x:793, y:1020})
-    }
-
-    getOrangeLazerSprite() {
-        return this.effectSprites.effect1.getSection({x:800, y:810}, {x:860, y:1020})
-    }
-
-    getOrangeLazerSprite() {
-        return this.effectSprites.effect1.getSection({x:620, y:730}, {x:680, y:940})
+    getLazerSprite(element) {
+        let lazerSprite
+        if(element === GameClasses.elementTypeEnum.WATER) {
+            if(this.effectSprites.waterLazer === undefined) {
+                this.effectSprites.waterLazer = this.effectSprites.effect1.getSection({x:734, y:811}, {x:794, y:1012})
+            }
+            lazerSprite = this.effectSprites.waterLazer
+        } else if(element === GameClasses.elementTypeEnum.FIRE) {
+            if(this.effectSprites.fireLazer === undefined) {
+                this.effectSprites.fireLazer = this.effectSprites.effect1.getSection({x:865, y:811}, {x:925, y:1012})
+            }
+            lazerSprite = this.effectSprites.fireLazer
+        } else if(element === GameClasses.elementTypeEnum.WOOD) {
+            if(this.effectSprites.woodLazer === undefined) {
+                this.effectSprites.woodLazer = this.effectSprites.effect1.getSection({x:622, y:730}, {x:682, y:932})
+            }
+            lazerSprite = this.effectSprites.woodLazer
+        } else if(element === GameClasses.elementTypeEnum.LIGHT) {
+            if(this.effectSprites.lightLazer === undefined) {
+                this.effectSprites.lightLazer = this.effectSprites.effect1.getSection({x:800, y:811}, {x:860, y:1012})
+            }
+            lazerSprite = this.effectSprites.lightLazer
+        } else if(element === GameClasses.elementTypeEnum.DARK) {
+            if(this.effectSprites.darkLazer === undefined) {
+                this.effectSprites.darkLazer = this.effectSprites.effect1.getSection({x:735, y:607}, {x:795, y:807})
+            }
+            lazerSprite = this.effectSprites.darkLazer
+        }
+        return lazerSprite.clone()
     }
 }
