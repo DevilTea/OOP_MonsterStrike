@@ -6,10 +6,13 @@ GameClasses.Monster = class Monster extends GameClasses.MapObject {
         this.isBoss = monsterData.isBoss
         this.maxHP = monsterData.HP
         this.nowHP = monsterData.HP
+        this.maxAttackCountdown = monsterData.attackCountdown
+        this.nowAttackCountdown = monsterData.attackCountdown
         this.initPosition = monsterData.initPosition
         this.accumulationDamage = 0
         this.monsterSprite
         this.isInitialized = false
+        this.isAttacking = false
     }
 
     load() {
@@ -29,6 +32,13 @@ GameClasses.Monster = class Monster extends GameClasses.MapObject {
         this.component.update()
     }
 
+    attack() {
+        this.isAttacking = true
+        console.log('怪物攻擊')
+        this.isAttacking = false
+        this.nowAttackCountdown = this.maxAttackCountdown
+    }
+
     draw(ctx) {
         if(this.isInitialized) {
             this.monsterSprite.draw(ctx)
@@ -37,11 +47,20 @@ GameClasses.Monster = class Monster extends GameClasses.MapObject {
             } else {
                 this.drawHpBar(ctx, this.accumulationDamage, this.nowHP, this.maxHP, this.component.position.x - this.monsterSprite.texture.width / 2 + 50, this.component.position.y - this.monsterSprite.texture.height / 2 - 20, 100, 10, false)
             }
+            this.drawAttackCountdown(ctx, this.nowAttackCountdown)
+
             if(this.accumulationDamage !== 0) {
                 this.drawDamageValue(ctx, this.accumulationDamage)
             }
         }
         
+    }
+
+    drawAttackCountdown(ctx, value) {
+        ctx.font = '40px Arial'
+        ctx.fillStyle = 'white'
+        ctx.textAlign = 'center'
+        ctx.fillText(value, this.component.position.x - this.monsterSprite.texture.width / 2, this.component.position.y + this.monsterSprite.texture.height / 2)
     }
 
     drawDamageValue(ctx, value) {

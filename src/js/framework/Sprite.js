@@ -34,7 +34,6 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 	}
 
 	draw(painter) {
-
 		this.animator.update()
 		this.countAbsoluteProperty()
 		if (Framework.Util.isUndefined(this.texture)) {
@@ -208,8 +207,6 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 		tmpContext.drawImage(this.texture, -upperLeft.x, -upperLeft.y)
 		//設定回傳
 		tempResult = new Framework.Sprite(tmpCanvas)
-		tempResult.position = new Framework.Point(Framework.Game.getCanvasWidth() / 2, Framework.Game.getCanvasHeight() / 2)
-		tempResult.scale = { x: 1.5, y: 1.5 }
 		return tempResult
 	}
 }

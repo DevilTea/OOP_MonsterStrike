@@ -18,11 +18,10 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.mousedownPosition = {}
         this.monstersActionDone = false
         this.hasCreatedEndingDialog = false
+
+        this.skillFactory = new GameClasses.SkillFactory()
         /*background sprite*/
         this.backgroundSprite = { loading: undefined, }
-        this.test
-        this.temptest
-        this.num = 1
     }
 
     /*FrameworkGameState*/
@@ -38,10 +37,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.loadMaps()
         this.gameUI.loadArrow()
         this.gameUI.loadPlayerInfoUI()
-        //-------------------------------------------------------------------------------------------- 
-        this.test = new Framework.Sprite(imagePath + 'effect/8064F854.png', )
-        //this.test.position = new Framework.Point(Framework.Game.getCanvasWidth() / 2, Framework.Game.getCanvasHeight() / 2)
-        //-------------------------------------------------------------------------------------------- 
+        this.skillFactory.load()
     }
 
     loadingProgress(ctx, requestInfo) {
@@ -53,19 +49,10 @@ GameClasses.Stage = class Stage extends Framework.Level {
 
     initialize() {
         super.initialize()
-        //-------------------------------------------------------------------------------------------- 
-        this.temptest = this.test.getSection({ x: 620, y: 730 }, { x: 680, y: 940 })
-        //-------------------------------------------------------------------------------------------- 
         if (this.stageState === 'start') {
             this.backgroundSprite.game.position = { x: Framework.Game.canvasWidth / 2, y: Framework.Game.canvasHeight / 2 }
             this.backgroundSprite.game.scale = { x: 4, y: 4 }
             this.rootScene.attach(this.backgroundSprite.game)
-            //-------------------------------------------------------------------------------------------- 
-            //this.test.scale = { x: 1.5, y: 1.5 }
-            //this.temptest.scale = { x: 1.5, y: -1.5 }
-
-            this.rootScene.attach(this.temptest)
-            //-------------------------------------------------------------------------------------------- 
             this.initializeMatter()
             this.initializeMarbles()
             this.gameUI.initializePlayerInfoUI()
@@ -91,24 +78,6 @@ GameClasses.Stage = class Stage extends Framework.Level {
         } else if (this.stageState === 'endingDialog') {
             this.endingDialogUpdate()
         }
-
-        this.sectionAmimate()
-
-
-    }
-    sectionAmimate() {
-        // setInterval(() => {
-        //     if (this.num > 5) return
-        //         console.log(this.num)
-        //         this.num += 0.1
-        //         this.temptest.scale = { x: 1.5, y: this.num }
-            
-        // }, 1000)
-        // this.temptest.animate({ begin_scale: 1, scale: 6 }, 2000, () => {
-        //     this.stageState = 'playerAction'
-        //     this.spawnMonstersAnimationPlayed = false
-        // })
-        
     }
 
     draw(ctx) {
@@ -222,11 +191,8 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.updateMarbles()
         this.maps[this.nowMap].updateMonsters()
         //console.log('playerActionUpdate')
-<<<<<<< HEAD
-        if (this.isShooted && !this.marbles[this.nowMarble].isMoving) {
-=======
         if(this.isShooted && !this.marbles[this.nowMarble].isMoving) {
->>>>>>> 8a9aaccdfcb6362ebc7f28e0624d79817668a692
+            console.log('waa')
             this.playerActionDone = true
             let toRemove = []
             this.maps[this.nowMap].monsters.forEach((monster) => {
@@ -237,7 +203,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
             })
             toRemove.forEach((monster) => this.maps[this.nowMap].removeMonster(monster))
         }
-        if (this.playerActionDone) {
+        if(this.playerActionDone) {
             if (this.maps[this.nowMap].isAllMonstersDead()) {
                 if (this.hasNextMap()) {
                     this.stageState = 'enterIntoMap'
@@ -245,20 +211,23 @@ GameClasses.Stage = class Stage extends Framework.Level {
                     this.stageState = 'endingDialog'
                 }
             } else {
-                this.nowMarble = (this.nowMarble + 1) % 4
-                this.gameUI.playerInfoUIOption.nowMarble = this.nowMarble
-                this.playerActionDone = false
-                this.isShooted = false
+                console.log('done')
+                this.maps[this.nowMap].allMonsterCountdown()
                 this.stageState = 'monstersAction'
             }
+            this.nowMarble = (this.nowMarble + 1) % 4
+            this.gameUI.playerInfoUIOption.nowMarble = this.nowMarble
+            this.isShooted = false
+            this.playerActionDone = false
         }
     }
 
     monstersActionUpdate() {
         this.updateMarbles()
         this.maps[this.nowMap].updateMonsters()
+        this.maps[this.nowMap].monsterAttack()
         //console.log('monstersActionUpdate')
-        this.monstersActionDone = true
+        
         if (this.monstersActionDone) {
             this.monstersActionDone = false
             this.stageState = 'playerAction'
@@ -266,15 +235,10 @@ GameClasses.Stage = class Stage extends Framework.Level {
     }
 
     endingDialogUpdate() {
-<<<<<<< HEAD
-        if (!this.hasCreatedEndingDialog) {
-            this.createDialog('結束的對話框')
-=======
         if(!this.hasCreatedEndingDialog) {
             GameClasses.HtmlElementView.createDialog('結束的對話框', () => {
                 Framework.Game.goToLevel('End')
             })
->>>>>>> 8a9aaccdfcb6362ebc7f28e0624d79817668a692
             this.hasCreatedEndingDialog = true
         }
         //console.log('endingDialogUpdate')
@@ -471,58 +435,4 @@ GameClasses.Stage = class Stage extends Framework.Level {
             marble.draw(ctx)
         })
     }
-<<<<<<< HEAD
-
-    createDialog(msg) {
-        let fullContainer = Framework.HtmlElementUI.createElement(0, 0, 'full', 'full', document.createElement('div'), undefined, false)
-        let dialogBackground = Framework.HtmlElementUI.createElement(140, 660, 800, 600, document.createElement('div'), fullContainer, true)
-        let dialogText = Framework.HtmlElementUI.createElement(20, 20, 760, 480, document.createElement('div'), dialogBackground, false)
-        let enterButton = Framework.HtmlElementUI.createElement(300, 520, 200, 60, document.createElement('button'), dialogBackground, false)
-        let mouseOffset = { x: 0, y: 0 }
-        let canDrag = false
-        fullContainer.style = { userSelect: 'none' }
-        dialogBackground.style = { backgroundColor: '#333333', borderRadius: '5px' }
-        dialogText.style = { padding: '10px', color: '#ffffff', fontFamily: '微軟正黑體', fontWeight: 'bold', fontSize: '3em', backgroundColor: '#999999', overflowY: 'auto', textAlign: 'center', borderRadius: '5px' }
-        dialogText.ele.innerText = msg
-        enterButton.style = { border: '2px #999999 solid', borderRadius: '3px', color: '#ffffff', backgroundColor: '#333333' }
-        enterButton.ele.innerText = '確認'
-
-        fullContainer.clickEvent = (e) => e.stopPropagation()
-        fullContainer.mousedownEvent = (e) => e.stopPropagation()
-        fullContainer.mouseupEvent = (e) => e.stopPropagation()
-        fullContainer.mousemoveEvent = (e) => e.stopPropagation()
-
-        dialogBackground.mousedownEvent = (e) => {
-            e.preventDefault()
-            e = Framework.MouseManager.countCanvasOffset(e)
-            mouseOffset.x = dialogBackground.originX - e.x
-            mouseOffset.y = dialogBackground.originY - e.y
-            canDrag = true
-        }
-
-        fullContainer.mouseupEvent = (e) => {
-            canDrag = false
-        }
-
-        fullContainer.mousemoveEvent = (e) => {
-            if (e.buttons === 1 && canDrag) {
-                e.preventDefault()
-                e = Framework.MouseManager.countCanvasOffset(e)
-                dialogBackground.position = { x: mouseOffset.x + e.x, y: mouseOffset.y + e.y }
-            }
-        }
-
-        enterButton.clickEvent = (e) => {
-            Framework.HtmlElementUI.detachElement(fullContainer)
-            fullContainer.remove()
-            Framework.MouseManager.startHandle()
-        }
-
-        Framework.HtmlElementUI.attachElement(fullContainer)
-        fullContainer.create()
-        Framework.MouseManager.stopHandle()
-        return fullContainer
-    }
-=======
->>>>>>> 8a9aaccdfcb6362ebc7f28e0624d79817668a692
 }
