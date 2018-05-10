@@ -45,7 +45,6 @@ Framework.GameObjectAnimator = class GameObjectAnimator {
                     }
                 })
                 this.gameObject.isDuringAnimation = true
-                console.log(this.currentAnimation)
 
             }
         }

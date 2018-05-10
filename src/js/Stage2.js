@@ -1,4 +1,4 @@
-Stages.Stage1 = class Stage1 extends GameClasses.Stage {
+Stages.Stage2 = class Stage1 extends GameClasses.Stage {
     constructor(marbles) {
         super('', marbles)
         autoBind(this)
@@ -9,7 +9,7 @@ Stages.Stage1 = class Stage1 extends GameClasses.Stage {
     }
 
     static getStageName() {
-        return '關卡一'
+        return '關卡二'
     }
 
     addMap1() {

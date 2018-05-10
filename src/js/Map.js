@@ -79,6 +79,12 @@ GameClasses.Map = class Map {
 
     updateMonsters() {
         this.monsters.forEach((monster) => {
+            let marble = this.stage.marbles[this.stage.nowMarble]
+            if(marble.sling === 'pierce') {
+                monster.component.body.isSensor = true
+            } else if(marble.sling === 'bounce') {
+                monster.component.body.isSensor = false
+            }
             monster.update()
         })
     }
@@ -107,26 +113,53 @@ GameClasses.Map = class Map {
     /*Matter*/
     collisionStart(event) {
 		event.pairs.forEach((value) => {
-			let mapObjID_A = parseInt(value.bodyA.label.slice(12))
-			let mapObjID_B = parseInt(value.bodyB.label.slice(12))
-			if((this.getMapObjectByID(mapObjID_A) instanceof GameClasses.Marble && this.getMapObjectByID(mapObjID_B) instanceof GameClasses.Monster) ||
-			(this.getMapObjectByID(mapObjID_A) instanceof GameClasses.Monster && this.getMapObjectByID(mapObjID_B) instanceof GameClasses.Marble)) {
-				let marble
-				let monster
-				if(this.getMapObjectByID(mapObjID_A) instanceof GameClasses.Marble && this.getMapObjectByID(mapObjID_B) instanceof GameClasses.Monster) {
-					marble = this.getMapObjectByID(mapObjID_A)
-					monster = this.getMapObjectByID(mapObjID_B)
-				} else {
-					marble = this.getMapObjectByID(mapObjID_B)
-					monster = this.getMapObjectByID(mapObjID_A)
+			let mapObj_A = this.getMapObjectByID(parseInt(value.bodyA.label.slice(12)))
+            let mapObj_B = this.getMapObjectByID(parseInt(value.bodyB.label.slice(12)))
+            if(mapObj_A instanceof GameClasses.Marble && mapObj_B instanceof GameClasses.Marble) {
+                //彈珠之間碰撞
+                console.log('彈珠之間碰撞')
+            } else if((mapObj_A instanceof GameClasses.Marble && mapObj_B instanceof GameClasses.Monster) || (mapObj_B instanceof GameClasses.Marble && mapObj_A instanceof GameClasses.Monster)) {
+                //彈珠與怪物之間碰撞
+                console.log('彈珠與怪物之間碰撞')
+                let marble
+                let monster
+                if(mapObj_A instanceof GameClasses.Marble && mapObj_B instanceof GameClasses.Monster) {
+                    marble = mapObj_A
+                    monster = mapObj_B
+                } else if(mapObj_B instanceof GameClasses.Marble && mapObj_A instanceof GameClasses.Monster) {
+                    marble = mapObj_B
+                    monster = mapObj_A
+                }
+                if(this.stage.stageState === 'playerAction' && this.stage.marbles[this.stage.nowMarble] === marble) {
+                    
 				}
-				if(this.stage.marbles[this.stage.nowMarble] === marble) {
-					monster.accumulateDamage(marble.damage)
-				}
-			}
+            }
 		})
 	}
 
 	collisionEnd(event) {
+        event.pairs.forEach((value) => {
+			let mapObj_A = this.getMapObjectByID(parseInt(value.bodyA.label.slice(12)))
+            let mapObj_B = this.getMapObjectByID(parseInt(value.bodyB.label.slice(12)))
+            if(mapObj_A instanceof GameClasses.Marble && mapObj_B instanceof GameClasses.Marble) {
+                //彈珠之間碰撞
+                console.log('彈珠之間碰撞')
+            } else if((mapObj_A instanceof GameClasses.Marble && mapObj_B instanceof GameClasses.Monster) || (mapObj_B instanceof GameClasses.Marble && mapObj_A instanceof GameClasses.Monster)) {
+                //彈珠與怪物之間碰撞
+                console.log('彈珠與怪物之間碰撞')
+                let marble
+                let monster
+                if(mapObj_A instanceof GameClasses.Marble && mapObj_B instanceof GameClasses.Monster) {
+                    marble = mapObj_A
+                    monster = mapObj_B
+                } else if(mapObj_B instanceof GameClasses.Marble && mapObj_A instanceof GameClasses.Monster) {
+                    marble = mapObj_B
+                    monster = mapObj_A
+                }
+                if(this.stage.stageState === 'playerAction' && this.stage.marbles[this.stage.nowMarble] === marble) {
+					monster.accumulateDamage(marble.damage)
+				}
+            }
+		})
 	}
 }

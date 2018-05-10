@@ -31,7 +31,7 @@ GameClasses.Marble = class Marble extends GameClasses.MapObject {
 
     update() {
         this.component.update()
-        if(this.component.body.speed < 1) {
+        if(this.isMoving && this.component.body.speed < 1) {
             this.component.setBody('velocity', {x: 0, y: 0})
             this.component.body.isSensor = true
 			this.isMoving = false

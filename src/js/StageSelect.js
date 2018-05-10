@@ -1,4 +1,4 @@
-class StageSelect extends Framework.GameMainMenu {
+GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
     constructor() {
         super()
 
@@ -40,11 +40,14 @@ class StageSelect extends Framework.GameMainMenu {
             listItemNameTag.style = {color: '#ffffff', fontWeight: 'bold'}
             listItemNameTag.ele.innerText = key
             listItemDescription.style = {color: '#ffffff', fontWeight: 'bold', fontSize: '2em'}
-            listItemDescription.ele.innerText = Stages[key].stageName
+            listItemDescription.ele.innerText = Stages[key].getStageName()
 
             listItem.clickEvent = (e) => {  
                 Framework.HtmlElementUI.detachElement(listContainer)
                 listContainer.remove()
+                let stage = {}
+                stage[key] = new Stages[key]([...GameClasses.MarblePick.testMarbles()])
+                Framework.Game.addNewLevel(stage)
                 Framework.Game.goToLevel(key)
             }
 

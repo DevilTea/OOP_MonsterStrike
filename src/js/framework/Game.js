@@ -418,11 +418,22 @@ Framework.Game = new (class Game {
 				if(Framework.Util.isNull(this.findLevel(i))) {
 					this.levels.push({name : i , level : leveldata[i]})
 				} else {
-					Framework.DebugInfo.Log.error('Game : 關卡名稱不能重複')
-					throw new Error('Game: already has same level name')
+					/*Framework.DebugInfo.Log.error('Game : 關卡名稱不能重複')
+					throw new Error('Game: already has same level name')*/
+					this.changeLevelData(i, leveldata[i])
 				}
 			}
 		}
+	}
+
+	changeLevelData(levelName, levelObj) {
+		let toChange
+		this.levels.forEach((level, index) => {
+			if(level.name === levelName) {
+				toChange = index
+			}
+		})
+		this.levels[toChange] = {name : levelName , level : levelObj}
 	}
 
 	addNewTestScript(levelName,scriptName,scriptInstance) {

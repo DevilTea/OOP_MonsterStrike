@@ -1,4 +1,4 @@
-class EndPage extends Framework.GameMainMenu {
+GameClasses.EndPage = class EndPage extends Framework.GameMainMenu {
 	constructor() {
 		super()
 		autoBind(this)

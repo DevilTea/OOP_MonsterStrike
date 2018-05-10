@@ -18,7 +18,7 @@ GameClasses.Monster = class Monster extends GameClasses.MapObject {
 
     initialize() {
         if(!this.isInitialized) {
-            this.component = new Framework.RectangleComponent(this.matter, this.monsterSprite, {label: 'mapObjectID_' + this.mapObjectID, friction: 0, frictionAir: 0.012, frictionStatic: 0, restitution: 0, isStatic: true})
+            this.component = new Framework.RectangleComponent(this.matter, this.monsterSprite, {label: 'mapObjectID_' + this.mapObjectID, friction: 0, frictionAir: 0.012, frictionStatic: 0, restitution: 1, isStatic: true})
             this.component.position = this.initPosition
             this.component.addBodyToWorld()
             this.isInitialized = true
