@@ -2,7 +2,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
     constructor(stageName, marbles) {
         super()
         autoBind(this)
-        this.stageName = stageName
+        this.stageName = 'defaultName'
         this.marbles = marbles
         this.nowMarble = 0
         this.maps = []
@@ -127,6 +127,12 @@ GameClasses.Stage = class Stage extends Framework.Level {
         }
     }
 
+    keydown(e) {
+        if(e.key === 'P') {
+            this.matter.toggleRenderWireframes()
+        }
+    }
+
     click(e) {
         super.click(e)
         if (this.stageState === 'enterIntoMap') {
@@ -191,7 +197,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
     enterIntoMapUpdate() {
         this.updateMarbles()
         this.nowMap++
-        console.log('enterIntoMapUpdate')
+        //console.log('enterIntoMapUpdate')
         this.stageState = 'spawnMonsters'
     }
 
@@ -216,7 +222,11 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.updateMarbles()
         this.maps[this.nowMap].updateMonsters()
         //console.log('playerActionUpdate')
+<<<<<<< HEAD
         if (this.isShooted && !this.marbles[this.nowMarble].isMoving) {
+=======
+        if(this.isShooted && !this.marbles[this.nowMarble].isMoving) {
+>>>>>>> 8a9aaccdfcb6362ebc7f28e0624d79817668a692
             this.playerActionDone = true
             let toRemove = []
             this.maps[this.nowMap].monsters.forEach((monster) => {
@@ -247,7 +257,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
     monstersActionUpdate() {
         this.updateMarbles()
         this.maps[this.nowMap].updateMonsters()
-        console.log('monstersActionUpdate')
+        //console.log('monstersActionUpdate')
         this.monstersActionDone = true
         if (this.monstersActionDone) {
             this.monstersActionDone = false
@@ -256,11 +266,18 @@ GameClasses.Stage = class Stage extends Framework.Level {
     }
 
     endingDialogUpdate() {
+<<<<<<< HEAD
         if (!this.hasCreatedEndingDialog) {
             this.createDialog('結束的對話框')
+=======
+        if(!this.hasCreatedEndingDialog) {
+            GameClasses.HtmlElementView.createDialog('結束的對話框', () => {
+                Framework.Game.goToLevel('End')
+            })
+>>>>>>> 8a9aaccdfcb6362ebc7f28e0624d79817668a692
             this.hasCreatedEndingDialog = true
         }
-        console.log('endingDialogUpdate')
+        //console.log('endingDialogUpdate')
     }
 
     enterIntoMapDraw(ctx) {
@@ -454,6 +471,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
             marble.draw(ctx)
         })
     }
+<<<<<<< HEAD
 
     createDialog(msg) {
         let fullContainer = Framework.HtmlElementUI.createElement(0, 0, 'full', 'full', document.createElement('div'), undefined, false)
@@ -505,4 +523,6 @@ GameClasses.Stage = class Stage extends Framework.Level {
         Framework.MouseManager.stopHandle()
         return fullContainer
     }
+=======
+>>>>>>> 8a9aaccdfcb6362ebc7f28e0624d79817668a692
 }
