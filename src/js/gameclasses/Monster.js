@@ -38,7 +38,6 @@ GameClasses.Monster = class Monster extends GameClasses.MapObject {
         if(!this.isAttacking) {
             this.isAttacking = true
             console.log('怪物攻擊')
-            //this.component.body.isSensor = true
             /***********/
             this.map.stage.skillFactory.createSkill(this, GameClasses.skillTypeEnum.LAZER_SINGLE_UP, GameClasses.skillLevelEnum.LAZER_S, () => {
                 this.isAttacking = false

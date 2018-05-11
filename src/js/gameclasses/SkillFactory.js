@@ -11,7 +11,7 @@ GameClasses.SkillFactory = class SkillFactory {
         this.effectSprites.effect2 = new Framework.Sprite(imagePath + 'effect/effect2.png')
     }
 
-    createSkill(skillOwner, skillType, skillLevel, doAfter) {
+    createSkill(skillOwner, skillType, skillLevel, doAfter = () => {}) {
         let skillSprite
         if(SkillFactory.isLazerSkill(skillType)) {
             skillSprite = this.getLazerSprite(skillOwner.element)

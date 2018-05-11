@@ -438,9 +438,9 @@ Framework.Game = new (class Game {
 	}
 
 	addNewTestScript(levelName,scriptName,scriptInstance) {
-		let levelName = levelName
+		/*let levelName = levelName
 		let scriptName = scriptName
-		let scriptInstance = scriptInstance
+		let scriptInstance = scriptInstance*/
 		if(Framework.Util.isNull(this.findScript(scriptName))) {
 			this.testScripts.push({targetLevel: levelName,name : scriptName , script : scriptInstance})
 		} else {

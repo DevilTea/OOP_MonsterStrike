@@ -6,7 +6,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.marbles = marbles
         this.nowMarble = 0
         this.maps = []
-        this.nowMap = -1
+        this.nowMap = undefined
         this.matter = new Framework.Matter()
         this.gameUI = new GameClasses.GameUI()
         this.stageState = 'start'
@@ -165,7 +165,8 @@ GameClasses.Stage = class Stage extends Framework.Level {
     /*StageState*/
     enterIntoMapUpdate() {
         this.updateMarbles()
-        this.nowMap++
+        delete this.nowMap
+        this.nowMap = this.maps.shift()
         //console.log('enterIntoMapUpdate')
         this.stageState = 'spawnMonsters'
         this.spawnMonstersAnimationPlayed = false
@@ -174,11 +175,11 @@ GameClasses.Stage = class Stage extends Framework.Level {
     spawnMonstersUpdate() {
         this.updateMarbles()
         //console.log('spawnMonstersUpdate')
-        this.maps[this.nowMap].initializeMonsters()
-        this.maps[this.nowMap].updateMonsters()
-        this.maps[this.nowMap].addMarbles(this.marbles)
+        this.nowMap.initializeMonsters()
+        this.nowMap.updateMonsters()
+        this.nowMap.addMarbles(this.marbles)
         if(!this.spawnMonstersAnimationPlayed) {
-            this.maps[this.nowMap].monsters.forEach((monster) => {
+            this.nowMap.monsters.forEach((monster) => {
                 monster.component.opacity = 0
                 monster.component.componentMagician.addEffect({opacity: 1 }, 1000, () => {
                     this.stageState = 'playerAction'
@@ -190,29 +191,29 @@ GameClasses.Stage = class Stage extends Framework.Level {
 
     playerActionUpdate() {
         this.updateMarbles()
-        this.maps[this.nowMap].updateMonsters()
-        this.maps[this.nowMap].updateSkillObjects()
+        this.nowMap.updateMonsters()
+        this.nowMap.updateSkillObjects()
         //console.log('playerActionUpdate')
         if(this.isShooted && !this.marbles[this.nowMarble].isMoving) {
             this.playerActionDone = true
             let toRemove = []
-            this.maps[this.nowMap].monsters.forEach((monster) => {
+            this.nowMap.monsters.forEach((monster) => {
                 monster.calculateHP()
                 if(monster.nowHP === 0) {
                     toRemove.push(monster)
                 }
             })
-            toRemove.forEach((monster) => this.maps[this.nowMap].removeMonster(monster))
+            toRemove.forEach((monster) => this.nowMap.removeMonster(monster))
         }
         if(this.playerActionDone) {
-            if (this.maps[this.nowMap].isAllMonstersDead()) {
+            if (this.nowMap.isAllMonstersDead()) {
                 if (this.hasNextMap()) {
                     this.stageState = 'enterIntoMap'
                 } else {
                     this.stageState = 'endingDialog'
                 }
             } else {
-                this.maps[this.nowMap].allMonsterCountdown()
+                this.nowMap.allMonsterCountdown()
                 this.stageState = 'monstersAction'
             }
             this.nowMarble = (this.nowMarble + 1) % 4
@@ -224,9 +225,9 @@ GameClasses.Stage = class Stage extends Framework.Level {
 
     monstersActionUpdate() {
         this.updateMarbles()
-        this.maps[this.nowMap].updateMonsters()
-        this.maps[this.nowMap].updateSkillObjects()
-        this.maps[this.nowMap].monsterAttack()
+        this.nowMap.updateMonsters()
+        this.nowMap.updateSkillObjects()
+        this.nowMap.monsterAttack()
         //console.log('monstersActionUpdate')
         
         if (this.monstersActionDone) {
@@ -239,6 +240,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         if(!this.hasCreatedEndingDialog) {
             GameClasses.HtmlElementView.createDialog('結束的對話框', () => {
                 Framework.Game.goToLevel('End')
+                delete this
             })
             this.hasCreatedEndingDialog = true
         }
@@ -251,28 +253,28 @@ GameClasses.Stage = class Stage extends Framework.Level {
 
     spawnMonstersDraw(ctx) {
         this.drawMarbles(ctx)
-        this.maps[this.nowMap].drawMonsters(ctx)
+        this.nowMap.drawMonsters(ctx)
         this.gameUI.drawPlayerInfoUI(ctx)
     }
 
     playerActionDraw(ctx) {
         this.drawMarbles(ctx)
-        this.maps[this.nowMap].drawMonsters(ctx)
-        this.maps[this.nowMap].drawSkillObjects(ctx)
+        this.nowMap.drawMonsters(ctx)
+        this.nowMap.drawSkillObjects(ctx)
         this.gameUI.drawArrow(ctx)
         this.gameUI.drawPlayerInfoUI(ctx)
     }
 
     monstersActionDraw(ctx) {
         this.drawMarbles(ctx)
-        this.maps[this.nowMap].drawMonsters(ctx)
-        this.maps[this.nowMap].drawSkillObjects(ctx)
+        this.nowMap.drawMonsters(ctx)
+        this.nowMap.drawSkillObjects(ctx)
         this.gameUI.drawPlayerInfoUI(ctx)
     }
 
     endingDialogDraw(ctx) {
         this.drawMarbles(ctx)
-        this.maps[this.nowMap].drawMonsters(ctx)
+        this.nowMap.drawMonsters(ctx)
         this.gameUI.drawArrow(ctx)
         this.gameUI.drawPlayerInfoUI(ctx)
     }
@@ -388,11 +390,11 @@ GameClasses.Stage = class Stage extends Framework.Level {
     }
 
     collisionStart(event) {
-        this.maps[this.nowMap].collisionStart(event)
+        this.nowMap.collisionStart(event)
     }
 
     collisionEnd(event) {
-        this.maps[this.nowMap].collisionEnd(event)
+        this.nowMap.collisionEnd(event)
     }
 
     /*Map*/
@@ -403,7 +405,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
     }
 
     hasNextMap() {
-        return this.nowMap < (this.maps.length - 1)
+        return this.maps.length > 0
     }
 
     loadMaps() {
