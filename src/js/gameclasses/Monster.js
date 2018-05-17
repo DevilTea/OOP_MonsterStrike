@@ -36,7 +36,11 @@ GameClasses.Monster = class Monster extends GameClasses.MapObject {
             })
             this.component = new Framework.RectangleComponent(this.matter, this.monsterSprite, {label: 'mapObjectID_' + this.mapObjectID, friction: 0, frictionAir: 0.012, frictionStatic: 0, restitution: 1, isStatic: true})
             this.component.position = this.initPosition
-            this.component.scale = {x: 0.8, y: 0.8}
+            if(this.isBoss) {
+                this.component.scale = {x: 1.2, y: 1.2}
+            } else {
+                this.component.scale = {x: 0.8, y: 0.8}
+            }
             this.component.addBodyToWorld()
             this.isInitialized = true
             this.defineProperties()
