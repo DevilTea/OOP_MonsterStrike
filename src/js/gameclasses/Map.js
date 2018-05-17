@@ -175,6 +175,15 @@ GameClasses.Map = class Map {
             let mapObj_B = this.getMapObjectByID(parseInt(value.bodyB.label.slice(12)))
             if(mapObj_A instanceof GameClasses.Marble && mapObj_B instanceof GameClasses.Marble) {
                 //彈珠之間碰撞
+                let friend
+                if(this.stage.marbles[this.stage.nowMarble] !== mapObj_A) {
+                    friend = mapObj_A
+                } else if(this.stage.marbles[this.stage.nowMarble] !== mapObj_B) {
+                    friend = mapObj_B
+                }
+                if(!friend.hasUsedComboSkill) {
+                    friend.useComboSkill()
+                }
             } else if((mapObj_A instanceof GameClasses.Marble && mapObj_B instanceof GameClasses.Monster) || (mapObj_B instanceof GameClasses.Marble && mapObj_A instanceof GameClasses.Monster)) {
                 //彈珠與怪物之間碰撞
                 let marble
@@ -211,8 +220,10 @@ GameClasses.Map = class Map {
                         let damage = skillObject.skill.skillData.skillDamage
                         if(mapObject instanceof GameClasses.Marble) {
                             damage = Math.round(damage * this.stage.monsterDamageRate)
+                            this.stage.accumulationDamage += damage
+                        } else if(mapObject instanceof GameClasses.Monster) {
+                            mapObject.accumulateDamage(damage)
                         }
-                        this.stage.accumulationDamage += damage
                     }
                 }
             }

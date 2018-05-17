@@ -7,7 +7,7 @@ Stages.Stage2 = class Stage2 extends GameClasses.Stage {
         this.addMap2()
         this.addMap3()
         this.monsterHpRate = 100
-        this.monsterDamageRate = 1
+        this.monsterDamageRate = 100
     }
 
     static getStageName() {

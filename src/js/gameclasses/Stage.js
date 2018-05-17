@@ -203,6 +203,9 @@ GameClasses.Stage = class Stage extends Framework.Level {
         //console.log('playerActionUpdate')
         if(this.isShooted && !this.marbles[this.nowMarble].isMoving) {
             this.playerActionDone = true
+            this.marbles.forEach((marble) => {
+                marble.hasUsedComboSkill = false
+            })
             let toRemove = []
             this.nowMap.monsters.forEach((monster) => {
                 monster.calculateHP()
@@ -245,7 +248,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
             if(this.nowHp === 0) {
                 this.marbles.forEach((marble) => {
                     marble.component.lockRotation = false
-                    marble.component.componentMagician.addEffect({rotation: 90}, 500)
+                    marble.component.componentMagician.addEffect({rotation: 90}, 1000)
                 })
                 this.stageState = 'endingDialog'
             } else {
