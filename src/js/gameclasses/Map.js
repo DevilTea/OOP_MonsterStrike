@@ -104,12 +104,11 @@ GameClasses.Map = class Map {
 
     removeMonster(monster) {
         monster.isRemoving = true
-        monster.component.opacity = 1
-        //monster.component.componentMagician.addEffect({opacity: 0 }, 1000, () => {
+        monster.component.componentMagician.addEffect({opacity: 0 }, 1000, () => {
             this.removeMapObject(monster)
             this.monsters.splice(this.monsters.indexOf(monster), 1)
             monster.remove()
-        //})
+        })
     }
 
     allMonsterCountdown() {
@@ -122,24 +121,20 @@ GameClasses.Map = class Map {
     }
 
     monsterAttack() {
-        
         if(this.attackingMonsters.length === 0) {
             this.stage.monstersActionDone = true
             return
         } else {
-            this.attackingMonsters[0].attack(() => {
-                this.attackingMonsters.shift()
-                this.monsterAttack()
-            })
+            this.attackingMonsters[0].attack()
         }
     }
 
-    hasAliveMonster() {
-        let alive = 0
+    hasRemovingMonster() {
+        let removing = 0
         this.monsters.forEach((monster) => {
-            alive = monster.isRemoving ? alive : (alive + 1)
+            removing = monster.isRemoving ? (removing + 1) : removing
         })
-        return alive > 0
+        return removing > 0
     }
 
     isAllMonstersDead() {
@@ -213,6 +208,11 @@ GameClasses.Map = class Map {
                         }
                     } else {
                         console.log('技能持有者與技能施放對象為對立陣營')
+                        let damage = skillObject.skill.skillData.skillDamage
+                        if(mapObject instanceof GameClasses.Marble) {
+                            damage = Math.round(damage * this.stage.monsterDamageRate)
+                        }
+                        this.stage.accumulationDamage += damage
                     }
                 }
             }

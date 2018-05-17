@@ -39,7 +39,9 @@ Framework.Component = class Component {
 				if(this.syncSprite && !this.sprite.isDuringAnimation) {
 					this.sprite.scale = {x: newValue.x, y: newValue.y}
 				}
+				this.setBody('angle', 0)
 				this.matter.scaleBody(this.body, tempX, tempY)
+				this.setBody('angle', this.componentRotation * Math.PI / 180)
 			}
 		})
 		

@@ -1,15 +1,17 @@
 GameClasses.Monster = class Monster extends GameClasses.MapObject {
-    constructor(monsterData) {
+    constructor(monsterData, initPosition, attackCountdown, isBoss = false) {
         super()
         autoBind(this)
-        this.monsterID = monsterData.monsterID
-        this.element = this.element = GameClasses.elementTypeEnum.LIGHT//marbleData.element//monsterData.element
-        this.isBoss = monsterData.isBoss
-        this.maxHP = monsterData.HP
-        this.nowHP = monsterData.HP
-        this.maxAttackCountdown = monsterData.attackCountdown
-        this.nowAttackCountdown = monsterData.attackCountdown
-        this.initPosition = monsterData.initPosition
+        this.monsterID = monsterData.id
+        this.element = monsterData.element
+        this.isBoss = isBoss
+        this.maxHP = monsterData.hp
+        this.nowHP = this.maxHP
+        this.maxAttackCountdown = attackCountdown
+        this.nowAttackCountdown = attackCountdown
+        this.attackSkillData = monsterData.comboSkillData
+        this.attackSkill
+        this.initPosition = initPosition
         this.accumulationDamage = 0
         this.monsterSprite
         this.isInitialized = false
@@ -18,15 +20,26 @@ GameClasses.Monster = class Monster extends GameClasses.MapObject {
     }
 
     load() {
-        this.monsterSprite = new Framework.Sprite(imagePath + 'monster/' + this.monsterID + '.png')
+        this.monsterSprite = new Framework.Sprite(imagePath + 'big/' + this.monsterID + '.png')
+        
     }
 
     initialize() {
         if(!this.isInitialized) {
+            this.maxHP = this.maxHP * this.map.stage.monsterHpRate
+            this.nowHP = this.maxHP
+            this.attackSkill = this.map.stage.skillFactory.createSkill(this, this.attackSkillData, () => {
+                this.isAttacking = false
+                this.nowAttackCountdown = this.maxAttackCountdown
+                this.map.attackingMonsters.shift()
+                this.map.monsterAttack()
+            })
             this.component = new Framework.RectangleComponent(this.matter, this.monsterSprite, {label: 'mapObjectID_' + this.mapObjectID, friction: 0, frictionAir: 0.012, frictionStatic: 0, restitution: 1, isStatic: true})
             this.component.position = this.initPosition
+            this.component.scale = {x: 0.8, y: 0.8}
             this.component.addBodyToWorld()
             this.isInitialized = true
+            this.defineProperties()
         }
     }
 
@@ -34,18 +47,11 @@ GameClasses.Monster = class Monster extends GameClasses.MapObject {
         super.update()
     }*/
 
-    attack(callback) {
+    attack() {
         if(!this.isAttacking) {
             this.isAttacking = true
             console.log('怪物攻擊')
-            /***********/
-            this.map.stage.skillFactory.createSkill(this, GameClasses.skillTypeEnum.LAZER_SINGLE_UP, GameClasses.skillLevelEnum.LAZER_S, () => {
-                this.isAttacking = false
-                this.nowAttackCountdown = this.maxAttackCountdown
-                //this.component.body.isSensor = true
-                callback()
-            }).use()
-            /***********/
+            this.attackSkill.use()
         }
     }
 
@@ -68,14 +74,14 @@ GameClasses.Monster = class Monster extends GameClasses.MapObject {
     }
 
     drawAttackCountdown(ctx, value) {
-        ctx.font = '40px Arial'
+        ctx.font = '900 40px Arial'
         ctx.fillStyle = 'white'
         ctx.textAlign = 'center'
         ctx.fillText(value, this.component.position.x - this.monsterSprite.texture.width / 2, this.component.position.y + this.monsterSprite.texture.height / 2)
     }
 
     drawDamageValue(ctx, value) {
-        ctx.font = '60px Arial'
+        ctx.font = 'bold 60px Arial'
         ctx.fillStyle = 'white'
         ctx.textAlign = 'center'
         ctx.fillText(value, this.component.position.x, this.component.position.y - this.monsterSprite.texture.height / 2 - 50)
@@ -90,10 +96,12 @@ GameClasses.Monster = class Monster extends GameClasses.MapObject {
         ctx.fillStyle = "green"
         ctx.fillRect(x, y, valueLeft / maxHP * width, height)
         if(showHP) {
-            ctx.font = '60px Arial'
+            ctx.font = 'bold 60px Arial'
             ctx.fillStyle = 'white'
             ctx.textAlign = 'center'
             ctx.fillText(valueLeft + "/" + maxHP, x + width / 2, y + height)
+            ctx.lineWidth = 3
+            ctx.strokeText(valueLeft + "/" + maxHP, x + width / 2, y + height)
         }
     }
 

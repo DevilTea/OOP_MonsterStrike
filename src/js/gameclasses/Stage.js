@@ -8,7 +8,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.maps = []
         this.nowMap = undefined
         this.matter = new Framework.Matter()
-        this.gameUI = new GameClasses.GameUI()
+        this.gameUI = new GameClasses.GameUI(this)
         this.stageState = 'start'
         this.spawnMonstersAnimationPlayed = false
         this.playerActionDone = false
@@ -19,9 +19,16 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.monstersActionDone = false
         this.hasCreatedEndingDialog = false
 
-        this.skillFactory = new GameClasses.SkillFactory(this.matter)
+        this.monsterHpRate = 50
+        this.monsterDamageRate = 0.1
+
+        this.skillFactory = new GameClasses.SkillFactory()
         /*background sprite*/
         this.backgroundSprite = { loading: undefined, }
+        /*player*/
+        this.maxHp = 0
+        this.nowHp = 0
+        this.accumulationDamage = 0
     }
 
     /*FrameworkGameState*/
@@ -205,7 +212,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
             })
             toRemove.forEach((monster) => this.nowMap.removeMonster(monster))
         }
-        if(this.playerActionDone) {
+        if(this.playerActionDone && !this.nowMap.hasRemovingMonster()) {
             if (this.nowMap.isAllMonstersDead()) {
                 if (this.hasNextMap()) {
                     this.stageState = 'enterIntoMap'
@@ -231,17 +238,37 @@ GameClasses.Stage = class Stage extends Framework.Level {
         //console.log('monstersActionUpdate')
         
         if (this.monstersActionDone) {
+            this.nowHp = Math.max(this.nowHp - this.accumulationDamage, 0)
+            this.accumulationDamage = 0
             this.monstersActionDone = false
-            this.stageState = 'playerAction'
+            
+            if(this.nowHp === 0) {
+                this.marbles.forEach((marble) => {
+                    marble.component.lockRotation = false
+                    marble.component.componentMagician.addEffect({rotation: 90}, 500)
+                })
+                this.stageState = 'endingDialog'
+            } else {
+                this.stageState = 'playerAction'
+            }
+            
         }
     }
 
     endingDialogUpdate() {
+        this.updateMarbles()
         if(!this.hasCreatedEndingDialog) {
-            GameClasses.HtmlElementView.createDialog('結束的對話框', () => {
-                Framework.Game.goToLevel('End')
-                delete this
-            })
+            if(this.nowHp === 0) {
+                GameClasses.HtmlElementView.createDialog('死掉了的對話框', () => {
+                    Framework.Game.goToLevel('End')
+                    delete this
+                })
+            } else {
+                GameClasses.HtmlElementView.createDialog('結束的對話框', () => {
+                    Framework.Game.goToLevel('End')
+                    delete this
+                })
+            }
             this.hasCreatedEndingDialog = true
         }
         //console.log('endingDialogUpdate')
@@ -426,7 +453,9 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.marbles.forEach((marble) => {
             marble.matter = this.matter
             marble.initialize()
+            this.maxHp += marble.maxHp
         })
+        this.nowHp = this.maxHp
     }
 
     updateMarbles() {

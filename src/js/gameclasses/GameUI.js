@@ -1,6 +1,7 @@
 GameClasses.GameUI = class GameUI {
-    constructor() {
+    constructor(stage) {
         autoBind(this)
+        this.stage = stage
         this.arrowOption = {canDraw: false, arrowType: 'bounce', position: {x: 0, y: 0}, angle: 0, length: 0}
         this.arrowSprites = []
         this.playerInfoUIOption = {marbleIDs: [], nowMarble: 0, hpBar: {}}
@@ -33,7 +34,7 @@ GameClasses.GameUI = class GameUI {
     loadPlayerInfoUI() {
         this.playerInfoUISprites.UI = new Framework.Sprite(imagePath + 'UI/player_info_UI.png')
         this.playerInfoUISprites.UI.position = {x: 540, y: 1708.5}
-        this.playerInfoUIOption.marbleIDs.forEach((marbleID) => this.playerInfoUISprites.marbleSmallSprites.push(new Framework.Sprite(imagePath + 'marble/Small' + marbleID + '.jpg')))
+        this.playerInfoUIOption.marbleIDs.forEach((marbleID) => this.playerInfoUISprites.marbleSmallSprites.push(new Framework.Sprite(imagePath + 'small/' + marbleID + '.jpg')))
     }
 
     initializePlayerInfoUI() {
@@ -49,9 +50,15 @@ GameClasses.GameUI = class GameUI {
     drawPlayerInfoUI(ctx) {
         ctx.fillStyle = "black"
         ctx.fillRect(170, 1542, 855, 30)
+        ctx.fillStyle = "red"
+        ctx.fillRect(170, 1542, 855 * (this.stage.nowHp / this.stage.maxHp), 30)
         ctx.fillStyle = "green"
-        ctx.fillRect(170, 1542, 855, 30)
+        ctx.fillRect(170, 1542, 855 * (Math.max(this.stage.nowHp - this.stage.accumulationDamage, 0) / this.stage.maxHp), 30)
         this.playerInfoUISprites.UI.draw(ctx)
+        ctx.font = 'bold 60px Arial'
+        ctx.fillStyle = 'white'
+        ctx.textAlign = 'center'
+        ctx.fillText(Math.max(this.stage.nowHp - this.stage.accumulationDamage, 0) + "/" + this.stage.maxHp, 900, 1570)
         this.playerInfoUIHtmlElements.marbleSmallHtmlElements.forEach((htmlElement) => htmlElement.create())
         this.playerInfoUIHtmlElements.marbleSmallHtmlElements.forEach((htmlElement, index) => {
             htmlElement.resize()

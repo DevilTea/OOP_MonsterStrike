@@ -2,30 +2,30 @@ GameClasses.Marble = class Marble extends GameClasses.MapObject {
     constructor(marbleSlot, marbleData) {
         super()
         autoBind(this)
-        this.marbleID = marbleData.marbleID
+        this.marbleID = marbleData.id
         this.sling = marbleData.sling
-        this.element = GameClasses.elementTypeEnum.LIGHT//marbleData.element
-        this.maxHP = marbleData.HP
-        this.nowHP = marbleData.HP
+        this.element = marbleData.element
+        this.maxHp = marbleData.hp
         this.maxSpeed = marbleData.speed
         this.nowSpeed = 0
         this.damage = marbleData.damage
         this.strikeShotCooldown = marbleData.strikeShotCooldown
         this.strikeShot = {}
-        this.comboSkill = {}
+        this.comboSkill
         this.marbleSlot = marbleSlot/*0,1,2,3*/
         this.isMoving = false
         this.marbleSprite
     }
 
     load() {
-        this.marbleSprite = new Framework.Sprite(imagePath + 'marble/Ball' + this.marbleID + '.png')
+        this.marbleSprite = new Framework.Sprite(imagePath + 'ball/Ball' + this.marbleID + '.png')
     }
 
     initialize() {
+        //this.comboSkill = this.map.stage.skillFactory.createSkill
         this.component = new Framework.CircleComponent(this.matter, this.marbleSprite, {label: 'mapObjectID_' + this.mapObjectID, friction: 0, frictionAir: 0.012, frictionStatic: 0, restitution: 1, isSensor: true})
         this.component.position = {x: (this.marbleSlot + 1) * 216, y: 1400}
-        this.component.scale = {x: 1.5, y: 1.5}
+        //this.component.scale = {x: 1.2, y: 1.2}
         this.component.lockRotation = true
         this.component.addBodyToWorld()
         this.defineProperties()

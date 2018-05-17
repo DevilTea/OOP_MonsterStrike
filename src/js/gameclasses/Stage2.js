@@ -1,4 +1,4 @@
-Stages.Stage2 = class Stage1 extends GameClasses.Stage {
+Stages.Stage2 = class Stage2 extends GameClasses.Stage {
     constructor(marbles) {
         super('', marbles)
         autoBind(this)
@@ -6,19 +6,21 @@ Stages.Stage2 = class Stage1 extends GameClasses.Stage {
         this.addMap1()
         this.addMap2()
         this.addMap3()
+        this.monsterHpRate = 100
+        this.monsterDamageRate = 1
     }
 
     static getStageName() {
-        return '關卡二'
+        return '雷射技能展示關卡(困難)'
     }
 
     addMap1() {
         let map = new GameClasses.Map()
         this.addMap(map)
-        let monster1 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 190, y: 400}, attackCountdown: 4})
-        let monster2 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 930, y: 400}, attackCountdown: 4})
-        let monster3 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 190, y: 1100}, attackCountdown: 4})
-        let monster4 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 930, y: 1100}, attackCountdown: 4})
+        let monster1 = new GameClasses.Monster(marbleDataList[1], {x: 190, y: 400}, 1)
+        let monster2 = new GameClasses.Monster(marbleDataList[5], {x: 930, y: 400}, 1)
+        let monster3 = new GameClasses.Monster(marbleDataList[11], {x: 190, y: 1100}, 1)
+        let monster4 = new GameClasses.Monster(marbleDataList[15], {x: 930, y: 1100}, 1)
         map.addMonster(monster1)
         map.addMonster(monster2)
         map.addMonster(monster3)
@@ -28,10 +30,10 @@ Stages.Stage2 = class Stage1 extends GameClasses.Stage {
     addMap2() {
         let map = new GameClasses.Map()
         this.addMap(map)
-        let monster1 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 540, y: 400}, attackCountdown: 4})
-        let monster2 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 540, y: 1100}, attackCountdown: 4})
-        let monster3 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 190, y: 750}, attackCountdown: 4})
-        let monster4 = new GameClasses.Monster({monsterID: 1, isBoss: false, HP: 100000, initPosition: {x: 890, y: 750}, attackCountdown: 4})
+        let monster1 = new GameClasses.Monster(marbleDataList[56], {x: 190, y: 400}, 1)
+        let monster2 = new GameClasses.Monster(marbleDataList[58], {x: 930, y: 400}, 1)
+        let monster3 = new GameClasses.Monster(marbleDataList[60], {x: 190, y: 1100}, 1)
+        let monster4 = new GameClasses.Monster(marbleDataList[62], {x: 930, y: 1100}, 1)
         map.addMonster(monster1)
         map.addMonster(monster2)
         map.addMonster(monster3)
@@ -41,7 +43,7 @@ Stages.Stage2 = class Stage1 extends GameClasses.Stage {
     addMap3() {
         let map = new GameClasses.Map()
         this.addMap(map)
-        let monster1 = new GameClasses.Monster({monsterID: 239, isBoss: true, HP: 400000, initPosition: {x: 540, y: 960}, attackCountdown: 4})
+        let monster1 = new GameClasses.Monster(marbleDataList[1743], {x: 540, y: 700}, 1, true)
         map.addMonster(monster1)
     }
 }

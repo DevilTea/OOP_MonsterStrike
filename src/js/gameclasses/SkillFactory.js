@@ -1,9 +1,7 @@
 GameClasses.SkillFactory = class SkillFactory {
-    constructor(matter) {
+    constructor() {
         autoBind(this)
-        this.matter = matter
         this.effectSprites = {}
-        this.typeEnum = {lazer: 0}
     }
 
     load() {
@@ -11,47 +9,66 @@ GameClasses.SkillFactory = class SkillFactory {
         this.effectSprites.effect2 = new Framework.Sprite(imagePath + 'effect/effect2.png')
     }
 
-    createSkill(skillOwner, skillType, skillLevel, doAfter = () => {}) {
-        let skillSprite
-        if(SkillFactory.isLazerSkill(skillType)) {
-            skillSprite = this.getLazerSprite(skillOwner.element)
+    createSkill(skillOwner, skillData, callback = () => {}) {
+        return new GameClasses.Skill(skillOwner, skillData, this.getSkillSprite(skillData.skillType, skillOwner.element), callback)
+    }
+
+    static isLaserSkill(skillType) {
+        return skillType === GameClasses.skillTypeEnum.LASER_SINGLE_UP || skillType === GameClasses.skillTypeEnum.LASER_SINGLE_DOWN ||
+                skillType === GameClasses.skillTypeEnum.LASER_SINGLE_LEFT || skillType === GameClasses.skillTypeEnum.LASER_SINGLE_RIGHT ||
+                skillType === GameClasses.skillTypeEnum.LASER_DOUBLE_HORIZONTAL || skillType === GameClasses.skillTypeEnum.LASER_DOUBLE_VERTICAL ||
+                skillType === GameClasses.skillTypeEnum.LASER_CROSS_1 || skillType === GameClasses.skillTypeEnum.LASER_CROSS_2 ||
+                skillType === GameClasses.skillTypeEnum.LASER_TRACK
+    }
+    
+    static isSingleLaserSkill(skillType) {
+        return skillType === GameClasses.skillTypeEnum.LASER_SINGLE_UP || skillType === GameClasses.skillTypeEnum.LASER_SINGLE_DOWN ||
+                skillType === GameClasses.skillTypeEnum.LASER_SINGLE_LEFT || skillType === GameClasses.skillTypeEnum.LASER_SINGLE_RIGHT ||
+                skillType === GameClasses.skillTypeEnum.LASER_TRACK
+    }
+    
+    static isDoubleLaserSkill(skillType) {
+        return skillType === GameClasses.skillTypeEnum.LASER_DOUBLE_HORIZONTAL || skillType === GameClasses.skillTypeEnum.LASER_DOUBLE_VERTICAL
+    }
+    
+    static isCrossLaserSkill(skillType) {
+        return skillType === GameClasses.skillTypeEnum.LASER_CROSS_1 || skillType === GameClasses.skillTypeEnum.LASER_CROSS_2
+    }
+
+    getSkillSprite(skillType, element) {
+        if(SkillFactory.isLaserSkill(skillType)) {
+            return this.getLaserSprite(element)
         }
-        return new GameClasses.Skill(skillOwner, skillType, skillLevel, skillSprite, doAfter)
     }
 
-    static isLazerSkill(skillType) {
-        return skillType === GameClasses.skillTypeEnum.LAZER_SINGLE_UP || skillType === GameClasses.skillTypeEnum.LAZER_SINGLE_DOWN ||
-                skillType === GameClasses.skillTypeEnum.LAZER_SINGLE_UP || skillType === GameClasses.skillTypeEnum.LAZER_SINGLE_DOWN
-    }
-
-    getLazerSprite(element) {
-        let lazerSprite
+    getLaserSprite(element) {
+        let laserSprite
         if(element === GameClasses.elementTypeEnum.WATER) {
-            if(this.effectSprites.waterLazer === undefined) {
-                this.effectSprites.waterLazer = this.effectSprites.effect1.getSection({x:734, y:811}, {x:794, y:1012})
+            if(this.effectSprites.waterLaser === undefined) {
+                this.effectSprites.waterLaser = this.effectSprites.effect1.getSection({x:734, y:811}, {x:794, y:1012})
             }
-            lazerSprite = this.effectSprites.waterLazer
+            laserSprite = this.effectSprites.waterLaser
         } else if(element === GameClasses.elementTypeEnum.FIRE) {
-            if(this.effectSprites.fireLazer === undefined) {
-                this.effectSprites.fireLazer = this.effectSprites.effect1.getSection({x:865, y:811}, {x:925, y:1012})
+            if(this.effectSprites.fireLaser === undefined) {
+                this.effectSprites.fireLaser = this.effectSprites.effect1.getSection({x:622, y:730}, {x:682, y:932})
             }
-            lazerSprite = this.effectSprites.fireLazer
+            laserSprite = this.effectSprites.fireLaser
         } else if(element === GameClasses.elementTypeEnum.WOOD) {
-            if(this.effectSprites.woodLazer === undefined) {
-                this.effectSprites.woodLazer = this.effectSprites.effect1.getSection({x:622, y:730}, {x:682, y:932})
+            if(this.effectSprites.woodLaser === undefined) {
+                this.effectSprites.woodLaser = this.effectSprites.effect1.getSection({x:865, y:811}, {x:925, y:1012})
             }
-            lazerSprite = this.effectSprites.woodLazer
+            laserSprite = this.effectSprites.woodLaser
         } else if(element === GameClasses.elementTypeEnum.LIGHT) {
-            if(this.effectSprites.lightLazer === undefined) {
-                this.effectSprites.lightLazer = this.effectSprites.effect1.getSection({x:800, y:811}, {x:860, y:1012})
+            if(this.effectSprites.lightLaser === undefined) {
+                this.effectSprites.lightLaser = this.effectSprites.effect1.getSection({x:800, y:811}, {x:860, y:1012})
             }
-            lazerSprite = this.effectSprites.lightLazer
+            laserSprite = this.effectSprites.lightLaser
         } else if(element === GameClasses.elementTypeEnum.DARK) {
-            if(this.effectSprites.darkLazer === undefined) {
-                this.effectSprites.darkLazer = this.effectSprites.effect1.getSection({x:735, y:607}, {x:795, y:807})
+            if(this.effectSprites.darkLaser === undefined) {
+                this.effectSprites.darkLaser = this.effectSprites.effect1.getSection({x:735, y:607}, {x:795, y:807})
             }
-            lazerSprite = this.effectSprites.darkLazer
+            laserSprite = this.effectSprites.darkLaser
         }
-        return lazerSprite.clone()
+        return laserSprite.clone()
     }
 }
