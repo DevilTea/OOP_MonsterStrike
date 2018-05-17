@@ -41,9 +41,10 @@ GameClasses.Skill = class Skill {
         }
         skillObject.component.rotation = rotation
         effectObj.position = {x: skillObject.component.position.x + offset * Math.sin((rotation) / 180 * Math.PI), y: skillObject.component.position.y - offset * Math.cos((rotation) / 180 * Math.PI)}
-        
-        skillObject.component.addBodyToWorld()
-        skillObject.component.opacity = 1
+        skillObject.component.componentMagician.addEffect({}, 50, () => {
+            skillObject.component.addBodyToWorld()
+            skillObject.component.opacity = 1
+        })
         skillObject.component.componentMagician.addEffect(effectObj, 50)
         skillObject.component.componentMagician.addEffect(effectObj, 500)
         skillObject.component.componentMagician.addEffect({opacity: 0, scale: {x: 1, y: 0.1}, position: this.skillOwner.component.position}, 50, () => {

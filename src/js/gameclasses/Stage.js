@@ -248,7 +248,12 @@ GameClasses.Stage = class Stage extends Framework.Level {
             if(this.nowHp === 0) {
                 this.marbles.forEach((marble) => {
                     marble.component.lockRotation = false
-                    marble.component.componentMagician.addEffect({rotation: 90}, 1000)
+                    let lr = Math.floor(Math.random() * 2)
+                    if(lr === 0) {
+                        marble.component.componentMagician.addEffect({rotation: 90}, 300)
+                    } else if(lr === 1) {
+                        marble.component.componentMagician.addEffect({rotation: -90}, 300)
+                    }
                 })
                 this.stageState = 'endingDialog'
             } else {
