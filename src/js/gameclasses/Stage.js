@@ -181,7 +181,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         //console.log('enterIntoMapUpdate')
         this.stageState = 'spawnMonsters'
         this.spawnMonstersAnimationPlayed = false
-        this.randomItem()
+        // this.randomItem()
     }
 
     spawnMonstersUpdate() {
@@ -267,6 +267,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
                 this.stageState = 'endingDialog'
             } else {
                 this.stageState = 'playerAction'
+                this.randomItem()
             }
             
         }

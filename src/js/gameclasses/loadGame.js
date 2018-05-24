@@ -42,6 +42,7 @@
         { src: gameclassesPath + 'StartPage.js'},
         { src: gameclassesPath + 'Stage1.js'},
         { src: gameclassesPath + 'Stage2.js'},
+        { src: gameclassesPath + 'Stage3.js'},
         { src: gameclassesPath + 'StageSelect.js'},
         { src: gameclassesPath + 'EndPage.js'},
         { src: gameclassesPath + 'MainGame.js'}
