@@ -29,6 +29,8 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.maxHp = 0
         this.nowHp = 0
         this.accumulationDamage = 0
+        /*道具設定*/
+        this.itemSprite//this.item = new GameClasses.Props(pic, '1', {x: 540, y: 1000}, 'addHP')
     }
 
     /*FrameworkGameState*/
@@ -40,6 +42,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
     load() {
         super.load()
         this.backgroundSprite.game = new Framework.Sprite(imagePath + 'background/test.png')
+        this.itemSprite = new Framework.Sprite(imagePath + 'item/item1.png')
         this.loadMarbles()
         this.loadMaps()
         this.gameUI.loadArrow()
@@ -61,7 +64,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
             this.backgroundSprite.game.scale = { x: 4, y: 4 }
             this.rootScene.attach(this.backgroundSprite.game)
             this.initializeMatter()
-            this.initializeMarbles()
+            this.initializeMarbles()    
             this.gameUI.initializePlayerInfoUI()
             if(this.hasNextMap()) {
                 this.stageState = 'enterIntoMap'
@@ -94,6 +97,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
             this.enterIntoMapDraw(ctx)
         } else if(this.stageState === 'spawnMonsters') {
             this.spawnMonstersDraw(ctx)
+            this.nowMap.drawItems(ctx)
         } else if(this.stageState === 'playerAction') {
             this.playerActionDraw(ctx)
         } else if(this.stageState === 'monstersAction') {
@@ -177,6 +181,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         //console.log('enterIntoMapUpdate')
         this.stageState = 'spawnMonsters'
         this.spawnMonstersAnimationPlayed = false
+        this.randomItem()
     }
 
     spawnMonstersUpdate() {
@@ -184,6 +189,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         //console.log('spawnMonstersUpdate')
         this.nowMap.initializeMonsters()
         this.nowMap.updateMonsters()
+        this.nowMap.updateItems()
         this.nowMap.addMarbles(this.marbles)
         if(!this.spawnMonstersAnimationPlayed) {
             this.nowMap.monsters.forEach((monster) => {
@@ -198,6 +204,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
 
     playerActionUpdate() {
         this.updateMarbles()
+        this.nowMap.updateItems() //道具更新
         this.nowMap.updateMonsters()
         this.nowMap.updateSkillObjects()
         //console.log('playerActionUpdate')
@@ -219,6 +226,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
             if (this.nowMap.isAllMonstersDead()) {
                 if (this.hasNextMap()) {
                     this.stageState = 'enterIntoMap'
+                    this.nowMap.removeAllItem()
                 } else {
                     this.stageState = 'endingDialog'
                 }
@@ -236,6 +244,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
     monstersActionUpdate() {
         this.updateMarbles()
         this.nowMap.updateMonsters()
+        this.nowMap.updateItems()
         this.nowMap.updateSkillObjects()
         this.nowMap.monsterAttack()
         //console.log('monstersActionUpdate')
@@ -289,6 +298,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
     spawnMonstersDraw(ctx) {
         this.drawMarbles(ctx)
         this.nowMap.drawMonsters(ctx)
+        this.nowMap.drawItems(ctx)
         this.gameUI.drawPlayerInfoUI(ctx)
     }
 
@@ -296,6 +306,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.drawMarbles(ctx)
         this.nowMap.drawMonsters(ctx)
         this.nowMap.drawSkillObjects(ctx)
+        this.nowMap.drawItems(ctx)
         this.gameUI.drawArrow(ctx)
         this.gameUI.drawPlayerInfoUI(ctx)
     }
@@ -304,12 +315,14 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.drawMarbles(ctx)
         this.nowMap.drawMonsters(ctx)
         this.nowMap.drawSkillObjects(ctx)
+        this.nowMap.drawItems(ctx)
         this.gameUI.drawPlayerInfoUI(ctx)
     }
 
     endingDialogDraw(ctx) {
         this.drawMarbles(ctx)
         this.nowMap.drawMonsters(ctx)
+        this.nowMap.drawItems(ctx)
         this.gameUI.drawArrow(ctx)
         this.gameUI.drawPlayerInfoUI(ctx)
     }
@@ -476,5 +489,21 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.marbles.forEach((marble) => {
             marble.draw(ctx)
         })
+    }
+
+    randomItem(){
+        let temp = Math.floor(Math.random() * 3)
+        console.log(temp)
+        if(temp){
+            let position = {
+                    x: Framework.Game.canvasWidth / 2, 
+                    y: Framework.Game.canvasHeight / 2
+            }
+            for(let i = 0;i < 5;i++){
+                let item = new GameClasses.Item(this.itemSprite, {x: Math.floor(Math.random() * position.x + 1), y: Math.floor(Math.random() * position.y + 1)})
+                this.nowMap.addItems(item)
+            }
+
+        }
     }
 }

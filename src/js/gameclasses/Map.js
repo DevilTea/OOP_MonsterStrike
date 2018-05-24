@@ -10,10 +10,13 @@ GameClasses.Map = class Map {
         this.marbles = []
         this.hasAddMarbles = false
         this.skillObjects = []
+
+        this.items = []
     }
 
     load() {
         this.loadMonsters()
+        // this.loadItems()
     }
 
     initialize() {
@@ -168,11 +171,63 @@ GameClasses.Map = class Map {
         })
     }
 
+    /*items*/
+    // loadItems() {  //載入道具
+    //     this.items.forEach((item) => {
+    //         item.load()
+    //     })
+    // }
+
+    // initializeItems() { // 初始化道具
+    //     this.items.forEach((item) => {
+    //         item.initialize()
+    //     })
+    // }
+
+    updateItems() {
+        this.items.forEach((item) => {
+            item.update()
+            // if(item.isRemoving){
+            //     this.removeItems(item)
+            // }
+        })
+    }
+
+    drawItems(ctx) {
+        this.items.forEach((item) => {
+            item.draw(ctx)
+        })
+    }
+
+    addItems(item){
+        this.addMapObject(item)
+        this.items.push(item)
+        item.initialize()
+    }
+
+    isAllItemRemove() {
+        return this.items.length === 0
+    }
+
+    removeItem(item) {
+        item.isRemoving = true
+        this.removeMapObject(item)
+        this.items.splice(this.items.indexOf(item), 1)
+        item.remove()
+    }
+
+    removeAllItem(){
+        this.items.forEach((item) => {
+            this.removeItem(item)
+        })
+    }
+
     /*Matter*/
     collisionStart(event) {
         event.pairs.forEach((value) => {
-			let mapObj_A = this.getMapObjectByID(parseInt(value.bodyA.label.slice(12)))
+            let mapObj_A = this.getMapObjectByID(parseInt(value.bodyA.label.slice(12)))
             let mapObj_B = this.getMapObjectByID(parseInt(value.bodyB.label.slice(12)))
+            // console.log(mapObj_A, mapObj_B)
             if(mapObj_A instanceof GameClasses.Marble && mapObj_B instanceof GameClasses.Marble) {
                 //彈珠之間碰撞
                 let friend
@@ -225,6 +280,21 @@ GameClasses.Map = class Map {
                             mapObject.accumulateDamage(damage)
                         }
                     }
+                }
+            } else if((mapObj_A instanceof GameClasses.Marble && mapObj_B instanceof GameClasses.Item) || (mapObj_B instanceof GameClasses.Marble && mapObj_A instanceof GameClasses.Item)){
+                //彈珠與道具之間碰撞
+                let marble
+                let item
+                if(mapObj_A instanceof GameClasses.Marble && mapObj_B instanceof GameClasses.Item) {
+                    marble = mapObj_A
+                    item = mapObj_B
+                } else if(mapObj_B instanceof GameClasses.Marble && mapObj_A instanceof GameClasses.Item) {
+                    marble = mapObj_B
+                    item = mapObj_A
+                }
+                if(this.stage.stageState === 'playerAction') {
+                        item.useItemEffect()
+                        this.removeItem(item)
                 }
             }
 		})

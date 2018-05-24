@@ -37,6 +37,7 @@
         { src: gameclassesPath + 'MarblePick.js'},
         { src: gameclassesPath + 'Monster.js'},
         { src: gameclassesPath + 'Map.js'},
+        { src: gameclassesPath + 'Item.js'},
         { src: gameclassesPath + 'Stage.js'},
         { src: gameclassesPath + 'StartPage.js'},
         { src: gameclassesPath + 'Stage1.js'},

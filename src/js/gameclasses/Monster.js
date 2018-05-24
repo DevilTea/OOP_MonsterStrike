@@ -21,7 +21,6 @@ GameClasses.Monster = class Monster extends GameClasses.MapObject {
 
     load() {
         this.monsterSprite = new Framework.Sprite(imagePath + 'big/' + this.monsterID + '.png')
-        
     }
 
     initialize() {
