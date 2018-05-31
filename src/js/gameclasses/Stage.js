@@ -181,7 +181,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         //console.log('enterIntoMapUpdate')
         this.stageState = 'spawnMonsters'
         this.spawnMonstersAnimationPlayed = false
-        // this.randomItem()
+        this.randomItem()　// 隨機產生道具 進入新地圖時
     }
 
     spawnMonstersUpdate() {
@@ -248,12 +248,10 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.nowMap.updateSkillObjects()
         this.nowMap.monsterAttack()
         //console.log('monstersActionUpdate')
-        
         if (this.monstersActionDone) {
             this.nowHp = Math.max(this.nowHp - this.accumulationDamage, 0)
             this.accumulationDamage = 0
             this.monstersActionDone = false
-            
             if(this.nowHp === 0) {
                 this.marbles.forEach((marble) => {
                     marble.component.lockRotation = false
@@ -267,9 +265,8 @@ GameClasses.Stage = class Stage extends Framework.Level {
                 this.stageState = 'endingDialog'
             } else {
                 this.stageState = 'playerAction'
-                this.randomItem()
+                this.randomItem() // 隨機產生道具 玩家沒死 準備進下一回合時
             }
-            
         }
     }
 

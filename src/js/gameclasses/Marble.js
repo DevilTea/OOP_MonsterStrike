@@ -27,7 +27,7 @@ GameClasses.Marble = class Marble extends GameClasses.MapObject {
         this.comboSkill = Framework.Game.currentLevel.skillFactory.createSkill(this, this.comboSkillData)
         this.component = new Framework.CircleComponent(this.matter, this.marbleSprite, {label: 'mapObjectID_' + this.mapObjectID, friction: 0, frictionAir: 0.012, frictionStatic: 0, restitution: 1, isSensor: true})
         this.component.position = {x: (this.marbleSlot + 1) * 216, y: 1400}
-        //this.component.scale = {x: 1.2, y: 1.2}
+        this.component.scale = {x: 1.2, y: 1.2}
         this.component.lockRotation = true
         this.component.addBodyToWorld()
         this.defineProperties()
