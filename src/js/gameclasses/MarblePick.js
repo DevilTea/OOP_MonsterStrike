@@ -1,10 +1,9 @@
 GameClasses.MarblePick = class MarblePick {
-    static testMarbles() {
+    static creatMarbles(selectList) {
         let marbles = []
-        marbles.push(new GameClasses.Marble(marbles.length, marbleDataList[1743]))
-        marbles.push(new GameClasses.Marble(marbles.length, marbleDataList[1032]))
-        marbles.push(new GameClasses.Marble(marbles.length, marbleDataList[1746]))
-        marbles.push(new GameClasses.Marble(marbles.length, marbleDataList[391]))
+        selectList.forEach((marble)=>{
+            marbles.push(new GameClasses.Marble(marbles.length, marbleDataList[marble.id]))
+        })
         return marbles
     }
 }

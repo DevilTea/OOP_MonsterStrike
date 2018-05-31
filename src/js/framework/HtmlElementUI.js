@@ -198,7 +198,8 @@ class HtmlElement {
             if(this.isRootElement) {
                 Framework.Game.mainContainer.removeChild(this.ele)
             } else {
-                this.parent.ele.removeChild(this.ele)
+                this.ele.parentElement.removeChild(this.ele)
+                
             }
             this.childs.forEach((child) => {
                 child.remove()
