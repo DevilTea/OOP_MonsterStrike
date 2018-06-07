@@ -14,7 +14,7 @@ GameClasses.SkillObject = class SkillObject extends GameClasses.MapObject {
     remove() {
         this.component.removeBodyFromWorld()
         this.isRemoved = true
-        delete this
+        // delete this
     }
 
     draw(ctx) {

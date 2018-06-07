@@ -181,7 +181,6 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 		//目前canvas跟局部圖片大小一樣
 		tmpCanvas.width = realWidth
 		tmpCanvas.height = realHeight
-
 		tmpContext = tmpCanvas.getContext('2d')
 		//因canvas跟局部圖片大小一樣，就直接從局部圖片的左上角的-x, -y開始畫
 		tmpContext.drawImage(this.texture, -upperLeft.x, -upperLeft.y)

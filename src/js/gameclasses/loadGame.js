@@ -39,6 +39,8 @@
         { src: gameclassesPath + 'Map.js'},
         { src: gameclassesPath + 'Item.js'},
         { src: gameclassesPath + 'Stage.js'},
+        { src: gameclassesPath + 'Bag.js'},
+        { src: gameclassesPath + 'TurnEgg.js'},
         { src: gameclassesPath + 'StartPage.js'},
         { src: gameclassesPath + 'Stage1.js'},
         { src: gameclassesPath + 'Stage2.js'},

@@ -30,7 +30,7 @@ GameClasses.Item = class Item extends GameClasses.MapObject {
     remove() {
         this.component.removeBodyFromWorld()
         this.isRemoving = true
-        delete this
+        // delete this
     }
 
     useItemEffect(){
