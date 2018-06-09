@@ -1,24 +1,27 @@
 GameClasses.TurnEgg = class TurnEgg {
-    constructor(){
+    constructor() {
         this.eggSprite
         this.egg
         this.container
         this.background
         this.currectButton
         this.cancelButton
+        this.currentBagSize = 0
+        this.oldBagSize = 0
     }
 
-    load(){
+    load() {
         this.eggSprite = new Framework.Sprite(imagePath + 'item/item2.png')
     }
 
-    initialize(){
+    initialize() {
         this.eggSprite.initTexture()
-        this.egg = this.eggSprite.getSection({x:356, y:161}, {x:446, y:264})
+        this.egg = this.eggSprite.getSection({ x: 356, y: 161 }, { x: 446, y: 264 })
         this.egg.initTexture()
         this.initializetMenu()
     }
-    initializetMenu(){
+
+    initializetMenu() {
         this.container = Framework.HtmlElementUI.createElement(0, 0, 'full', 'full', document.createElement('div'), undefined, true)
         this.background = Framework.HtmlElementUI.createElement(40, 40, 1000, 1840, document.createElement('div'), this.container, false)
         // 確認按鈕
@@ -28,33 +31,45 @@ GameClasses.TurnEgg = class TurnEgg {
         this.cancelButton = Framework.HtmlElementUI.createElement(350, 1600, 250, 100, document.createElement('button'), this.background, false)
         this.cancelButton.ele.innerText = '返回'
         this.background.style = { backgroundColor: 'rgba(17, 17, 17, 0.7)' }
-        this.currectButton.clickEvent = (e) =>{
-            console.log('轉拉')
-        }
-
-        this.cancelButton.clickEvent = (e) =>{
-            console.log('沒轉拉')
-        }
     }
 
-    create(){
+    create(bagmarbles, marbleSmallImgs) {
         Framework.HtmlElementUI.attachElement(this.container)
         this.container.create()
+        this.currectButton.clickEvent = (e) => {
+            this.oldBagSize = bagmarbles.length
+            this.getRandomMarble(bagmarbles, marbleSmallImgs)
+
+        }
     }
 
-    remove(){
+    remove() {
         Framework.HtmlElementUI.detachElement(this.container)
         this.container.remove()
     }
 
-    setCancelButtonClickEvent(callBack){
-        this.cancelButton.clickEvent = (e) =>{
-            callBack()
+    setCancelButtonClickEvent(callBack,createElementList) {
+        this.cancelButton.clickEvent = (e) => {
+            if(this.currentBagSize != this.oldBagSize) { // 沒有轉蛋 就不需重載
+                callBack()
+            } else {
+                createElementList()
+            }
             this.remove()
         }
     }
 
-    getRandomMarble(marble){
-        return marble
+    getRandomMarble(bagmarbles, marbleSmallImgs) {
+        let number = Object.keys(marbleDataList).length
+        let randomNumber = Math.floor((Math.random() * number));
+        Object.keys(marbleDataList).forEach((key, index) => {
+            if(randomNumber == index) {
+                bagmarbles.push(marbleDataList[key])
+                marbleSmallImgs.push(new Framework.Sprite(imagePath + 'small/' + marbleDataList[key].id + '.jpg'))
+                console.log(bagmarbles)
+                this.currentBagSize = bagmarbles.length
+                return
+            }
+        })
     }
 }

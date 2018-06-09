@@ -54,6 +54,13 @@ Framework.Util = new (class Util {
 		return false;
 	}
 
+	isImage(obj) {
+		if(!this.isUndefined(obj.tagName)){
+			return (obj.tagName === 'IMG');
+		}
+		return false;
+	}
+
 	namespace(ns_string) {
 		let parts = ns_string.split('.'),
 			parent = Framework,

@@ -27,6 +27,6 @@ let doooo = () => {
     marbleDataList[1743] = new GameClasses.MarbleData(1743, "Archangel of Annuciation Gabriel", "Sprite", GameClasses.elementTypeEnum.WOOD, GameClasses.slingTypeEnum.BOUNCE, 23865, 23001, 319.33, new GameClasses.SkillData(GameClasses.skillTypeEnum.LASER_TRACK, GameClasses.skillLevelEnum.LASER_L, 21302))
     marbleDataList[1032] = new GameClasses.MarbleData(1032, "Underworld Rebel Lucifer", "Sprite", GameClasses.elementTypeEnum.DARK, GameClasses.slingTypeEnum.BOUNCE_2, 21698, 24483, 312.73, new GameClasses.SkillData(GameClasses.skillTypeEnum.LASER_CROSS_1, GameClasses.skillLevelEnum.LASER_M, 21302))
     marbleDataList[1746] = new GameClasses.MarbleData(1746, "Shinki Kamui", "Paladin", GameClasses.elementTypeEnum.LIGHT, GameClasses.slingTypeEnum.PIERCE_2, 24602, 22578, 394.87, new GameClasses.SkillData(GameClasses.skillTypeEnum.LASER_CROSS_2, GameClasses.skillLevelEnum.LASER_M, 21302))
-    marbleDataList[391] = new GameClasses.MarbleData(391, "Crimson Sanada", "Samurai", GameClasses.elementTypeEnum.FIRE, GameClasses.slingTypeEnum.BOUNCE, 15060, 14373, 336.83, new GameClasses.SkillData(GameClasses.skillTypeEnum.LASER_DOUBLE_VERTICAL, GameClasses.skillLevelEnum.LASER_L, 21302))
+    marbleDataList[391] = new GameClasses.MarbleData(391, "Zeus of the Shining Flame", "Deity", GameClasses.elementTypeEnum.LIGHT, GameClasses.slingTypeEnum.PIERCE, 26595, 22549, 369.93, new GameClasses.SkillData(GameClasses.skillTypeEnum.LASER_DOUBLE_VERTICAL, GameClasses.skillLevelEnum.LASER_L, 21302))
 }
 doooo()

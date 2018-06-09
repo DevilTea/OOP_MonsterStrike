@@ -22,7 +22,10 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 		} else if(Framework.Util.isCanvas(source)) {
 			this.texture = source
 			this.type = 'canvas'
-		} else if(!Framework.Util.isUndefined(source)) {
+		} else if(Framework.Util.isImage(source)) {
+			this.texture = source
+			this.type = 'image'
+		}else if(!Framework.Util.isUndefined(source)) {
 			Framework.DebugInfo.Log.error('Sprite 不支援的參數' + source)
 		}
 	}
@@ -192,8 +195,14 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 		tmpCanvas = document.createElement('canvas')
 		tmpCanvas.width = this.texture.width
 		tmpCanvas.height = this.texture.height
-		tmpContext = tmpCanvas.getContext('2d')
-		tmpContext.drawImage(this.texture, 0, 0)
+		tmpCanvas.getContext('2d').drawImage(this.texture, 0, 0)
 		return new Framework.Sprite(tmpCanvas)
+	}
+
+	cloneImage() {
+		let tmpImage
+		tmpImage = document.createElement('img')
+		tmpImage.src = this.id
+		return new Framework.Sprite(tmpImage)
 	}
 }

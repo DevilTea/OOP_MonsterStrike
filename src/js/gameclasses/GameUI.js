@@ -34,7 +34,15 @@ GameClasses.GameUI = class GameUI {
     loadPlayerInfoUI() {
         this.playerInfoUISprites.UI = new Framework.Sprite(imagePath + 'UI/player_info_UI.png')
         this.playerInfoUISprites.UI.position = {x: 540, y: 1708.5}
-        this.playerInfoUIOption.marbleIDs.forEach((marbleID) => this.playerInfoUISprites.marbleSmallSprites.push(new Framework.Sprite(imagePath + 'small/' + marbleID + '.jpg')))
+        let check = {}
+        this.playerInfoUIOption.marbleIDs.forEach((marbleID, index) => {// 假如圖片資源重複 就直接複製一分就好
+            if(check[marbleID] !== undefined){
+                this.playerInfoUISprites.marbleSmallSprites.push(this.playerInfoUISprites.marbleSmallSprites[check[marbleID]].cloneImage())
+            } else{
+                check[marbleID] = this.playerInfoUISprites.marbleSmallSprites.length
+                this.playerInfoUISprites.marbleSmallSprites.push(new Framework.Sprite(imagePath + 'small/' + marbleID + '.jpg'))
+            }
+        })
     }
 
     initializePlayerInfoUI() {

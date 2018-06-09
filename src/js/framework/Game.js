@@ -464,6 +464,13 @@ Framework.Game = new (class Game {
 		this.start()
 	}
 	
+	reLoadLevel() {
+		this.pause()
+		this.teardown()
+		Framework.Replayer.resetCycleCount()
+		this.start()
+	}
+
 	goToNextLevel() {
 		this.pause()
 		this.teardown()
