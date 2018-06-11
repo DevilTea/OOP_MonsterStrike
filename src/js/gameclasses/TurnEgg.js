@@ -39,7 +39,6 @@ GameClasses.TurnEgg = class TurnEgg {
         this.currectButton.clickEvent = (e) => {
             this.oldBagSize = bagmarbles.length
             this.getRandomMarble(bagmarbles, marbleSmallImgs)
-
         }
     }
 
