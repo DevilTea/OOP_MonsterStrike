@@ -8,6 +8,7 @@ GameClasses.TurnEgg = class TurnEgg {
         this.cancelButton
         this.currentBagSize = 0
         this.oldBagSize = 0
+        this.bigMarblePic
     }
 
     load() {
@@ -50,25 +51,39 @@ GameClasses.TurnEgg = class TurnEgg {
     setCancelButtonClickEvent(callBack,createElementList) {
         this.cancelButton.clickEvent = (e) => {
             if(this.currentBagSize != this.oldBagSize) { // 沒有轉蛋 就不需重載
+                this.oldBagSize = this.currentBagSize
                 callBack()
             } else {
                 createElementList()
             }
+            // this.bigMarblePic.remove()
             this.remove()
         }
     }
 
+    imageShowBigMarble(randomNumber){   // 顯示抽中的彈珠大圖
+        if(this.background.childs.length > 2){
+            this.background.childs.pop()
+            Framework.HtmlElementUI.detachElement(this.bigMarblePic)
+            this.bigMarblePic.remove()
+        }        
+        this.bigMarblePic = Framework.HtmlElementUI.createElement(0, 0, '960', '960', document.createElement('img'), this.background, false)
+        this.bigMarblePic.ele.src = imagePath + 'big/' + randomNumber + '.png'
+        this.remove()
+        Framework.HtmlElementUI.attachElement(this.container)
+        this.container.create()
+    }
+
     getRandomMarble(bagmarbles, marbleSmallImgs) {
-        let number = Object.keys(marbleDataList).length
-        let randomNumber = Math.floor((Math.random() * number));
-        Object.keys(marbleDataList).forEach((key, index) => {
-            if(randomNumber == index) {
-                bagmarbles.push(marbleDataList[key])
-                marbleSmallImgs.push(new Framework.Sprite(imagePath + 'small/' + marbleDataList[key].id + '.jpg'))
-                console.log(bagmarbles)
-                this.currentBagSize = bagmarbles.length
-                return
-            }
-        })
+        let number = 100
+        // for(number in marbleDataList){}
+        let randomNumber = Math.floor((Math.random() * number))
+        while(!marbleDataList[randomNumber]){
+            randomNumber = Math.floor((Math.random() * number))
+        }
+        bagmarbles.push(marbleDataList[randomNumber])
+        marbleSmallImgs.push(new Framework.Sprite(imagePath + 'small/' + randomNumber + '.jpg'))
+        this.currentBagSize = bagmarbles.length
+        this.imageShowBigMarble(randomNumber)
     }
 }

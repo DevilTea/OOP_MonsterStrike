@@ -191,7 +191,7 @@ Framework.Sprite = class Sprite extends Framework.GameObject {
 	}
 
 	clone() {
-		let tmpCanvas, tmpContext, realWidth, realHeight, tempResult
+		let tmpCanvas
 		tmpCanvas = document.createElement('canvas')
 		tmpCanvas.width = this.texture.width
 		tmpCanvas.height = this.texture.height
