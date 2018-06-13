@@ -67,7 +67,7 @@ GameClasses.TurnEgg = class TurnEgg {
             Framework.HtmlElementUI.detachElement(this.bigMarblePic)
             this.bigMarblePic.remove()
         }        
-        this.bigMarblePic = Framework.HtmlElementUI.createElement(0, 0, '960', '960', document.createElement('img'), this.background, false)
+        this.bigMarblePic = Framework.HtmlElementUI.createElement(0, 100, '960', '960', document.createElement('img'), this.background, false)
         this.bigMarblePic.ele.src = imagePath + 'big/' + randomNumber + '.png'
         this.remove()
         Framework.HtmlElementUI.attachElement(this.container)
