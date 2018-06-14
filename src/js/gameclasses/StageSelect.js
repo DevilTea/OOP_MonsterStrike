@@ -1,12 +1,12 @@
 GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
     constructor() {
         super()
-        this.selectedMarbledList = []
         this.isInit = false
         this.bagIsLoad = false
         this.bagIsInitialize = false
         this.stage = {}
         this.bag = new GameClasses.Bag()
+        this.bagUI = new GameClasses.BagUI()
         this.turnEgg = new GameClasses.TurnEgg()
         this.teamSystem = new GameClasses.TeamSystem()
     }
@@ -20,7 +20,8 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
 
     load() {
         super.load()
-        this.bag.load()
+        this.bagUI.load()
+        this.teamSystem.load(this.bag)
         this.turnEgg.load()
     }
 
@@ -32,9 +33,9 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
     initialize() {
         super.initialize()
         this.stage = {}
-        this.bag.initialize()
+        this.bagUI.initialize(this.bag)
+        this.teamSystem.initialize(this.bag)
         this.turnEgg.initialize()
-        this.teamSystem.initializetMenu(this.bag.bagMarbles, this.bag.marbleSmallImgs)
         this.createStageSelectList()
     }
 
@@ -44,7 +45,9 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         let listContainer = Framework.HtmlElementUI.createElement(0, 0, 'full', 'full', document.createElement('div'), undefined, true)
         let listBackground = Framework.HtmlElementUI.createElement(40, 40, 1000, 1840, document.createElement('div'), listContainer, false)
         // 轉蛋
-        let eggButton = Framework.HtmlElementUI.createElement(0, 1600, 200, 200, this.turnEgg.egg.texture, listBackground, false)
+        let eggButton = Framework.HtmlElementUI.createElement(-240, 10, 200, 200, this.turnEgg.egg.texture, listBackground, false)
+        // 背包按鈕
+        let bagButton = Framework.HtmlElementUI.createElement(-240, 210, 200, 200, this.bagUI.bagSprite.texture, listBackground, false)
         // 關卡顯示清單
         let listItems = []
         // 各個選單背景設定
@@ -70,8 +73,9 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
             listItemDescription.ele.innerText = Stages[key].getStageName()
             // 關卡清單點擊事件
             listItem.clickEvent = (e) => {
-                this.teamSystem.creat()// 怪物資料清單
-                this.teamSystem.setCurrectButtonButtonClickEvent(() => {
+                this.teamSystem.create()// 怪物資料清單
+                this.teamSystem.setCurrectButtonButtonClickEvent(
+                    () => {
                         this.stage[key] = new Stages[key]([...GameClasses.MarblePick.creatMarbles(this.teamSystem.getSelectedMarbledList())])
                     },
                     () => {
@@ -79,22 +83,35 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
                         Framework.Game.goToLevel(key)
                     }
                 )
-
-                this.teamSystem.setCancelButtonClickEvent(() => {
-                    createElementList()
-                })
+                this.teamSystem.setCancelButtonClickEvent(
+                    () => {createElementList()}
+                )
                 removeElementList()
             }
+            // 轉蛋按鈕
             eggButton.clickEvent = (e) => {
-                this.turnEgg.create(this.bag.bagMarbles,this.bag.marbleSmallImgs)
+                this.turnEgg.create(this.bag)
                 removeElementList()
-                this.turnEgg.setCancelButtonClickEvent(()=>{
+                this.turnEgg.setCancelButtonClickEvent(
+                    ()=>{
                     Framework.Game.reLoadLevel()   // 重新載入當前 Level 資訊，但不會重新載入 constructor() 資訊
                                                     // 因為重載當前 Level 資訊，所以不必再執行 this.createElementList() 否則會造成畫面重疊
-                },
-            () =>{
-                createElementList()
-            })
+                    },
+                    () =>{createElementList()}
+                )
+            }
+            // 背包按鈕
+            bagButton.clickEvent = (e) => {
+                removeElementList()
+                this.bagUI.setDeletetButtonButtonClickEvent(this.bag)
+                this.bagUI.setCancelButtonClickEvent(
+                    ()=>{
+                        Framework.Game.reLoadLevel()   // 重新載入當前 Level 資訊，但不會重新載入 constructor() 資訊
+                                                        // 因為重載當前 Level 資訊，所以不必再執行 this.createElementList() 否則會造成畫面重疊
+                    },
+                    () =>{createElementList()}
+                )
+                this.bagUI.showBag()
             }
             listItems.push(listItem)
         })

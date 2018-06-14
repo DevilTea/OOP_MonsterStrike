@@ -40,6 +40,7 @@
         { src: gameclassesPath + 'Item.js'},
         { src: gameclassesPath + 'Stage.js'},
         { src: gameclassesPath + 'Bag.js'},
+        { src: gameclassesPath + 'BagUI.js'},
         { src: gameclassesPath + 'TeamSystem.js'},
         { src: gameclassesPath + 'TurnEgg.js'},
         { src: gameclassesPath + 'StartPage.js'},
