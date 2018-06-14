@@ -49,9 +49,6 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         let listItems = []
         // 各個選單背景設定
         listBackground.style = { backgroundColor: 'rgba(17, 17, 17, 0.7)' }
-        //
-        let addImgY = 0
-        let isCreat = false
 
         let createElementList = ()=> {  // 建立關卡選單元素
             Framework.HtmlElementUI.attachElement(listContainer)

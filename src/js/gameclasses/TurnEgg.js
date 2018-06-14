@@ -75,7 +75,7 @@ GameClasses.TurnEgg = class TurnEgg {
     }
 
     getRandomMarble(bagmarbles, marbleSmallImgs) {
-        let number = 100
+        let number = 100//3174
         // for(number in marbleDataList){}
         let randomNumber = Math.floor((Math.random() * number))
         while(!marbleDataList[randomNumber]){
