@@ -9,6 +9,7 @@ GameClasses.TurnEgg = class TurnEgg {
         this.currentBagSize = 0
         this.oldBagSize = 0
         this.bigMarblePic
+        this.gemCost = 5
     }
 
     load() {
@@ -39,8 +40,13 @@ GameClasses.TurnEgg = class TurnEgg {
         Framework.HtmlElementUI.attachElement(this.container)
         this.container.create()
         this.currectButton.clickEvent = (e) => {
-            this.oldBagSize = bag.bagMarbles.length
-            this.getRandomMarble(bag)
+            if (userPlayInfo.gem == this.gemCost){
+                userPlayInfo.gem -= this.gemCost
+                this.oldBagSize = bag.bagMarbles.length
+                this.getRandomMarble(bag)
+            }else{
+                GameClasses.HtmlElementView.createDialog('\r\n寶石不足！\r\n還需要' + (this.gemCost - userPlayInfo.gem) + '個寶石', () => {})
+            }
         }
     }
 

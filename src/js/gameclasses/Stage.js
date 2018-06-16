@@ -76,7 +76,11 @@ GameClasses.Stage = class Stage extends Framework.Level {
 
     update() {
         super.update()
-        this.matter.update()
+        try {
+            this.matter.update()
+        } catch (error) {
+            console.log(error)
+        }
         if(this.stageState === 'enterIntoMap') {
             this.enterIntoMapUpdate()
         } else if(this.stageState === 'spawnMonsters') {
@@ -274,11 +278,16 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.updateMarbles()
         if(!this.hasCreatedEndingDialog) {
             if(this.nowHp === 0) {
+                userPlayInfo.lostGame += 1
+                userPlayInfo.playGame = userPlayInfo.lostGame + userPlayInfo.winGame
                 GameClasses.HtmlElementView.createDialog('死掉了的對話框', () => {
                     Framework.Game.goToLevel('End')
                     delete this
                 })
             } else {
+                userPlayInfo.winGame += 1
+                userPlayInfo.gem += 1
+                userPlayInfo.playGame = userPlayInfo.lostGame + userPlayInfo.winGame
                 GameClasses.HtmlElementView.createDialog('結束的對話框', () => {
                     Framework.Game.goToLevel('End')
                     delete this

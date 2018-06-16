@@ -85,3 +85,11 @@ GameClasses.StartPage = class StartPage extends Framework.GameMainMenu {
         this.mousemove(e[0])
 	}
 }
+// 贏了多少場
+let userPlayInfo ={
+	winGame:0,
+	lostGame:0,
+	playGame:0,
+	gem:0
+}
+

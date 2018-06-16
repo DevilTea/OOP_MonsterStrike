@@ -9,6 +9,7 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         this.bagUI = new GameClasses.BagUI()
         this.turnEgg = new GameClasses.TurnEgg()
         this.teamSystem = new GameClasses.TeamSystem()
+        this.helper = new GameClasses.Helper()
     }
 
     initializeProgressResource() {
@@ -19,10 +20,12 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
     }
 
     load() {
+        console.log(userPlayInfo)
         super.load()
         this.bagUI.load()
         this.teamSystem.load(this.bag)
         this.turnEgg.load()
+        this.helper.load()
     }
 
     loadingProgress(ctx, requestInfo) {
@@ -36,6 +39,7 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         this.bagUI.initialize(this.bag)
         this.teamSystem.initialize(this.bag)
         this.turnEgg.initialize()
+        this.helper.initialize()
         this.createStageSelectList()
     }
 
@@ -45,13 +49,15 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         let listContainer = Framework.HtmlElementUI.createElement(0, 0, 'full', 'full', document.createElement('div'), undefined, true)
         let listBackground = Framework.HtmlElementUI.createElement(40, 40, 1000, 1840, document.createElement('div'), listContainer, false)
         // 轉蛋
-        let eggButton = Framework.HtmlElementUI.createElement(-240, 10, 200, 200, this.turnEgg.egg.texture, listBackground, false)
+        let eggButton = Framework.HtmlElementUI.createElement(-240, 60, 200, 200, this.turnEgg.egg.texture, listContainer, false)
         // 背包按鈕
-        let bagButton = Framework.HtmlElementUI.createElement(-240, 210, 200, 200, this.bagUI.bagSprite.texture, listBackground, false)
+        let bagButton = Framework.HtmlElementUI.createElement(-240, 280, 200, 200, this.bagUI.bagSprite.texture, listContainer, false)
+        // 幫助按鈕
+        let helperButton = Framework.HtmlElementUI.createElement(-240, 500, 200, 200, this.helper.helperSpriteButton.texture, listContainer, false)
         // 關卡顯示清單
         let listItems = []
         // 各個選單背景設定
-        listBackground.style = { backgroundColor: 'rgba(17, 17, 17, 0.7)' }
+        listBackground.style = { backgroundColor: 'rgba(17, 17, 17, 0.7)', overflowX:'auto'}
 
         let createElementList = ()=> {  // 建立關卡選單元素
             Framework.HtmlElementUI.attachElement(listContainer)
@@ -63,9 +69,9 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         }
 
         Object.keys(Stages).forEach((key, index) => {
-            let listItem = Framework.HtmlElementUI.createElement(20, (20 * (index + 1)) + (200 * index), 960, 200, document.createElement('div'), listBackground, false)
+            let listItem = Framework.HtmlElementUI.createElement(40, (20 * (index + 1)) + (200 * index), 900, 200, document.createElement('div'), listBackground, false)
             let listItemNameTag = Framework.HtmlElementUI.createElement(20, 20, 0, 0, document.createElement('div'), listItem, false)
-            let listItemDescription = Framework.HtmlElementUI.createElement(20, 100, 960, 0, document.createElement('div'), listItem, false)
+            let listItemDescription = Framework.HtmlElementUI.createElement(20, 100, 900, 0, document.createElement('div'), listItem, false)
             listItem.style = { backgroundColor: '#333333' }
             listItemNameTag.style = { color: '#ffffff', fontWeight: 'bold' }
             listItemNameTag.ele.innerText = key
@@ -112,6 +118,18 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
                     () =>{createElementList()}
                 )
                 this.bagUI.showBag()
+            }
+            // 幫助按鈕
+            helperButton.clickEvent = (e) => {
+                // removeElementList()
+                this.helper.create()
+                // this.helper.setCancelButtonClickEvent(
+                //     () => {}
+                // )
+                // this.helper.setCurrentlButtonClickEvent(
+                    // () => {createElementList()}
+                // )
+
             }
             listItems.push(listItem)
         })

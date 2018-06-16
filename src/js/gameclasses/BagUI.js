@@ -113,7 +113,7 @@ GameClasses.BagUI = class BagUI {
     }
 
     deleteMarblesImage(bag){
-        console.log(this.currentBagSize, this.oldBagSize)
+        // console.log(this.currentBagSize, this.oldBagSize)
         if(!this.selectedMarbledImageList.length)return
         for(let i = 0;i < this.selectedMarbledImageList.length;i++){
             bag.bagMarbles.forEach((marble, index) => {
