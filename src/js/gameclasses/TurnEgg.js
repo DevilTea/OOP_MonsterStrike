@@ -9,6 +9,8 @@ GameClasses.TurnEgg = class TurnEgg {
         this.currentBagSize = 0
         this.oldBagSize = 0
         this.bigMarblePic
+        this.gemImg
+        this.NumberOfGem
         this.gemCost = 5
     }
 
@@ -34,14 +36,21 @@ GameClasses.TurnEgg = class TurnEgg {
         // 返回按鈕
         this.cancelButton = Framework.HtmlElementUI.createElement(350, 1600, 250, 100, document.createElement('button'), this.background, false)
         this.cancelButton.ele.innerText = '返回'
+        // 寶石圖片
+        this.gemImg = Framework.HtmlElementUI.createElement(-260, 20, 200, 200, document.createElement('img'), this.container, false)
+        this.NumberOfGem = Framework.HtmlElementUI.createElement(-270, 220, 230, 50, document.createElement('div'), this.container, false)
+        this.gemImg.ele.src = imagePath + 'UI/gem.png'
+        this.NumberOfGem.style = {color: '#ffffff', fontFamily: '微軟正黑體', fontWeight: 'bold', fontSize: '1em'}
+        this.NumberOfGem.ele.innerText = '剩下 ' + userPlayInfo.gem + ' 個寶石'        
     }
 
     create(bag) {
         Framework.HtmlElementUI.attachElement(this.container)
         this.container.create()
         this.currectButton.clickEvent = (e) => {
-            if (userPlayInfo.gem == this.gemCost){
+            if (userPlayInfo.gem >= this.gemCost){
                 userPlayInfo.gem -= this.gemCost
+                this.NumberOfGem.ele.innerText = '剩下 ' + userPlayInfo.gem + ' 個寶石'  
                 this.oldBagSize = bag.bagMarbles.length
                 this.getRandomMarble(bag)
             }else{

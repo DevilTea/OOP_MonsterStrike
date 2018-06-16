@@ -10,6 +10,7 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         this.turnEgg = new GameClasses.TurnEgg()
         this.teamSystem = new GameClasses.TeamSystem()
         this.helper = new GameClasses.Helper()
+        this.gemImg
     }
 
     initializeProgressResource() {
@@ -26,6 +27,7 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         this.teamSystem.load(this.bag)
         this.turnEgg.load()
         this.helper.load()
+        this.gemImg = new Framework.Sprite(imagePath + 'UI/gem.png')
     }
 
     loadingProgress(ctx, requestInfo) {
@@ -40,6 +42,7 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         this.teamSystem.initialize(this.bag)
         this.turnEgg.initialize()
         this.helper.initialize()
+        this.gemImg.initTexture()
         this.createStageSelectList()
     }
 
@@ -54,6 +57,11 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         let bagButton = Framework.HtmlElementUI.createElement(-240, 280, 200, 200, this.bagUI.bagSprite.texture, listContainer, false)
         // 幫助按鈕
         let helperButton = Framework.HtmlElementUI.createElement(-240, 500, 200, 200, this.helper.helperSpriteButton.texture, listContainer, false)
+        // 寶石圖片
+        let gemImg = Framework.HtmlElementUI.createElement(-240, 720, 200, 200, this.gemImg.texture, listContainer, false)
+        let NumberOfGem = Framework.HtmlElementUI.createElement(-240, 920, 230, 50, document.createElement('div'), listContainer, false)
+        NumberOfGem.style = {color: '#ffffff', fontFamily: '微軟正黑體', fontWeight: 'bold', fontSize: '1em'}
+        NumberOfGem.ele.innerText = '剩下 ' + userPlayInfo.gem + ' 個寶石'
         // 關卡顯示清單
         let listItems = []
         // 各個選單背景設定

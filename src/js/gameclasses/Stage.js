@@ -182,7 +182,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.updateMarbles()
         delete this.nowMap
         this.nowMap = this.maps.shift()
-        //console.log('enterIntoMapUpdate')
+        console.log('enterIntoMapUpdate')
         this.stageState = 'spawnMonsters'
         this.spawnMonstersAnimationPlayed = false
         //this.randomItem()　// 隨機產生道具 進入新地圖時
@@ -190,7 +190,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
 
     spawnMonstersUpdate() {
         this.updateMarbles()
-        //console.log('spawnMonstersUpdate')
+        console.log('spawnMonstersUpdate')
         this.nowMap.initializeMonsters()
         this.nowMap.updateMonsters()
         this.nowMap.updateItems()
@@ -211,7 +211,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.nowMap.updateItems() //道具更新
         this.nowMap.updateMonsters()
         this.nowMap.updateSkillObjects()
-        //console.log('playerActionUpdate')
+        console.log('playerActionUpdate')
         if(this.isShooted && !this.marbles[this.nowMarble].isMoving) {
             this.playerActionDone = true
             this.marbles.forEach((marble) => {
@@ -280,7 +280,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
             if(this.nowHp === 0) {
                 userPlayInfo.lostGame += 1
                 userPlayInfo.playGame = userPlayInfo.lostGame + userPlayInfo.winGame
-                GameClasses.HtmlElementView.createDialog('死掉了的對話框', () => {
+                GameClasses.HtmlElementView.createDialog('\r\nGame Over!', () => {
                     Framework.Game.goToLevel('End')
                     delete this
                 })
@@ -288,7 +288,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
                 userPlayInfo.winGame += 1
                 userPlayInfo.gem += 1
                 userPlayInfo.playGame = userPlayInfo.lostGame + userPlayInfo.winGame
-                GameClasses.HtmlElementView.createDialog('結束的對話框', () => {
+                GameClasses.HtmlElementView.createDialog('\r\nCongratulation!', () => {
                     Framework.Game.goToLevel('End')
                     delete this
                 })

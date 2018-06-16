@@ -22,7 +22,7 @@ GameClasses.StartPage = class StartPage extends Framework.GameMainMenu {
 		super.load()
 		this.menu = new Framework.Sprite(imagePath + 'background/startPage.png')
 		this.menu.position = new Framework.Point(Framework.Game.getCanvasWidth() / 2, Framework.Game.getCanvasHeight() / 2 )
-        this.menu.scale = {x: 2, y: 2}
+		this.menu.scale = {x: 2, y: 2}
 	}
 	
 	loadingProgress(ctx, requestInfo) {
@@ -32,7 +32,8 @@ GameClasses.StartPage = class StartPage extends Framework.GameMainMenu {
 	
 	initialize() {
 		super.initialize()
-		GameClasses.HtmlElementView.createDialog("Waa\r\n\r\n哈囉", () => {
+		GameClasses.HtmlElementView.createDialog("\r\nWelcome！", () => {
+			this.audio.play({name: 'bgm_startPage', loop: false});
             this.rootScene.attach(this.menu)
         })
 	}
@@ -90,6 +91,6 @@ let userPlayInfo ={
 	winGame:0,
 	lostGame:0,
 	playGame:0,
-	gem:0
+	gem:50
 }
 
