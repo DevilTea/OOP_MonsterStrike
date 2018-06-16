@@ -10,12 +10,17 @@ GameClasses.Map = class Map {
         this.marbles = []
         this.hasAddMarbles = false
         this.skillObjects = []
-
+        this.audio
         this.items = []
     }
 
     load() {
         this.loadMonsters()
+        this.audio = new Framework.AudioManager({
+            hit: {
+                ogg: musicPath + 'sound/hit.ogg',
+            }
+        })
         // this.loadItems()
     }
 
@@ -251,6 +256,7 @@ GameClasses.Map = class Map {
                     monster = mapObj_A
                 }
                 if(this.stage.stageState === 'playerAction' && this.stage.marbles[this.stage.nowMarble] === marble) {
+                    this.audio.play({ name: 'hit', loop:false})
 					monster.accumulateDamage(marble.damage)
 				}
             } else if((mapObj_A instanceof GameClasses.SkillObject && !(mapObj_B instanceof GameClasses.SkillObject)) || (mapObj_B instanceof GameClasses.SkillObject && !(mapObj_A instanceof GameClasses.SkillObject))) {
