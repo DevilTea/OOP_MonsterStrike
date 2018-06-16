@@ -28,7 +28,7 @@ GameClasses.TurnEgg = class TurnEgg {
     initializetMenu() {
         this.container = Framework.HtmlElementUI.createElement(0, 0, 'full', 'full', document.createElement('div'), undefined, true)
         let background = Framework.HtmlElementUI.createElement(0, 0, 'full', 'full', this.backgroundSprite.texture, this.container, true)
-        background.style = {left:0}
+        background.style = { left: 0 }
         this.background = Framework.HtmlElementUI.createElement(40, 40, 1000, 1840, document.createElement('div'), this.container, false)
         // 確認按鈕
         this.currectButton = Framework.HtmlElementUI.createElement(700, 1600, 250, 100, document.createElement('button'), this.background, false)
@@ -40,21 +40,21 @@ GameClasses.TurnEgg = class TurnEgg {
         this.gemImg = Framework.HtmlElementUI.createElement(-260, 20, 200, 200, document.createElement('img'), this.container, false)
         this.NumberOfGem = Framework.HtmlElementUI.createElement(-270, 220, 230, 50, document.createElement('div'), this.container, false)
         this.gemImg.ele.src = imagePath + 'UI/gem.png'
-        this.NumberOfGem.style = {color: '#ffffff', fontFamily: '微軟正黑體', fontWeight: 'bold', fontSize: '1em'}
-        this.NumberOfGem.ele.innerText = '剩下 ' + userPlayInfo.gem + ' 個寶石'        
+        this.NumberOfGem.style = { color: '#ffffff', fontFamily: '微軟正黑體', fontWeight: 'bold', fontSize: '1em' }
+        this.NumberOfGem.ele.innerText = '剩下 ' + userPlayInfo.gem + ' 個寶石'
     }
 
     create(bag) {
         Framework.HtmlElementUI.attachElement(this.container)
         this.container.create()
         this.currectButton.clickEvent = (e) => {
-            if (userPlayInfo.gem >= this.gemCost){
+            if(userPlayInfo.gem >= this.gemCost) {
                 userPlayInfo.gem -= this.gemCost
-                this.NumberOfGem.ele.innerText = '剩下 ' + userPlayInfo.gem + ' 個寶石'  
+                this.NumberOfGem.ele.innerText = '剩下 ' + userPlayInfo.gem + ' 個寶石'
                 this.oldBagSize = bag.bagMarbles.length
                 this.getRandomMarble(bag)
-            }else{
-                GameClasses.HtmlElementView.createDialog('\r\n寶石不足！\r\n還需要' + (this.gemCost - userPlayInfo.gem) + '個寶石', () => {})
+            } else {
+                GameClasses.HtmlElementView.createDialog('\r\n寶石不足！\r\n還需要' + (this.gemCost - userPlayInfo.gem) + '個寶石', () => { })
             }
         }
     }
@@ -64,10 +64,11 @@ GameClasses.TurnEgg = class TurnEgg {
         this.container.remove()
     }
 
-    setCancelButtonClickEvent(callBack,createElementList) {
+    setCancelButtonClickEvent(callBack, createElementList, stopMusic) {
         this.cancelButton.clickEvent = (e) => {
             if(this.currentBagSize != this.oldBagSize) { // 沒有轉蛋 就不需重載
                 this.oldBagSize = this.currentBagSize
+                stopMusic()
                 callBack()
             } else {
                 createElementList()
@@ -76,12 +77,12 @@ GameClasses.TurnEgg = class TurnEgg {
         }
     }
 
-    imageShowBigMarble(randomNumber){   // 顯示抽中的彈珠大圖
-        if(this.background.childs.length > 2){
+    imageShowBigMarble(randomNumber) {   // 顯示抽中的彈珠大圖
+        if(this.background.childs.length > 2) {
             this.background.childs.pop()
             Framework.HtmlElementUI.detachElement(this.bigMarblePic)
             this.bigMarblePic.remove()
-        }        
+        }
         this.bigMarblePic = Framework.HtmlElementUI.createElement(40, 150, '960', '960', document.createElement('img'), this.background, false)
         this.bigMarblePic.ele.src = imagePath + 'big/' + randomNumber + '.png'
         this.remove()
@@ -93,7 +94,7 @@ GameClasses.TurnEgg = class TurnEgg {
         let number = 100//3174
         // for(number in marbleDataList){}
         let randomNumber = Math.floor((Math.random() * number))
-        while(!marbleDataList[randomNumber]){
+        while (!marbleDataList[randomNumber]) {
             randomNumber = Math.floor((Math.random() * number))
         }
         bag.bagMarbles.push(marbleDataList[randomNumber])

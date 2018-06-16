@@ -11,6 +11,7 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         this.teamSystem = new GameClasses.TeamSystem()
         this.helper = new GameClasses.Helper()
         this.gemImg
+        this.audio
     }
 
     initializeProgressResource() {
@@ -18,10 +19,17 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         this.loading = new Framework.Sprite(imagePath + 'background/loading.png')
         this.loading.position = new Framework.Point(Framework.Game.getCanvasWidth() / 2, Framework.Game.getCanvasHeight() / 2)
         this.loading.scale = { x: 4, y: 4 }
+        this.audio = new Framework.AudioManager({
+            bgm_mainPage: {
+                ogg: musicPath + 'bgm/bgm_mainPage.ogg',
+            },
+            sound_enterStage: {
+                ogg: musicPath + 'sound/enterStage.ogg',
+            }
+        })
     }
 
-    load() {
-        console.log(userPlayInfo)
+    load() { 
         super.load()
         this.bagUI.load()
         this.teamSystem.load(this.bag)
@@ -44,6 +52,7 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         this.helper.initialize()
         this.gemImg.initTexture()
         this.createStageSelectList()
+        this.audio.play({ name: 'bgm_mainPage', loop: true });
     }
 
     createStageSelectList() {
@@ -60,14 +69,14 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         // 寶石圖片
         let gemImg = Framework.HtmlElementUI.createElement(-240, 720, 200, 200, this.gemImg.texture, listContainer, false)
         let NumberOfGem = Framework.HtmlElementUI.createElement(-240, 920, 230, 50, document.createElement('div'), listContainer, false)
-        NumberOfGem.style = {color: '#ffffff', fontFamily: '微軟正黑體', fontWeight: 'bold', fontSize: '1em'}
+        NumberOfGem.style = { color: '#ffffff', fontFamily: '微軟正黑體', fontWeight: 'bold', fontSize: '1em' }
         NumberOfGem.ele.innerText = '剩下 ' + userPlayInfo.gem + ' 個寶石'
         // 關卡顯示清單
         let listItems = []
         // 各個選單背景設定
-        listBackground.style = { backgroundColor: 'rgba(17, 17, 17, 0.7)', overflowX:'auto'}
+        listBackground.style = { backgroundColor: 'rgba(17, 17, 17, 0.7)', overflowX: 'auto' }
 
-        let createElementList = ()=> {  // 建立關卡選單元素
+        let createElementList = () => {  // 建立關卡選單元素
             Framework.HtmlElementUI.attachElement(listContainer)
             listContainer.create()
         }
@@ -93,12 +102,14 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
                         this.stage[key] = new Stages[key]([...GameClasses.MarblePick.creatMarbles(this.teamSystem.getSelectedMarbledList())])
                     },
                     () => {
+                        this.audio.stop('bgm_mainPage')
+                        this.audio.play({ name:'sound_enterStage', loop: false})
                         Framework.Game.addNewLevel(this.stage)
                         Framework.Game.goToLevel(key)
                     }
                 )
                 this.teamSystem.setCancelButtonClickEvent(
-                    () => {createElementList()}
+                    () => { createElementList() }
                 )
                 removeElementList()
             }
@@ -107,11 +118,12 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
                 this.turnEgg.create(this.bag)
                 removeElementList()
                 this.turnEgg.setCancelButtonClickEvent(
-                    ()=>{
-                    Framework.Game.reLoadLevel()   // 重新載入當前 Level 資訊，但不會重新載入 constructor() 資訊
-                                                    // 因為重載當前 Level 資訊，所以不必再執行 this.createElementList() 否則會造成畫面重疊
+                    () => {
+                        Framework.Game.reLoadLevel()   // 重新載入當前 Level 資訊，但不會重新載入 constructor() 資訊
+                        // 因為重載當前 Level 資訊，所以不必再執行 this.createElementList() 否則會造成畫面重疊
                     },
-                    () =>{createElementList()}
+                    () => { createElementList() },
+                    () => { this.audio.stop('bgm_mainPage') }
                 )
             }
             // 背包按鈕
@@ -119,25 +131,18 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
                 removeElementList()
                 this.bagUI.setDeletetButtonButtonClickEvent(this.bag)
                 this.bagUI.setCancelButtonClickEvent(
-                    ()=>{
+                    () => {
                         Framework.Game.reLoadLevel()   // 重新載入當前 Level 資訊，但不會重新載入 constructor() 資訊
-                                                        // 因為重載當前 Level 資訊，所以不必再執行 this.createElementList() 否則會造成畫面重疊
+                        // 因為重載當前 Level 資訊，所以不必再執行 this.createElementList() 否則會造成畫面重疊
                     },
-                    () =>{createElementList()}
+                    () => { createElementList() },
+                    () => { this.audio.stop('bgm_mainPage') }
                 )
                 this.bagUI.showBag()
             }
             // 幫助按鈕
             helperButton.clickEvent = (e) => {
-                // removeElementList()
                 this.helper.create()
-                // this.helper.setCancelButtonClickEvent(
-                //     () => {}
-                // )
-                // this.helper.setCurrentlButtonClickEvent(
-                    // () => {createElementList()}
-                // )
-
             }
             listItems.push(listItem)
         })

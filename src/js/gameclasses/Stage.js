@@ -59,12 +59,12 @@ GameClasses.Stage = class Stage extends Framework.Level {
 
     initialize() {
         super.initialize()
-        if (this.stageState === 'start') {
+        if(this.stageState === 'start') {
             this.backgroundSprite.game.position = { x: Framework.Game.canvasWidth / 2, y: Framework.Game.canvasHeight / 2 }
             this.backgroundSprite.game.scale = { x: 4, y: 4 }
             this.rootScene.attach(this.backgroundSprite.game)
             this.initializeMatter()
-            this.initializeMarbles()    
+            this.initializeMarbles()
             this.gameUI.initializePlayerInfoUI()
             if(this.hasNextMap()) {
                 this.stageState = 'enterIntoMap'
@@ -198,7 +198,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         if(!this.spawnMonstersAnimationPlayed) {
             this.nowMap.monsters.forEach((monster) => {
                 monster.component.opacity = 0
-                monster.component.componentMagician.addEffect({opacity: 1 }, 1000, () => {
+                monster.component.componentMagician.addEffect({ opacity: 1 }, 1000, () => {
                     this.stageState = 'playerAction'
                 })
             })
@@ -227,8 +227,8 @@ GameClasses.Stage = class Stage extends Framework.Level {
             toRemove.forEach((monster) => this.nowMap.removeMonster(monster))
         }
         if(this.playerActionDone && !this.nowMap.hasRemovingMonster()) {
-            if (this.nowMap.isAllMonstersDead()) {
-                if (this.hasNextMap()) {
+            if(this.nowMap.isAllMonstersDead()) {
+                if(this.hasNextMap()) {
                     this.stageState = 'enterIntoMap'
                     this.nowMap.removeAllItem()
                 } else {
@@ -252,7 +252,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.nowMap.updateSkillObjects()
         this.nowMap.monsterAttack()
         //console.log('monstersActionUpdate')
-        if (this.monstersActionDone) {
+        if(this.monstersActionDone) {
             this.nowHp = Math.max(this.nowHp - this.accumulationDamage, 0)
             this.accumulationDamage = 0
             this.monstersActionDone = false
@@ -261,9 +261,9 @@ GameClasses.Stage = class Stage extends Framework.Level {
                     marble.component.lockRotation = false
                     let lr = Math.floor(Math.random() * 2)
                     if(lr === 0) {
-                        marble.component.componentMagician.addEffect({rotation: 90}, 300)
+                        marble.component.componentMagician.addEffect({ rotation: 90 }, 300)
                     } else if(lr === 1) {
-                        marble.component.componentMagician.addEffect({rotation: -90}, 300)
+                        marble.component.componentMagician.addEffect({ rotation: -90 }, 300)
                     }
                 })
                 this.stageState = 'endingDialog'
@@ -498,16 +498,16 @@ GameClasses.Stage = class Stage extends Framework.Level {
         })
     }
 
-    randomItem(){
+    randomItem() {
         let temp = Math.floor(Math.random() * 3)
         console.log(temp)
-        if(temp){
+        if(temp) {
             let position = {
-                    x: Framework.Game.canvasWidth / 2, 
-                    y: Framework.Game.canvasHeight / 2
+                x: Framework.Game.canvasWidth / 2,
+                y: Framework.Game.canvasHeight / 2
             }
-            for(let i = 0;i < 5;i++){
-                let item = new GameClasses.Item(this.itemSprite, {x: Math.floor(Math.random() * position.x + 1), y: Math.floor(Math.random() * position.y + 1)})
+            for (let i = 0; i < 5; i++) {
+                let item = new GameClasses.Item(this.itemSprite, { x: Math.floor(Math.random() * position.x + 1), y: Math.floor(Math.random() * position.y + 1) })
                 this.nowMap.addItems(item)
             }
 

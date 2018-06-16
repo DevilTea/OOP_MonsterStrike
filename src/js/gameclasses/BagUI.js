@@ -9,23 +9,22 @@ GameClasses.BagUI = class BagUI {
         this.elementsList
         this.currentBagSize = 0
         this.oldBagSize = 0
-        this.isInitialize = false
     }
 
     load() {
         this.bagSprite = new Framework.Sprite(imagePath + 'UI/monsters.png')
     }
 
-    initialize(bag){
+    initialize(bag) {
         this.initializeMenu()
         this.initializeButton()
         this.initializeMarblesImage(bag)
     }
 
-    initializeButton(){
+    initializeButton() {
         // 刪除按鈕
         this.currectButton = Framework.HtmlElementUI.createElement(700, 1600, 250, 100, document.createElement('button'), this.background, false)
-        this.currectButton.ele.innerText = '刪除'       
+        this.currectButton.ele.innerText = '刪除'
         // 返回按鈕
         this.cancelButton = Framework.HtmlElementUI.createElement(350, 1600, 250, 100, document.createElement('button'), this.background, false)
         this.cancelButton.ele.innerText = '返回'
@@ -39,23 +38,22 @@ GameClasses.BagUI = class BagUI {
         this.background.style = { backgroundColor: 'rgba(17, 17, 17, 0.7)' }
     }
 
-    initializeMarblesImage(bag){
-        if(!this.isInitialize){this.currentBagSize = this.oldBagSize = bag.bagMarbles.length;this.isInitialize = true}
+    initializeMarblesImage(bag) {
         this.inlineContainer = Framework.HtmlElementUI.createElement(40, 40, 'full', '1500', document.createElement('div'), this.background, true)
         this.inlineContainer.style = { overflowY: 'auto', left: this.background.style.left }
         let addImgY = 0
         this.elementsList = []
         bag.bagMarbles.forEach((marble, index) => {
             if(index % 4 == 0) { addImgY += 210 }
-            let marbleSmallEle = {isSelect:false}
-            marbleSmallEle.ele = Framework.HtmlElementUI.createElement((20 * ((index % 4) + 1)) + (205 * ((index % 4))), -200 + addImgY, 205, 205,document.createElement('img'),this.inlineContainer, false)
+            let marbleSmallEle = { isSelect: false }
+            marbleSmallEle.ele = Framework.HtmlElementUI.createElement((20 * ((index % 4) + 1)) + (205 * ((index % 4))), -200 + addImgY, 205, 205, document.createElement('img'), this.inlineContainer, false)
             marbleSmallEle.ele.ele.src = imagePath + 'small/' + marble.id + '.jpg'
             marbleSmallEle.ele.style = { opacity: 0.5 }// 調整透明度 : 0.5透明 彈珠未被選則
             marbleSmallEle.ele.clickEvent = (e) => {
                 marbleSmallEle.ele.style = { opacity: 1 } // 調整透明度 : 不透明 彈珠被選則
-                if(marbleSmallEle.isSelect){
-                    for(let i = 0;i < this.selectedMarbledImageList.length;i++){ //
-                        if(this.selectedMarbledImageList[i].index == marbleSmallEle.index){
+                if(marbleSmallEle.isSelect) {
+                    for (let i = 0; i < this.selectedMarbledImageList.length; i++) { //
+                        if(this.selectedMarbledImageList[i].index == marbleSmallEle.index) {
                             this.selectedMarbledImageList.splice(i, 1)
                             break
                         }
@@ -84,17 +82,19 @@ GameClasses.BagUI = class BagUI {
     }
 
     setDeletetButtonButtonClickEvent(bag) { // 設定確定按鈕的事件
-        this.currectButton.clickEvent = (e) =>{
-        this.deleteMarblesImage(bag)
-        this.elementsList.forEach((marbleSmallEle) => {
-            marbleSmallEle.ele.style = { opacity: 0.5 }
-            marbleSmallEle.isSelect = false
-        })
-        this.selectedMarbledImageList = []            
+        this.currentBagSize = bag.bagMarbles.length
+        this.oldBagSize = bag.bagMarbles.length 
+        this.currectButton.clickEvent = (e) => {
+            this.deleteMarblesImage(bag)
+            this.elementsList.forEach((marbleSmallEle) => {
+                marbleSmallEle.ele.style = { opacity: 0.5 }
+                marbleSmallEle.isSelect = false
+            })
+            this.selectedMarbledImageList = []
         }
     }
 
-    setCancelButtonClickEvent(reload,callBack) { // 設定取消按鈕的事件
+    setCancelButtonClickEvent(reload, callBack, stopMusic) { // 設定取消按鈕的事件
         this.cancelButton.clickEvent = (e) => {
             this.selectedMarbledImageList = []
             this.elementsList.forEach((marbleSmallEle) => {
@@ -102,23 +102,24 @@ GameClasses.BagUI = class BagUI {
                 marbleSmallEle.isSelect = false
             })
             this.removeBag()
-            if(this.currentBagSize != this.oldBagSize){
+            if(this.currentBagSize != this.oldBagSize) {
                 this.oldBagSize = this.currentBagSize
+                stopMusic()
                 reload()
             }
-            else{
+            else {
                 callBack()
             }
         }
     }
 
-    deleteMarblesImage(bag){
+    deleteMarblesImage(bag) {
         // console.log(this.currentBagSize, this.oldBagSize)
-        if(!this.selectedMarbledImageList.length)return
-        for(let i = 0;i < this.selectedMarbledImageList.length;i++){
+        if(!this.selectedMarbledImageList.length) return
+        for (let i = 0; i < this.selectedMarbledImageList.length; i++) {
             bag.bagMarbles.forEach((marble, index) => {
-                console.log(index, this.selectedMarbledImageList[i].index)
-                if(index == this.selectedMarbledImageList[i].index){
+                // console.log(index, this.selectedMarbledImageList[i].index)
+                if(index == this.selectedMarbledImageList[i].index) {
                     bag.bagMarbles.splice(index, 1)
                 }
             })
