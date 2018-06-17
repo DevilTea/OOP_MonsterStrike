@@ -12,11 +12,19 @@ GameClasses.TurnEgg = class TurnEgg {
         this.gemImg
         this.NumberOfGem
         this.gemCost = 5
+        this.audio
     }
 
     load() {
         this.egg = new Framework.Sprite(imagePath + 'UI/turnEgg.png')
         this.backgroundSprite = new Framework.Sprite(imagePath + 'background/background.png')
+        this.audio = new Framework.AudioManager(
+            {
+                sound_get_marble : {
+                    ogg : musicPath + 'sound/sound_get_marble.ogg'
+                }
+            }
+        )
     }
 
     initialize() {
@@ -100,5 +108,6 @@ GameClasses.TurnEgg = class TurnEgg {
         bag.bagMarbles.push(marbleDataList[randomNumber])
         this.currentBagSize = bag.bagMarbles.length
         this.imageShowBigMarble(randomNumber)
+        this.audio.play({name: 'sound_get_marble', loop:false})
     }
 }

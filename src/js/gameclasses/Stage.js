@@ -45,6 +45,9 @@ GameClasses.Stage = class Stage extends Framework.Level {
                 },
                 sound_game_over: {
                     ogg: musicPath + 'sound/sound_game_over.ogg',
+                },
+                NTUT_classic : {
+                    mp3 : musicPath + 'bgm/NTUT_classic.mp3'
                 }
             }
         )
@@ -59,6 +62,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.gameUI.loadArrow()
         this.gameUI.loadPlayerInfoUI()
         this.skillFactory.load()
+        this.audio.play({name : 'NTUT_classic', loop: true})
     }
 
     loadingProgress(ctx, requestInfo) {
@@ -288,6 +292,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
     endingDialogUpdate() {
         this.updateMarbles()
         if(!this.hasCreatedEndingDialog) {
+            this.audio.stopAll()
             if(this.nowHp === 0) {
                 userPlayInfo.lostGame += 1
                 userPlayInfo.playGame = userPlayInfo.lostGame + userPlayInfo.winGame
