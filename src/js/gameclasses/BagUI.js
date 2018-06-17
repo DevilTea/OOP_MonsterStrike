@@ -85,12 +85,15 @@ GameClasses.BagUI = class BagUI {
         this.currentBagSize = bag.bagMarbles.length
         this.oldBagSize = bag.bagMarbles.length 
         this.currectButton.clickEvent = (e) => {
-            this.deleteMarblesImage(bag)
-            this.elementsList.forEach((marbleSmallEle) => {
-                marbleSmallEle.ele.style = { opacity: 0.5 }
-                marbleSmallEle.isSelect = false
+            if(!this.selectedMarbledImageList.length) return
+            GameClasses.HtmlElementView.createWarningDialog('\n確定刪除？', () => {
+                this.deleteMarblesImage(bag)
+                this.elementsList.forEach((marbleSmallEle) => {
+                    marbleSmallEle.ele.style = { opacity: 0.5 }
+                    marbleSmallEle.isSelect = false
+                })
+                this.selectedMarbledImageList = []                
             })
-            this.selectedMarbledImageList = []
         }
     }
 
@@ -114,18 +117,12 @@ GameClasses.BagUI = class BagUI {
     }
 
     deleteMarblesImage(bag) {
-        // console.log(this.currentBagSize, this.oldBagSize)
-        if(!this.selectedMarbledImageList.length) return
-        for (let i = 0; i < this.selectedMarbledImageList.length; i++) {
-            bag.bagMarbles.forEach((marble, index) => {
-                // console.log(index, this.selectedMarbledImageList[i].index)
-                if(index == this.selectedMarbledImageList[i].index) {
-                    bag.bagMarbles.splice(index, 1)
-                }
-            })
-        }
-        this.removeBag() // 暫存點擊事件 因為初始化會把事件洗掉
-        let buttonTeam = this.currectButton.clickEvent
+        this.selectedMarbledImageList.sort((a, b) => {return b.index - a.index})// 以 index 做反向排序
+        this.selectedMarbledImageList.forEach((value) => {
+            bag.bagMarbles.splice(value.index, 1)
+        })
+        this.removeBag() 
+        let buttonTeam = this.currectButton.clickEvent // 暫存點擊事件 因為初始化會把事件洗掉
         let buttonTea2 = this.cancelButton.clickEvent
         this.initialize(bag)
         this.currectButton.clickEvent = buttonTeam
