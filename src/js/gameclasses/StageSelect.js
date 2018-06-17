@@ -31,6 +31,7 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
 
     load() { 
         super.load()
+        this.bag.bagMarbles.sort((a, b) => {return a.id - b.id})
         this.bagUI.load()
         this.teamSystem.load(this.bag)
         this.turnEgg.load()

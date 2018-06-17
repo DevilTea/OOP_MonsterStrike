@@ -31,12 +31,23 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.accumulationDamage = 0
         /*道具設定*/
         this.itemSprite//this.item = new GameClasses.Props(pic, '1', {x: 540, y: 1000}, 'addHP')
+        this.audio
     }
 
     /*FrameworkGameState*/
     initializeProgressResource() {
         super.initializeProgressResource()
         this.backgroundSprite.loading = new Framework.Sprite(imagePath + 'background/loading.png')
+        this.audio = new Framework.AudioManager(
+            {
+                sound_victoryEnd : {
+                    ogg : musicPath + 'sound/victoryEnd.ogg'
+                },
+                sound_game_over: {
+                    ogg: musicPath + 'sound/sound_game_over.ogg',
+                }
+            }
+        )
     }
 
     load() {
@@ -280,6 +291,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
             if(this.nowHp === 0) {
                 userPlayInfo.lostGame += 1
                 userPlayInfo.playGame = userPlayInfo.lostGame + userPlayInfo.winGame
+                this.audio.play({name: 'sound_game_over', loop: false})
                 GameClasses.HtmlElementView.createDialog('\r\nGame Over!', () => {
                     Framework.Game.goToLevel('End')
                     delete this
@@ -288,6 +300,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
                 userPlayInfo.winGame += 1
                 userPlayInfo.gem += 1
                 userPlayInfo.playGame = userPlayInfo.lostGame + userPlayInfo.winGame
+                this.audio.play({name: 'sound_victoryEnd', loop: false})
                 GameClasses.HtmlElementView.createDialog('\r\nCongratulation!', () => {
                     Framework.Game.goToLevel('End')
                     delete this

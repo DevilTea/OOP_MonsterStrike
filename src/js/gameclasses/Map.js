@@ -18,7 +18,10 @@ GameClasses.Map = class Map {
         this.loadMonsters()
         this.audio = new Framework.AudioManager({
             hit: {
-                ogg: musicPath + 'sound/hit.ogg',
+                ogg: musicPath + 'sound/hit.ogg', 
+            },
+            sound_lazer : {
+                ogg : musicPath + 'sound/sound_lazer.ogg'
             }
         })
         // this.loadItems()
@@ -264,9 +267,11 @@ GameClasses.Map = class Map {
                 let skillObject
                 let mapObject
                 if(mapObj_A instanceof GameClasses.SkillObject) {
+                    this.audio.play({name : 'sound_lazer', loop: false})
                     skillObject = mapObj_A
                     mapObject = mapObj_B
                 } else if(mapObj_B instanceof GameClasses.SkillObject) {
+                    this.audio.play({name : 'sound_lazer', loop: false})
                     skillObject = mapObj_B
                     mapObject = mapObj_A
                 }
