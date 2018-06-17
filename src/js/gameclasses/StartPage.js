@@ -32,8 +32,8 @@ GameClasses.StartPage = class StartPage extends Framework.GameMainMenu {
 
 	initialize() {
 		super.initialize()
-		GameClasses.HtmlElementView.createDialog("\r\nWelcome！", () => {
-			this.audio.play({ name: 'bgm_startPage', loop: false });
+		GameClasses.HtmlElementView.createWelcomeDialog("物件導向程式設計實習\n盧冠宇大帥哥 - 怪物彈珠\n指導老師：陳偉凱\n組員：　　　　　　　\n陳威任 105590010\n卓旭嘉 105590046", () => {
+			this.audio.play({ name: 'bgm_startPage', loop: true });
 			this.rootScene.attach(this.menu)
 		})
 	}
