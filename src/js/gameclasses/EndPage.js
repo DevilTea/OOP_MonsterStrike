@@ -11,9 +11,7 @@ GameClasses.EndPage = class EndPage extends Framework.GameMainMenu {
         this.loading.scale = {x: 4, y: 4}
 		this.audio = new Framework.AudioManager({
             bgm_mainPage: {
-                //mp3: define.musicPath + 'kick2.mp3',
                 ogg: musicPath + 'bgm/bgm_mainPage.ogg',
-                //wav: define.musicPath + 'kick2.wav'
             }
         })
 	}
@@ -24,13 +22,15 @@ GameClasses.EndPage = class EndPage extends Framework.GameMainMenu {
 		this.menu = new Framework.Sprite(imagePath + 'background/endPage.png')
 		this.menu.position = new Framework.Point(Framework.Game.canvasWidth / 2, Framework.Game.canvasHeight / 2 )
         this.menu.scale = {x: 4, y: 4}
-        this.rootScene.attach(this.menu);
+		this.rootScene.attach(this.menu);
+		GameClasses.HtmlElementView.createDialog('\r\n獲得 5 顆寶石!', () => {
+			Framework.Game.goToLevel('StageSelect')
+		})
 	}
 	
 	loadingProgress(ctx, requestInfo) {
 		super.loadingProgress(ctx, requestInfo)
 		this.loading.draw(ctx)
-		//this.audio.play({name: 'bgm_mainPage', loop: true})
 	}
 	
 	initialize() {
@@ -44,10 +44,6 @@ GameClasses.EndPage = class EndPage extends Framework.GameMainMenu {
 	draw(parentCtx) {
 		super.draw(parentCtx)
 		this.rootScene.draw(parentCtx);
-		parentCtx.font = '300px 微軟正黑體'
-		parentCtx.fillStyle = 'white'
-		parentCtx.textAlign = 'center'
-		parentCtx.fillText("ㄅㄅ", Framework.Game.canvasWidth / 2, Framework.Game.canvasHeight / 2)
 	}
 	
 	teardown() {
@@ -56,7 +52,7 @@ GameClasses.EndPage = class EndPage extends Framework.GameMainMenu {
 	
     click(e) {
 		super.click(e)
-		Framework.Game.goToLevel('StageSelect')
+		// Framework.Game.goToLevel('StageSelect')
     }
 	
 	mouseup(e) {

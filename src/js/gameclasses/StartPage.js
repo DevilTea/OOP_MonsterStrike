@@ -11,9 +11,7 @@ GameClasses.StartPage = class StartPage extends Framework.GameMainMenu {
 		this.loading.scale = { x: 4, y: 4 }
 		this.audio = new Framework.AudioManager({
 			bgm_startPage: {
-				//mp3: define.musicPath + 'kick2.mp3',
 				ogg: musicPath + 'bgm/bgm_startPage.ogg',
-				//wav: define.musicPath + 'kick2.wav'
 			}
 		})
 	}

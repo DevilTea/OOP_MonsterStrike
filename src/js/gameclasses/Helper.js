@@ -14,6 +14,7 @@ GameClasses.Helper = class Helper {
         this.helperPhoto.push(new Framework.Sprite(imagePath + 'helper/help2.png'))
         this.helperPhoto.push(new Framework.Sprite(imagePath + 'helper/help3.png'))
         this.helperPhoto.push(new Framework.Sprite(imagePath + 'helper/help4.png'))
+        this.helperPhoto.push(new Framework.Sprite(imagePath + 'helper/help5.png'))
     }
 
     initialize() {

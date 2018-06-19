@@ -18,10 +18,13 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.mousedownPosition = {}
         this.monstersActionDone = false
         this.hasCreatedEndingDialog = false
-
+        /*怪物血量、攻擊率*/
         this.monsterHpRate = 50
         this.monsterDamageRate = 0.1
-
+        /*外掛設定*/
+        this.isOpen = { check: false }
+        this.isOpenInvincible = false
+        /*skill*/
         this.skillFactory = new GameClasses.SkillFactory()
         /*background sprite*/
         this.backgroundSprite = { loading: undefined, }
@@ -31,7 +34,9 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.accumulationDamage = 0
         /*道具設定*/
         this.itemSprite//this.item = new GameClasses.Props(pic, '1', {x: 540, y: 1000}, 'addHP')
+        /*音效*/
         this.audio
+        this.errorTimes = 0
     }
 
     /*FrameworkGameState*/
@@ -40,14 +45,14 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.backgroundSprite.loading = new Framework.Sprite(imagePath + 'background/loading.png')
         this.audio = new Framework.AudioManager(
             {
-                sound_victoryEnd : {
-                    ogg : musicPath + 'sound/victoryEnd.ogg'
+                sound_victoryEnd: {
+                    ogg: musicPath + 'sound/victoryEnd.ogg'
                 },
                 sound_game_over: {
                     ogg: musicPath + 'sound/sound_game_over.ogg',
                 },
-                NTUT_classic : {
-                    mp3 : musicPath + 'bgm/NTUT_classic.mp3'
+                NTUT_classic: {
+                    mp3: musicPath + 'bgm/NTUT_classic.mp3'
                 }
             }
         )
@@ -55,6 +60,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
 
     load() {
         super.load()
+        this.errorTimes = 0
         this.backgroundSprite.game = new Framework.Sprite(imagePath + 'background/test.png')
         this.itemSprite = new Framework.Sprite(imagePath + 'item/item1.png')
         this.loadMarbles()
@@ -62,7 +68,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.gameUI.loadArrow()
         this.gameUI.loadPlayerInfoUI()
         this.skillFactory.load()
-        this.audio.play({name : 'NTUT_classic', loop: true})
+        this.audio.play({ name: 'NTUT_classic', loop: true })
     }
 
     loadingProgress(ctx, requestInfo) {
@@ -94,7 +100,19 @@ GameClasses.Stage = class Stage extends Framework.Level {
         try {
             this.matter.update()
         } catch (error) {
+            this.errorTimes += 1
             console.log(error)
+            if(this.errorTimes >= 30){
+                this.errorTimes = 0
+                GameClasses.HtmlElementView.createDialog('\r\抱歉！\n發生了不可預期的錯誤\n補償200顆寶石', () => {
+                    userPlayInfo.gem += 200
+                    this.audio.stopAll()
+                    Framework.Game.goToLevel('StageSelect')
+                    this.gameUI.remove()
+                    delete this
+                })
+                return
+            }
         }
         if(this.stageState === 'enterIntoMap') {
             this.enterIntoMapUpdate()
@@ -129,6 +147,40 @@ GameClasses.Stage = class Stage extends Framework.Level {
     keydown(e) {
         if(e.key === 'P') {
             this.matter.toggleRenderWireframes()
+        }
+        else if(e.key === 'M') {
+            if(!this.isOpen.check) {
+                this.isOpen.check = true
+                GameClasses.HtmlElementView.createPlugInDialog(
+                    () => {//lowerMonsterHP
+                        this.nowMap.monsters.forEach((monster) => {
+                            monster.nowHP -= 5000
+                            if(monster.nowHP < 0){monster.nowHP = 0}
+                        })
+                    },
+                    () => {//upMablesDamage
+                        this.marbles.forEach((marble) => {
+                            marble.damage += 5000
+                        })
+                    },
+                    () => {//resetMarblesHP
+                        this.nowHp = this.maxHp
+                    },
+                    () => {//invincible
+                        this.isOpenInvincible = true
+                    },
+                    this.isOpen)
+            }
+        }
+        else if(e.key === 'Esc'){
+            GameClasses.HtmlElementView.createWarningDialog('確定離開嗎？',
+                () =>{
+                    this.audio.stopAll()
+                    Framework.Game.goToLevel('StageSelect')
+                    this.gameUI.remove()
+                    delete this
+                }
+            )
         }
     }
 
@@ -197,7 +249,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.updateMarbles()
         delete this.nowMap
         this.nowMap = this.maps.shift()
-        console.log('enterIntoMapUpdate')
+        // console.log('enterIntoMapUpdate')
         this.stageState = 'spawnMonsters'
         this.spawnMonstersAnimationPlayed = false
         //this.randomItem()　// 隨機產生道具 進入新地圖時
@@ -205,7 +257,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
 
     spawnMonstersUpdate() {
         this.updateMarbles()
-        console.log('spawnMonstersUpdate')
+        // console.log('spawnMonstersUpdate')
         this.nowMap.initializeMonsters()
         this.nowMap.updateMonsters()
         this.nowMap.updateItems()
@@ -226,7 +278,7 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.nowMap.updateItems() //道具更新
         this.nowMap.updateMonsters()
         this.nowMap.updateSkillObjects()
-        console.log('playerActionUpdate')
+        // console.log('playerActionUpdate')
         if(this.isShooted && !this.marbles[this.nowMarble].isMoving) {
             this.playerActionDone = true
             this.marbles.forEach((marble) => {
@@ -266,9 +318,11 @@ GameClasses.Stage = class Stage extends Framework.Level {
         this.nowMap.updateItems()
         this.nowMap.updateSkillObjects()
         this.nowMap.monsterAttack()
-        //console.log('monstersActionUpdate')
+        // console.log('monstersActionUpdate')
         if(this.monstersActionDone) {
-            this.nowHp = Math.max(this.nowHp - this.accumulationDamage, 0)
+            if(!this.isOpenInvincible){
+                this.nowHp = Math.max(this.nowHp - this.accumulationDamage, 0)
+            }
             this.accumulationDamage = 0
             this.monstersActionDone = false
             if(this.nowHp === 0) {
@@ -296,16 +350,17 @@ GameClasses.Stage = class Stage extends Framework.Level {
             if(this.nowHp === 0) {
                 userPlayInfo.lostGame += 1
                 userPlayInfo.playGame = userPlayInfo.lostGame + userPlayInfo.winGame
-                this.audio.play({name: 'sound_game_over', loop: false})
+                this.audio.play({ name: 'sound_game_over', loop: false })
                 GameClasses.HtmlElementView.createDialog('\r\nGame Over!', () => {
-                    Framework.Game.goToLevel('End')
+                    Framework.Game.goToLevel('StageSelect')
+                    this.gameUI.remove()
                     delete this
                 })
             } else {
                 userPlayInfo.winGame += 1
-                userPlayInfo.gem += 1
+                userPlayInfo.gem += 5
                 userPlayInfo.playGame = userPlayInfo.lostGame + userPlayInfo.winGame
-                this.audio.play({name: 'sound_victoryEnd', loop: false})
+                this.audio.play({ name: 'sound_victoryEnd', loop: false })
                 GameClasses.HtmlElementView.createDialog('\r\nCongratulation!', () => {
                     Framework.Game.goToLevel('End')
                     delete this

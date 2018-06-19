@@ -12,6 +12,7 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         this.helper = new GameClasses.Helper()
         this.gemImg
         this.audio
+        // this.isOpen = {check:false}
     }
 
     initializeProgressResource() {
@@ -29,9 +30,9 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         })
     }
 
-    load() { 
+    load() {
         super.load()
-        this.bag.bagMarbles.sort((a, b) => {return a.id - b.id})
+        this.bag.bagMarbles.sort((a, b) => { return a.id - b.id })
         this.bagUI.load()
         this.teamSystem.load(this.bag)
         this.turnEgg.load()
@@ -69,7 +70,7 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         let helperButton = Framework.HtmlElementUI.createElement(-240, 500, 200, 200, this.helper.helperSpriteButton.texture, listContainer, false)
         // 寶石圖片
         let gemImg = Framework.HtmlElementUI.createElement(-240, 720, 200, 200, this.gemImg.texture, listContainer, false)
-        let NumberOfGem = Framework.HtmlElementUI.createElement(-240, 920, 230, 50, document.createElement('div'), listContainer, false)
+        let NumberOfGem = Framework.HtmlElementUI.createElement(-300, 920, 280, 50, document.createElement('div'), listContainer, false)
         NumberOfGem.style = { color: '#ffffff', fontFamily: '微軟正黑體', fontWeight: 'bold', fontSize: '1em' }
         NumberOfGem.ele.innerText = '剩下 ' + userPlayInfo.gem + ' 個寶石'
         // 關卡顯示清單
@@ -104,7 +105,7 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
                     },
                     () => {
                         this.audio.stop('bgm_mainPage')
-                        this.audio.play({ name:'sound_enterStage', loop: false})
+                        this.audio.play({ name: 'sound_enterStage', loop: false })
                         Framework.Game.addNewLevel(this.stage)
                         Framework.Game.goToLevel(key)
                     }
@@ -145,9 +146,33 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
             helperButton.clickEvent = (e) => {
                 this.helper.create()
             }
+            gemImg.clickEvent = (e) => {
+                userPlayInfo.gem += 5
+                NumberOfGem.ele.innerText = '剩下 ' + userPlayInfo.gem + ' 個寶石'
+            }
             listItems.push(listItem)
         })
         createElementList()
     }
 
+    keydown(e) {
+        if(e.key === 'M') {
+            console.log('turnegg')
+        }
+    }
+
 }
+
+//push(marbleDataList[281])
+//push(marbleDataList[391])
+//push(marbleDataList[596])
+//push(marbleDataList[703])
+//push(marbleDataList[704])
+//push(marbleDataList[1032])
+//push(marbleDataList[1045])
+//push(marbleDataList[1046])
+//push(marbleDataList[1743])
+//push(marbleDataList[1746])
+//push(marbleDataList[2722])
+//push(marbleDataList[2723])
+//push(marbleDataList[2724])

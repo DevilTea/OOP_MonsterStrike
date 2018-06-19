@@ -78,4 +78,10 @@ GameClasses.GameUI = class GameUI {
             }
         })
     }
+    remove() {
+        this.playerInfoUIHtmlElements.marbleSmallHtmlElements.forEach((htmlElement) => {
+            Framework.HtmlElementUI.attachElement(htmlElement)
+            htmlElement.remove()
+        })
+    }
 }

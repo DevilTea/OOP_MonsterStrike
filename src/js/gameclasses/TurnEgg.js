@@ -1,4 +1,4 @@
-GameClasses.TurnEgg = class TurnEgg {
+GameClasses.TurnEgg = class TurnEgg{
     constructor() {
         this.egg
         this.container
@@ -13,9 +13,13 @@ GameClasses.TurnEgg = class TurnEgg {
         this.NumberOfGem
         this.gemCost = 5
         this.audio
+        this.marblesNumberList = []
     }
 
     load() {
+        Object.keys(marbleDataList).forEach((key) =>{
+            this.marblesNumberList.push(marbleDataList[key].id)
+        })
         this.egg = new Framework.Sprite(imagePath + 'UI/turnEgg.png')
         this.backgroundSprite = new Framework.Sprite(imagePath + 'background/background.png')
         this.audio = new Framework.AudioManager(
@@ -40,20 +44,25 @@ GameClasses.TurnEgg = class TurnEgg {
         this.background = Framework.HtmlElementUI.createElement(40, 40, 1000, 1840, document.createElement('div'), this.container, false)
         // 確認按鈕
         this.currectButton = Framework.HtmlElementUI.createElement(700, 1600, 250, 100, document.createElement('button'), this.background, false)
-        this.currectButton.ele.innerText = '轉owo'
+        this.currectButton.ele.innerText = '一抽'
         // 返回按鈕
         this.cancelButton = Framework.HtmlElementUI.createElement(350, 1600, 250, 100, document.createElement('button'), this.background, false)
         this.cancelButton.ele.innerText = '返回'
         // 寶石圖片
         this.gemImg = Framework.HtmlElementUI.createElement(-260, 20, 200, 200, document.createElement('img'), this.container, false)
-        this.NumberOfGem = Framework.HtmlElementUI.createElement(-270, 220, 230, 50, document.createElement('div'), this.container, false)
+        this.NumberOfGem = Framework.HtmlElementUI.createElement(-300, 220, 280, 60, document.createElement('div'), this.container, false)
         this.gemImg.ele.src = imagePath + 'UI/gem.png'
         this.NumberOfGem.style = { color: '#ffffff', fontFamily: '微軟正黑體', fontWeight: 'bold', fontSize: '1em' }
         this.NumberOfGem.ele.innerText = '剩下 ' + userPlayInfo.gem + ' 個寶石'
+        this.gemImg.clickEvent = (e) => {
+            userPlayInfo.gem += 5
+            this.NumberOfGem.ele.innerText = '剩下 ' + userPlayInfo.gem + ' 個寶石'
+        }
     }
 
     create(bag) {
         Framework.HtmlElementUI.attachElement(this.container)
+        this.NumberOfGem.ele.innerText = '剩下 ' + userPlayInfo.gem + ' 個寶石'
         this.container.create()
         this.currectButton.clickEvent = (e) => {
             if(userPlayInfo.gem >= this.gemCost) {
@@ -99,15 +108,16 @@ GameClasses.TurnEgg = class TurnEgg {
     }
 
     getRandomMarble(bag) {
-        let number = 100//3174
+        let number = this.marblesNumberList.length//100//3174
         // for(number in marbleDataList){}
         let randomNumber = Math.floor((Math.random() * number))
-        while (!marbleDataList[randomNumber]) {
+        console.log(number, randomNumber)
+        while (!marbleDataList[this.marblesNumberList[randomNumber]]) {
             randomNumber = Math.floor((Math.random() * number))
         }
-        bag.bagMarbles.push(marbleDataList[randomNumber])
+        bag.bagMarbles.push(marbleDataList[this.marblesNumberList[randomNumber]])
         this.currentBagSize = bag.bagMarbles.length
-        this.imageShowBigMarble(randomNumber)
+        this.imageShowBigMarble(this.marblesNumberList[randomNumber])
         this.audio.play({name: 'sound_get_marble', loop:false})
     }
 }
