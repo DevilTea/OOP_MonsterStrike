@@ -26,7 +26,6 @@ Framework.Component = class Component {
                 this.setBody('position', {x: newValue.x, y: newValue.y})
             }
         })
-        
         Object.defineProperty(this, 'scale', {
             get : function() {
                 return this.componentScale
@@ -43,7 +42,6 @@ Framework.Component = class Component {
                 this.setBody('angle', this.componentRotation * Math.PI / 180)
             }
         })
-        
         Object.defineProperty(this, 'rotation', {
             get : function() {
                 return this.componentRotation
@@ -56,7 +54,6 @@ Framework.Component = class Component {
                 this.setBody('angle', newValue * Math.PI / 180)
             }
         })
-        
         Object.defineProperty(this, 'opacity', {
             get : function() {
                 return this.componentOpacity
@@ -78,7 +75,6 @@ Framework.Component = class Component {
             }
         })
     }
-    
     addBodyToWorld() {
         this.matter.addBody(this.body)
         this.hasAddedToWorld = true
@@ -90,7 +86,6 @@ Framework.Component = class Component {
     setBody(property, value) {
         this.matter.setBody(this.body, property, value)
     }
-    
     update() {
         this.componentMagician.update()
     }
