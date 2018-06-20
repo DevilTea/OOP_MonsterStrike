@@ -38,8 +38,8 @@ GameClasses.Marble = class Marble extends GameClasses.MapObject {
         if(this.isMoving && this.component.body.speed < 1) {
             this.component.setBody('velocity', {x: 0, y: 0})
             this.component.body.isSensor = true
-			this.isMoving = false
-		}
+            this.isMoving = false
+        }
     }
 
     draw(ctx) {
@@ -47,8 +47,8 @@ GameClasses.Marble = class Marble extends GameClasses.MapObject {
     }
 
     shoot(shootingUnitVector) {
-		this.isMoving = true
-		let velocity = {x: this.maxSpeed * shootingUnitVector.x, y: this.maxSpeed * shootingUnitVector.y}
+        this.isMoving = true
+        let velocity = {x: this.maxSpeed * shootingUnitVector.x, y: this.maxSpeed * shootingUnitVector.y}
         this.component.setBody('velocity', velocity)
         this.component.body.isSensor = false
     }

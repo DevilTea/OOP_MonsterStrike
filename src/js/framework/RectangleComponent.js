@@ -2,7 +2,7 @@ Framework.RectangleComponent = class RectangleComponent extends Framework.Compon
     constructor(matter, sprite, options) {
         super(matter, sprite, options)
         autoBind(this)
-		this.body = this.matter.createRectangleBody(0, 0, 1, 1, this.bodyOptions)
+        this.body = this.matter.createRectangleBody(0, 0, 1, 1, this.bodyOptions)
     }
 
     update() {

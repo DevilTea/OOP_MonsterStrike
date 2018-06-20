@@ -82,12 +82,12 @@ class HtmlElement {
     constructor(x, y, width, height, ele, parent, onCanvas) {
         autoBind(this)
         Object.defineProperty(this, 'style', {
-			get: () => {
-				return this.ele.style
-			},
-			set: (newValue) => {
+            get: () => {
+                return this.ele.style
+            },
+            set: (newValue) => {
                 $(this.ele).css(newValue)
-			}
+            }
         })
         
         Object.defineProperty(this, 'position', {

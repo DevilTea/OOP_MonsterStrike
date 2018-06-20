@@ -3,8 +3,8 @@
  */
 'use strict'
 Framework.GameMainMenu = class GameMainMenu extends Framework.Level {
-	constructor() {
-		super()
-		this.autoDelete = false
-	}
+    constructor() {
+        super()
+        this.autoDelete = false
+    }
 }

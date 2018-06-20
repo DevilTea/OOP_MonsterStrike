@@ -64,10 +64,10 @@ let loadEnd
                 clearInterval(interval)
                 callback()
             } else if (eval("typeof " + jsConf[0].lookFor) !== 'undefined') {
-					if(jsConf[0].lookFor === 'loadFrameworkEnd')
-					{
-						Framework.Game._isTestMode = false
-					}
+                    if(jsConf[0].lookFor === 'loadFrameworkEnd')
+                    {
+                        Framework.Game._isTestMode = false
+                    }
                     clearInterval(interval)
                     callback()      
                 }

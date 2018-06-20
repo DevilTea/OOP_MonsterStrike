@@ -1,90 +1,90 @@
 // 宣告 namespace
 'use strict'
 Framework.Util = new (class Util {
-	isAbout(realValue,aboutValue,delta) {
-		if(realValue < aboutValue + delta && realValue > aboutValue - delta){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
+    isAbout(realValue,aboutValue,delta) {
+        if(realValue < aboutValue + delta && realValue > aboutValue - delta){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
-	findValueByKey(targetList,key) {
-		for(let i = 0, l = targetList.length; i < l; i++){
-			if(targetList[i].name === key ){
-				return targetList[i];
-			}
-		}
-		return null;
-	}
+    findValueByKey(targetList,key) {
+        for(let i = 0, l = targetList.length; i < l; i++){
+            if(targetList[i].name === key ){
+                return targetList[i];
+            }
+        }
+        return null;
+    }
 
-	isUndefined(obj) {
-		return (typeof obj === 'undefined');
-	}
+    isUndefined(obj) {
+        return (typeof obj === 'undefined');
+    }
 
-	isNull(obj) {
-		return (obj === null);
-	}
+    isNull(obj) {
+        return (obj === null);
+    }
 
-	isFunction(obj) {
-		return (typeof  obj === 'function');
-	}
+    isFunction(obj) {
+        return (typeof  obj === 'function');
+    }
 
-	isNumber(obj) {
-		return (typeof  obj === 'number');
-	}
+    isNumber(obj) {
+        return (typeof  obj === 'number');
+    }
 
-	isObject(obj) {
-		return (typeof  obj === 'object');
-	}
+    isObject(obj) {
+        return (typeof  obj === 'object');
+    }
 
-	isBoolean(obj) {
-		return (typeof  obj === 'boolean');
-	}
+    isBoolean(obj) {
+        return (typeof  obj === 'boolean');
+    }
 
-	isString(obj) {
-		return (typeof  obj === 'string');
-	}
+    isString(obj) {
+        return (typeof  obj === 'string');
+    }
 
-	isCanvas(obj) {
-		if(!this.isUndefined(obj.tagName)){
-			return (obj.tagName === 'CANVAS');
-		}
-		return false;
-	}
+    isCanvas(obj) {
+        if(!this.isUndefined(obj.tagName)){
+            return (obj.tagName === 'CANVAS');
+        }
+        return false;
+    }
 
-	isImage(obj) {
-		if(!this.isUndefined(obj.tagName)){
-			return (obj.tagName === 'IMG');
-		}
-		return false;
-	}
+    isImage(obj) {
+        if(!this.isUndefined(obj.tagName)){
+            return (obj.tagName === 'IMG');
+        }
+        return false;
+    }
 
-	namespace(ns_string) {
-		let parts = ns_string.split('.'),
-			parent = Framework,
-			i;
-		if (parts[0] === 'Framework') {
-			parts = parts.slice(1);
-		}
-		for (let i = 0; i < parts.length; i += 1) {
-			if (isUndefined(parent[parts[i]])) {
-				parent[parts[i]] = {};
-			}
-			parent = parent[parts[i]];
-		}
-		return parts;
-	}
+    namespace(ns_string) {
+        let parts = ns_string.split('.'),
+            parent = Framework,
+            i;
+        if (parts[0] === 'Framework') {
+            parts = parts.slice(1);
+        }
+        for (let i = 0; i < parts.length; i += 1) {
+            if (isUndefined(parent[parts[i]])) {
+                parent[parts[i]] = {};
+            }
+            parent = parent[parts[i]];
+        }
+        return parts;
+    }
 
-	overrideProperty(defaultSettings, userSettings) {
-		for (let key in defaultSettings) {
-			if (isUndefined(userSettings[key])) {
-				userSettings[key] = defaultSettings[key]
-			}
-		}
-		return userSettings
-	}
+    overrideProperty(defaultSettings, userSettings) {
+        for (let key in defaultSettings) {
+            if (isUndefined(userSettings[key])) {
+                userSettings[key] = defaultSettings[key]
+            }
+        }
+        return userSettings
+    }
 })
 
 if(Framework.Util.isUndefined(Date.prototype.format)){
