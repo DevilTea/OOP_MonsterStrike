@@ -162,17 +162,3 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
     }
 
 }
-
-//push(marbleDataList[281])
-//push(marbleDataList[391])
-//push(marbleDataList[596])
-//push(marbleDataList[703])
-//push(marbleDataList[704])
-//push(marbleDataList[1032])
-//push(marbleDataList[1045])
-//push(marbleDataList[1046])
-//push(marbleDataList[1743])
-//push(marbleDataList[1746])
-//push(marbleDataList[2722])
-//push(marbleDataList[2723])
-//push(marbleDataList[2724])

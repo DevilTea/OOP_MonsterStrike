@@ -347,5 +347,4 @@ GameClasses.HtmlElementView = class HtmlElementView {
         return fullContainer
     }
 
-    
 }
