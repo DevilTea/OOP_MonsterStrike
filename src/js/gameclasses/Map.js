@@ -13,7 +13,6 @@ GameClasses.Map = class Map {
         this.audio
         this.items = []
     }
-
     load() {
         this.loadMonsters()
         this.audio = new Framework.AudioManager({
@@ -26,27 +25,21 @@ GameClasses.Map = class Map {
         })
         // this.loadItems()
     }
-
     initialize() {
     }
-
     update() {
     }
-
     draw(ctx) {
     }
-
     addMapObject(mapObject) {
         mapObject.mapObjectID = this.nextMapObjectID++
         mapObject.map = this
         mapObject.matter = this.matter
         this.mapObjects.push(mapObject)
     }
-
     removeMapObject(mapObject) {
         this.mapObjects.splice(this.mapObjects.indexOf(mapObject), 1)
     }
-
 	getMapObjectByID(mapObjectID) {
 		let temp
 		this.mapObjects.forEach((value) => {
@@ -56,7 +49,6 @@ GameClasses.Map = class Map {
 		})
 		return temp
 	}
-
     /*Marbles*/
     addMarbles(marbles) {
         if(!this.hasAddMarbles) {
@@ -68,28 +60,23 @@ GameClasses.Map = class Map {
             this.hasAddMarbles = true
         }
     }
-
     removeMarbles() {
         this.marbles.forEach((marble) => {
             this.removeMapObject(marble)
         })
         this.marbles.legth = 0
     }
-
-
     /*Monsters*/
     loadMonsters() {
         this.monsters.forEach((monster) => {
             monster.load()
         })
     }
-
     initializeMonsters() {
         this.monsters.forEach((monster) => {
             monster.initialize()
         })
     }
-
     updateMonsters() {
         this.monsters.forEach((monster) => {
             let marble = this.stage.marbles[this.stage.nowMarble]
@@ -101,18 +88,15 @@ GameClasses.Map = class Map {
             monster.update()
         })
     }
-
     drawMonsters(ctx) {
         this.monsters.forEach((monster) => {
             monster.draw(ctx)
         })
     }
-
     addMonster(monster) {
         this.addMapObject(monster)
         this.monsters.push(monster)
     }
-
     removeMonster(monster) {
         monster.isRemoving = true
         monster.component.componentMagician.addEffect({opacity: 0 }, 1000, () => {
@@ -121,7 +105,6 @@ GameClasses.Map = class Map {
             monster.remove()
         })
     }
-
     allMonsterCountdown() {
         this.monsters.forEach((monster) => {
             monster.nowAttackCountdown = monster.nowAttackCountdown - 1
@@ -130,7 +113,6 @@ GameClasses.Map = class Map {
             }
         })
     }
-
     monsterAttack() {
         if(this.attackingMonsters.length === 0) {
             this.stage.monstersActionDone = true
@@ -139,7 +121,6 @@ GameClasses.Map = class Map {
             this.attackingMonsters[0].attack()
         }
     }
-
     hasRemovingMonster() {
         let removing = 0
         this.monsters.forEach((monster) => {
@@ -147,23 +128,19 @@ GameClasses.Map = class Map {
         })
         return removing > 0
     }
-
     isAllMonstersDead() {
         return this.monsters.length === 0
     }
-
     /*SkillObject*/
     addSkillObject(skillObject) {
         this.addMapObject(skillObject)
         this.skillObjects.push(skillObject)
         skillObject.initialize()
     }
-
     removeSkillObject(skillObject) {
         this.removeMapObject(skillObject)
         this.skillObjects.splice(this.skillObjects.indexOf(skillObject), 1)
     }
-
     updateSkillObjects() {
         this.skillObjects.forEach((skillObject) => {
             skillObject.update()
@@ -172,26 +149,22 @@ GameClasses.Map = class Map {
             }
         })
     }
-
     drawSkillObjects(ctx) {
         this.skillObjects.forEach((skillObject) => {
             skillObject.draw(ctx)
         })
     }
-
     /*items*/
     // loadItems() {  //載入道具
     //     this.items.forEach((item) => {
     //         item.load()
     //     })
     // }
-
     // initializeItems() { // 初始化道具
     //     this.items.forEach((item) => {
     //         item.initialize()
     //     })
     // }
-
     updateItems() {
         this.items.forEach((item) => {
             item.update()
@@ -200,36 +173,30 @@ GameClasses.Map = class Map {
             // }
         })
     }
-
     drawItems(ctx) {
         this.items.forEach((item) => {
             item.draw(ctx)
         })
     }
-
     addItems(item){
         this.addMapObject(item)
         this.items.push(item)
         item.initialize()
     }
-
     isAllItemRemove() {
         return this.items.length === 0
     }
-
     removeItem(item) {
         item.isRemoving = true
         this.removeMapObject(item)
         this.items.splice(this.items.indexOf(item), 1)
         item.remove()
     }
-
     removeAllItem(){
         this.items.forEach((item) => {
             this.removeItem(item)
         })
     }
-
     /*Matter*/
     collisionStart(event) {
         event.pairs.forEach((value) => {
@@ -279,10 +246,10 @@ GameClasses.Map = class Map {
                 if(mapObject instanceof GameClasses.Marble || mapObject instanceof GameClasses.Monster) {
                     if(skillObject.skill.skillOwner.constructor.name.replace(/bound /g, '') === mapObject.constructor.name.replace(/bound /g, '')) {
                         if(skillObject.skill.skillOwner !== mapObject) {
-                            console.log('技能持有者與技能施放對象為同一陣營')
+                            // console.log('技能持有者與技能施放對象為同一陣營')
                         }
                     } else {
-                        console.log('技能持有者與技能施放對象為對立陣營')
+                        // console.log('技能持有者與技能施放對象為對立陣營')
                         let damage = skillObject.skill.skillData.skillDamage
                         if(mapObject instanceof GameClasses.Marble) {
                             damage = Math.round(damage * this.stage.monsterDamageRate)
@@ -310,7 +277,6 @@ GameClasses.Map = class Map {
             }
 		})
 	}
-
 	collisionEnd(event) {
 	}
 }

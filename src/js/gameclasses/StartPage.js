@@ -3,7 +3,6 @@ GameClasses.StartPage = class StartPage extends Framework.GameMainMenu {
         super()
         autoBind(this)
     }
-
     initializeProgressResource() {
         super.initializeProgressResource()
         this.loading = new Framework.Sprite(imagePath + 'background/loading.png')
@@ -15,19 +14,16 @@ GameClasses.StartPage = class StartPage extends Framework.GameMainMenu {
             }
         })
     }
-
     load() {
         super.load()
         this.menu = new Framework.Sprite(imagePath + 'background/startPage.png')
         this.menu.position = new Framework.Point(Framework.Game.getCanvasWidth() / 2, Framework.Game.getCanvasHeight() / 2)
         this.menu.scale = { x: 2, y: 2 }
     }
-
     loadingProgress(ctx, requestInfo) {
         super.loadingProgress(ctx, requestInfo)
         this.loading.draw(ctx)
     }
-
     initialize() {
         super.initialize()
         GameClasses.HtmlElementView.createWelcomeDialog("物件導向程式設計實習\n盧冠宇大帥哥 - 怪物彈珠\n指導老師：陳偉凱\n組員：　　　　　　　\n陳威任 105590010\n卓旭嘉 105590046", () => {
@@ -35,50 +31,40 @@ GameClasses.StartPage = class StartPage extends Framework.GameMainMenu {
             this.rootScene.attach(this.menu)
         })
     }
-
     update() {
         super.update()
     }
-
     draw(parentCtx) {
         super.draw(parentCtx)
         this.rootScene.draw(parentCtx)
     }
-
     teardown() {
         super.teardown()
     }
-
     click(e) {
         super.click(e)
     }
-
     mouseup(e) {
         super.mouseup(e)
         this.audio.stop('bgm_startPage')
         Framework.Game.goToNextLevel()
     }
-
     mousedown(e) {
         super.mousedown(e)
     }
-
     mousemove(e) {
         super.mousemove(e)
     }
-
     //為了要讓Mouse和Touch都有一樣的事件
     //又要減少Duplicated code, 故在Touch事件被觸發時, 去Trigger Mouse事件
     touchstart(e) {
         super.touchstart(e)
         this.mousedown(e[0])
     }
-
     touchend(e) {
         super.touchend(e)
         this.mouseup(e)
     }
-
     touchmove(e) {
         super.touchmove(e)
         this.mousemove(e[0])
@@ -91,4 +77,3 @@ let userPlayInfo = {
     playGame: 0,
     gem: 50
 }
-

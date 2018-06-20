@@ -13,7 +13,6 @@ GameClasses.Item = class Item extends GameClasses.MapObject {
         this.promoteDamage = 5000
         this.addHP = 5000
     }
-
     initialize() {
         this.itemType = this.type[this.random]
         this.component = new Framework.RectangleComponent(this.matter, this.itemSprite, {label: 'mapObjectID_' + this.mapObjectID, friction: 0, frictionAir: 0.012, frictionStatic: 0, restitution: 1, isSensor: true})
@@ -22,17 +21,14 @@ GameClasses.Item = class Item extends GameClasses.MapObject {
         this.component.addBodyToWorld()
         this.defineProperties()
     }
-
     draw(ctx){
         this.itemSprite.draw(ctx)
     }
-
     remove() {
         this.component.removeBodyFromWorld()
         this.isRemoving = true
         // delete this
     }
-
     useItemEffect(){
         this.isTouch = true
         if(this.itemType === 'addHP') {
@@ -48,6 +44,5 @@ GameClasses.Item = class Item extends GameClasses.MapObject {
                 marble.damage += this.promoteDamage
             })
         }
-
     }
 }

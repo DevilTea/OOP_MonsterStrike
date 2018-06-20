@@ -6,7 +6,6 @@ Framework.GameObjectAnimator = class GameObjectAnimator {
         this.animationQueue = []
         this.currentAnimation
     }
-
     addAnimation(animationObj, duration, callback, ...args) {
         let animation = {}
         animation.animationDelta = {}
@@ -24,7 +23,6 @@ Framework.GameObjectAnimator = class GameObjectAnimator {
         animation.args = args
         this.animationQueue.push(animation)
     }
-
     update() {
         if(this.currentAnimation === undefined) {
             if(this.animationQueue.length === 0) {
@@ -45,10 +43,8 @@ Framework.GameObjectAnimator = class GameObjectAnimator {
                     }
                 })
                 this.gameObject.isDuringAnimation = true
-
             }
         }
-
         if(this.currentAnimation.remainingUpdateCount === 1) {
             Object.keys(this.currentAnimation.finishStatus).forEach((key) => {
                 if(key === 'position' || key === 'scale' || key === 'rotation' || key === 'opacity') {

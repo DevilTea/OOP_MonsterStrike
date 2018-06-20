@@ -6,7 +6,6 @@ GameClasses.Skill = class Skill {
         this.skillSprite = skillSprite
         this.callback = callback
     }
-
     use() {
         //雷射系技能
         if(GameClasses.SkillFactory.isLaserSkill(this.skillData.skillType)) {
@@ -19,7 +18,6 @@ GameClasses.Skill = class Skill {
             }
         }
     }
-
     addSingleLaserObject(laserLevel, rotation, callback = (() => {})) {
         let skillObject = new GameClasses.SkillObject(this)
         let startOffest = Math.min(this.skillOwner.component.sprite.width, this.skillOwner.component.sprite.height) / 2
@@ -52,7 +50,6 @@ GameClasses.Skill = class Skill {
             callback()
         })
     }
-
     useSingleLaserSkill(skillType, skillLevel) {
         if(skillType === GameClasses.skillTypeEnum.LASER_SINGLE_UP) {
             this.addSingleLaserObject(skillLevel, 0, this.callback)
@@ -74,7 +71,6 @@ GameClasses.Skill = class Skill {
             this.addSingleLaserObject(skillLevel, angle, this.callback)
         }
     }
-
     useDoubleLaserSkill(skillType, skillLevel) {
         if(skillType === GameClasses.skillTypeEnum.LASER_DOUBLE_HORIZONTAL) {
             this.addSingleLaserObject(skillLevel, 90)
@@ -84,7 +80,6 @@ GameClasses.Skill = class Skill {
             this.addSingleLaserObject(skillLevel, 180, this.callback)
         }
     }
-
     useCrossLaserSkill(skillType, skillLevel) {
         if(skillType === GameClasses.skillTypeEnum.LASER_CROSS_1) {
             this.addSingleLaserObject(skillLevel, 0)

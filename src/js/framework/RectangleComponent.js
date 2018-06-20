@@ -4,7 +4,6 @@ Framework.RectangleComponent = class RectangleComponent extends Framework.Compon
         autoBind(this)
         this.body = this.matter.createRectangleBody(0, 0, 1, 1, this.bodyOptions)
     }
-
     update() {
         super.update()
         if(this.hasAddedToWorld) {
@@ -13,7 +12,6 @@ Framework.RectangleComponent = class RectangleComponent extends Framework.Compon
                 this.removeBodyFromWorld()
                 this.body = this.matter.createRectangleBody(0, 0, this.sprite.width, this.sprite.height, this.bodyOptions)
                 this.addBodyToWorld()
-
                 this.position = this.position
                 this.rotation = this.rotation
             } else if(this.hasFirstUpdate) {

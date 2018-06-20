@@ -12,12 +12,10 @@ GameClasses.HtmlElementView = class HtmlElementView {
         dialogText.ele.innerText = msg
         enterButton.style = {border: '2px #999999 solid', borderRadius: '3px', color: '#ffffff', backgroundColor: '#333333'}
         enterButton.ele.innerText = '確認'
-
         fullContainer.clickEvent = (e) => e.stopPropagation()
         fullContainer.mousedownEvent = (e) => e.stopPropagation()
         fullContainer.mouseupEvent = (e) => e.stopPropagation()
         fullContainer.mousemoveEvent = (e) => e.stopPropagation()
-
         dialogBackground.mousedownEvent = (e) => {
             e.preventDefault()
             e = Framework.MouseManager.countCanvasOffset(e)
@@ -25,11 +23,9 @@ GameClasses.HtmlElementView = class HtmlElementView {
             mouseOffset.y = dialogBackground.originY - e.y
             canDrag = true
         }
-
         fullContainer.mouseupEvent = (e) => {
             canDrag = false
         }
-
         fullContainer.mousemoveEvent = (e) => {
             if(e.buttons === 1 && canDrag) {
                 e.preventDefault()
@@ -37,20 +33,17 @@ GameClasses.HtmlElementView = class HtmlElementView {
                 dialogBackground.position = {x: mouseOffset.x + e.x, y: mouseOffset.y + e.y}
             }
         }
-
         enterButton.clickEvent = (e) => {
             Framework.HtmlElementUI.detachElement(fullContainer)
             fullContainer.remove()
             Framework.MouseManager.startHandle()
             callback()
         }
-
         Framework.HtmlElementUI.attachElement(fullContainer)
         fullContainer.create()
         Framework.MouseManager.stopHandle()
         return fullContainer
     }
-
     static createHelpDialog(srcImg = [], callback = () => {}) {
         // 外層容器
         let fullContainer = Framework.HtmlElementUI.createElement(0, 0, 'full', 'full', document.createElement('div'), undefined, false)
@@ -74,12 +67,10 @@ GameClasses.HtmlElementView = class HtmlElementView {
         // 下一個按鍵
         nextButton.style = {border: '2px #999999 solid', borderRadius: '3px', color: '#ffffff', backgroundColor: '#333333'}
         nextButton.ele.innerText = '下一個'
-
         fullContainer.clickEvent = (e) => e.stopPropagation()
         fullContainer.mousedownEvent = (e) => e.stopPropagation()
         fullContainer.mouseupEvent = (e) => e.stopPropagation()
         fullContainer.mousemoveEvent = (e) => e.stopPropagation()
-
         dialogBackground.mousedownEvent = (e) => {
             e.preventDefault()
             e = Framework.MouseManager.countCanvasOffset(e)
@@ -87,11 +78,9 @@ GameClasses.HtmlElementView = class HtmlElementView {
             mouseOffset.y = dialogBackground.originY - e.y
             canDrag = true
         }
-
         fullContainer.mouseupEvent = (e) => {
             canDrag = false
         }
-
         fullContainer.mousemoveEvent = (e) => {
             if(e.buttons === 1 && canDrag) {
                 e.preventDefault()
@@ -99,14 +88,12 @@ GameClasses.HtmlElementView = class HtmlElementView {
                 dialogBackground.position = {x: mouseOffset.x + e.x, y: mouseOffset.y + e.y}
             }
         }
-
         enterButton.clickEvent = (e) => {
             Framework.HtmlElementUI.detachElement(fullContainer)
             fullContainer.remove()
             Framework.MouseManager.startHandle()
             callback()
         }
-
         previousButton.clickEvent = (e) => {
             dialogImg.ele.src = srcImg[Math.abs((++number) % srcImg.length)].id
         }
@@ -114,13 +101,11 @@ GameClasses.HtmlElementView = class HtmlElementView {
         nextButton.clickEvent = (e) => {
             dialogImg.ele.src = srcImg[Math.abs((--number) % srcImg.length)].id
         }
-
         Framework.HtmlElementUI.attachElement(fullContainer)
         fullContainer.create()
         Framework.MouseManager.stopHandle()
         return fullContainer
     }
-
     static createWarningDialog(msg, callback = () => {}) {
         let fullContainer = Framework.HtmlElementUI.createElement(0, 0, 'full', 'full', document.createElement('div'), undefined, false)
         let dialogBackground = Framework.HtmlElementUI.createElement(140, 660, 800, 600, document.createElement('div'), fullContainer, true)
@@ -137,12 +122,10 @@ GameClasses.HtmlElementView = class HtmlElementView {
         enterButton.ele.innerText = '確認'
         cancleButton.style = {border: '2px #999999 solid', borderRadius: '3px', color: '#ffffff', backgroundColor: '#333333'}
         cancleButton.ele.innerText = '不要'
-
         fullContainer.clickEvent = (e) => e.stopPropagation()
         fullContainer.mousedownEvent = (e) => e.stopPropagation()
         fullContainer.mouseupEvent = (e) => e.stopPropagation()
         fullContainer.mousemoveEvent = (e) => e.stopPropagation()
-
         dialogBackground.mousedownEvent = (e) => {
             e.preventDefault()
             e = Framework.MouseManager.countCanvasOffset(e)
@@ -150,11 +133,9 @@ GameClasses.HtmlElementView = class HtmlElementView {
             mouseOffset.y = dialogBackground.originY - e.y
             canDrag = true
         }
-
         fullContainer.mouseupEvent = (e) => {
             canDrag = false
         }
-
         fullContainer.mousemoveEvent = (e) => {
             if(e.buttons === 1 && canDrag) {
                 e.preventDefault()
@@ -162,26 +143,22 @@ GameClasses.HtmlElementView = class HtmlElementView {
                 dialogBackground.position = {x: mouseOffset.x + e.x, y: mouseOffset.y + e.y}
             }
         }
-
         enterButton.clickEvent = (e) => {
             Framework.HtmlElementUI.detachElement(fullContainer)
             fullContainer.remove()
             Framework.MouseManager.startHandle()
             callback()
         }
-
         cancleButton.clickEvent = () => {
             Framework.HtmlElementUI.detachElement(fullContainer)
             fullContainer.remove()
             Framework.MouseManager.startHandle()
         }
-
         Framework.HtmlElementUI.attachElement(fullContainer)
         fullContainer.create()
         Framework.MouseManager.stopHandle()
         return fullContainer
     }
-
     static createWelcomeDialog(msg, callback = () => {}) {
         let fullContainer = Framework.HtmlElementUI.createElement(0, 0, 'full', 'full', document.createElement('div'), undefined, false)
         let dialogBackground = Framework.HtmlElementUI.createElement(15, 500, 1050, 920, document.createElement('div'), fullContainer, true)
@@ -195,12 +172,10 @@ GameClasses.HtmlElementView = class HtmlElementView {
         dialogText.ele.innerText = msg
         enterButton.style = {border: '2px #999999 solid', borderRadius: '3px', color: '#ffffff', backgroundColor: '#333333'}
         enterButton.ele.innerText = '確認'
-
         fullContainer.clickEvent = (e) => e.stopPropagation()
         fullContainer.mousedownEvent = (e) => e.stopPropagation()
         fullContainer.mouseupEvent = (e) => e.stopPropagation()
         fullContainer.mousemoveEvent = (e) => e.stopPropagation()
-
         dialogBackground.mousedownEvent = (e) => {
             e.preventDefault()
             e = Framework.MouseManager.countCanvasOffset(e)
@@ -208,11 +183,9 @@ GameClasses.HtmlElementView = class HtmlElementView {
             mouseOffset.y = dialogBackground.originY - e.y
             canDrag = true
         }
-
         fullContainer.mouseupEvent = (e) => {
             canDrag = false
         }
-
         fullContainer.mousemoveEvent = (e) => {
             if(e.buttons === 1 && canDrag) {
                 e.preventDefault()
@@ -220,20 +193,17 @@ GameClasses.HtmlElementView = class HtmlElementView {
                 dialogBackground.position = {x: mouseOffset.x + e.x, y: mouseOffset.y + e.y}
             }
         }
-
         enterButton.clickEvent = (e) => {
             Framework.HtmlElementUI.detachElement(fullContainer)
             fullContainer.remove()
             Framework.MouseManager.startHandle()
             callback()
         }
-
         Framework.HtmlElementUI.attachElement(fullContainer)
         fullContainer.create()
         Framework.MouseManager.stopHandle()
         return fullContainer
     }
-
     /*外掛視窗*/
     static createPlugInDialog(lowerMonsterHP = () => {}, upMablesDamage = () => {}, resetMarblesHP = () =>{}, invincible = () => {}, isOpen) {
         let fullContainer = Framework.HtmlElementUI.createElement(0, 0, 'full', 'full', document.createElement('div'), undefined, false)
@@ -283,12 +253,10 @@ GameClasses.HtmlElementView = class HtmlElementView {
         enterButton.ele.innerText = '確認'
         closeButton.style = {border: '2px #999999 solid', borderRadius: '3px', color: '#ffffff', backgroundColor: 'rgba(200, 0, 0, 0.875)', fontWeight: 'bold', fontSize: '1em'}
         closeButton.ele.innerText = '關閉'
-
         fullContainer.clickEvent = (e) => e.stopPropagation()
         fullContainer.mousedownEvent = (e) => e.stopPropagation()
         fullContainer.mouseupEvent = (e) => e.stopPropagation()
         fullContainer.mousemoveEvent = (e) => e.stopPropagation()
-
         dialogBackground.mousedownEvent = (e) => {
             e.preventDefault()
             e = Framework.MouseManager.countCanvasOffset(e)
@@ -296,11 +264,9 @@ GameClasses.HtmlElementView = class HtmlElementView {
             mouseOffset.y = dialogBackground.originY - e.y
             canDrag = true
         }
-
         fullContainer.mouseupEvent = (e) => {
             canDrag = false
         }
-
         fullContainer.mousemoveEvent = (e) => {
             if(e.buttons === 1 && canDrag) {
                 e.preventDefault()
@@ -308,43 +274,35 @@ GameClasses.HtmlElementView = class HtmlElementView {
                 dialogBackground.position = {x: mouseOffset.x + e.x, y: mouseOffset.y + e.y}
             }
         }
-
         loserMonsterHPButton.clickEvent = () => {
             lowerMonsterHP()
         }
-
         upMablesDamageButton.clickEvent = () => {
             upMablesDamage()
         }
-
         resetMarbleHPButton.clickEvent = () => {
             resetMarblesHP()
         }
-
         invincibleButton.clickEvent = () => {
             invincible()
             invincibleButton.style = {backgroundColor: 'rgba(0, 150, 0, 0.75)'}
             invincibleButton.ele.innerText = '已開啟'
         }
-
         enterButton.clickEvent = (e) => {
             Framework.HtmlElementUI.detachElement(fullContainer)
             fullContainer.remove()
             Framework.MouseManager.startHandle()
             isOpen.check = false
         }
-
         closeButton.clickEvent = (e) => {
             Framework.HtmlElementUI.detachElement(fullContainer)
             fullContainer.remove()
             Framework.MouseManager.startHandle()
             isOpen.check = false
         }
-
         Framework.HtmlElementUI.attachElement(fullContainer)
         fullContainer.create()
         Framework.MouseManager.stopHandle()
         return fullContainer
     }
-
 }

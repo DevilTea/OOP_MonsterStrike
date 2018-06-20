@@ -5,17 +5,14 @@ Framework.CircleComponent = class CircleComponent extends Framework.Component {
         autoBind(this)
         this.body = this.matter.createCircleBody(0, 0, 1, this.bodyOptions)
     }
-
     update() {
         super.update()
         if(this.hasAddedToWorld) {
             if(!this.hasFirstUpdate && this.sprite.texture) {
                 this.hasFirstUpdate = true
-
                 this.removeBodyFromWorld()
                 this.body = this.matter.createCircleBody(0, 0, this.sprite.width / 2, this.bodyOptions)
                 this.addBodyToWorld()
-
                 this.position = this.position
                 this.rotation = this.rotation
             } else if(this.hasFirstUpdate) {

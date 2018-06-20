@@ -14,7 +14,6 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         this.audio
         // this.isOpen = {check:false}
     }
-
     initializeProgressResource() {
         super.initializeProgressResource()
         this.loading = new Framework.Sprite(imagePath + 'background/loading.png')
@@ -29,7 +28,6 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
             }
         })
     }
-
     load() {
         super.load()
         this.bag.bagMarbles.sort((a, b) => { return a.id - b.id })
@@ -39,12 +37,10 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         this.helper.load()
         this.gemImg = new Framework.Sprite(imagePath + 'UI/gem.png')
     }
-
     loadingProgress(ctx, requestInfo) {
         super.loadingProgress(ctx, requestInfo)
         this.loading.draw(ctx)
     }
-
     initialize() {
         super.initialize()
         this.stage = {}
@@ -56,7 +52,6 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         this.createStageSelectList()
         this.audio.play({ name: 'bgm_mainPage', loop: true });
     }
-
     createStageSelectList() {
         let num = Object.keys(Stages).length
         // 關卡選單
@@ -77,7 +72,6 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         let listItems = []
         // 各個選單背景設定
         listBackground.style = { backgroundColor: 'rgba(17, 17, 17, 0.7)', overflowX: 'auto' }
-
         let createElementList = () => {  // 建立關卡選單元素
             Framework.HtmlElementUI.attachElement(listContainer)
             listContainer.create()
@@ -86,7 +80,6 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
             Framework.HtmlElementUI.detachElement(listContainer)
             listContainer.remove()
         }
-
         Object.keys(Stages).forEach((key, index) => {
             let listItem = Framework.HtmlElementUI.createElement(40, (20 * (index + 1)) + (200 * index), 900, 200, document.createElement('div'), listBackground, false)
             let listItemNameTag = Framework.HtmlElementUI.createElement(20, 20, 0, 0, document.createElement('div'), listItem, false)
@@ -154,11 +147,9 @@ GameClasses.StageSelect = class StageSelect extends Framework.GameMainMenu {
         })
         createElementList()
     }
-
     keydown(e) {
         if(e.key === 'M') {
-            console.log('turnegg')
+            // console.log('turnegg')
         }
     }
-
 }

@@ -18,11 +18,9 @@ GameClasses.Marble = class Marble extends GameClasses.MapObject {
         this.isMoving = false
         this.marbleSprite
     }
-
     load() {
         this.marbleSprite = new Framework.Sprite(imagePath + 'ball/Ball' + this.marbleID + '.png')
     }
-
     initialize() {
         this.comboSkill = Framework.Game.currentLevel.skillFactory.createSkill(this, this.comboSkillData)
         this.component = new Framework.CircleComponent(this.matter, this.marbleSprite, {label: 'mapObjectID_' + this.mapObjectID, friction: 0, frictionAir: 0.012, frictionStatic: 0, restitution: 1, isSensor: true})
@@ -32,7 +30,6 @@ GameClasses.Marble = class Marble extends GameClasses.MapObject {
         this.component.addBodyToWorld()
         this.defineProperties()
     }
-
     update() {
         super.update()
         if(this.isMoving && this.component.body.speed < 1) {
@@ -41,11 +38,9 @@ GameClasses.Marble = class Marble extends GameClasses.MapObject {
             this.isMoving = false
         }
     }
-
     draw(ctx) {
         this.marbleSprite.draw(ctx)
     }
-
     shoot(shootingUnitVector) {
         this.isMoving = true
         let velocity = {x: this.maxSpeed * shootingUnitVector.x, y: this.maxSpeed * shootingUnitVector.y}

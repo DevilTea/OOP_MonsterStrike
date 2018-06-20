@@ -11,7 +11,6 @@ GameClasses.MarbleData = class MarbleData {
         this.comboSkillData = comboSkillData
     }
 }
-
 marbleDataList = {}
 let doooo = () => {
     //一長串資料
@@ -186,7 +185,6 @@ let doooo = () => {
     marbleDataList[635] = new GameClasses.MarbleData("Lilith", 635, "Demon", GameClasses.elementTypeEnum.WATER, GameClasses.slingTypeEnum.BOUNCE, 13085, 14918, 251.8, new GameClasses.SkillData(GameClasses.skillTypeEnum.LASER_SINGLE_UP, GameClasses.skillLevelEnum.LASER_S, 9471))
     marbleDataList[636] = new GameClasses.MarbleData("Lilith the Scamp", 636, "Demon", GameClasses.elementTypeEnum.WATER, GameClasses.slingTypeEnum.BOUNCE, 22610, 19942, 364.4, new GameClasses.SkillData(GameClasses.skillTypeEnum.LASER_SINGLE_UP, GameClasses.skillLevelEnum.LASER_S, 12312))
     marbleDataList[637] = new GameClasses.MarbleData("Lilith the Wicked Sage", 637, "Demon", GameClasses.elementTypeEnum.WATER, GameClasses.slingTypeEnum.BOUNCE, 21962, 24717, 312.67, new GameClasses.SkillData(GameClasses.skillTypeEnum.LASER_SINGLE_LEFT, GameClasses.skillLevelEnum.LASER_S, 6187))
-        
     // 特別設計
     marbleDataList[1] = new GameClasses.MarbleData("Zinge", 1, "Fiend", GameClasses.elementTypeEnum.FIRE, GameClasses.slingTypeEnum.BOUNCE, 1650, 1866, 101.13, new GameClasses.SkillData(GameClasses.skillTypeEnum.LASER_SINGLE_UP, GameClasses.skillLevelEnum.LASER_S, 1006))
     marbleDataList[5] = new GameClasses.MarbleData("Watta", 5, "Sprite", GameClasses.elementTypeEnum.WATER, GameClasses.slingTypeEnum.BOUNCE, 1629, 1733, 103.53, new GameClasses.SkillData(GameClasses.skillTypeEnum.LASER_SINGLE_DOWN, GameClasses.skillLevelEnum.LASER_S, 1006))
@@ -198,7 +196,6 @@ let doooo = () => {
     marbleDataList[60] = new GameClasses.MarbleData("Poink", 60,  "Vivolith", GameClasses.elementTypeEnum.WOOD, GameClasses.slingTypeEnum.BOUNCE, 3082, 5523, 83.05, new GameClasses.SkillData(GameClasses.skillTypeEnum.LASER_CROSS_1, GameClasses.skillLevelEnum.LASER_S, 3220))
     marbleDataList[62] = new GameClasses.MarbleData("Winkle", 62, "Vivolith", GameClasses.elementTypeEnum.LIGHT, GameClasses.slingTypeEnum.BOUNCE, 3062, 5318, 84.42, new GameClasses.SkillData(GameClasses.skillTypeEnum.LASER_CROSS_2, GameClasses.skillLevelEnum.LASER_S, 3220))
     marbleDataList[64] = new GameClasses.MarbleData("Squing", 64, "Vivolith", GameClasses.elementTypeEnum.DARK, GameClasses.slingTypeEnum.BOUNCE, 3021, 5215, 85.09, new GameClasses.SkillData(GameClasses.skillTypeEnum.LASER_SINGLE_UP, GameClasses.skillLevelEnum.LASER_S, 3220))
-    
     marbleDataList[281] = new GameClasses.MarbleData("Conflagrant Agnamut X", 281, "Deity", GameClasses.elementTypeEnum.FIRE, GameClasses.slingTypeEnum.BOUNCE, 30000, 30000, 400.00, new GameClasses.SkillData(GameClasses.skillTypeEnum.LASER_TRACK, GameClasses.skillLevelEnum.LASER_S, 102500))
     marbleDataList[391] = new GameClasses.MarbleData("Zeus of the Shining Flame", 391, "Deity", GameClasses.elementTypeEnum.LIGHT, GameClasses.slingTypeEnum.PIERCE, 30000, 30000, 400.00, new GameClasses.SkillData(GameClasses.skillTypeEnum.LASER_TRACK, GameClasses.skillLevelEnum.LASER_S, 102500))
     marbleDataList[596] = new GameClasses.MarbleData("Isis, Life and Death", 596, "Deity", GameClasses.elementTypeEnum.WOOD, GameClasses.slingTypeEnum.BOUNCE, 30000, 30000, 400.00, new GameClasses.SkillData(GameClasses.skillTypeEnum.LASER_TRACK, GameClasses.skillLevelEnum.LASER_S, 102500))

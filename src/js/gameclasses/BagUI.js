@@ -10,17 +10,14 @@ GameClasses.BagUI = class BagUI {
         this.currentBagSize = 0
         this.oldBagSize = 0
     }
-
     load() {
         this.bagSprite = new Framework.Sprite(imagePath + 'UI/monsters.png')
     }
-
     initialize(bag) {
         this.initializeMenu()
         this.initializeButton()
         this.initializeMarblesImage(bag)
     }
-
     initializeButton() {
         // 刪除按鈕
         this.currectButton = Framework.HtmlElementUI.createElement(700, 1600, 250, 100, document.createElement('button'), this.background, false)
@@ -29,7 +26,6 @@ GameClasses.BagUI = class BagUI {
         this.cancelButton = Framework.HtmlElementUI.createElement(350, 1600, 250, 100, document.createElement('button'), this.background, false)
         this.cancelButton.ele.innerText = '返回'
     }
-
     initializeMenu() {
         this.selectedMarbledImageList = []
         this.bagSprite.initTexture()
@@ -37,7 +33,6 @@ GameClasses.BagUI = class BagUI {
         this.background = Framework.HtmlElementUI.createElement(40, 40, 1000, 1840, document.createElement('div'), this.mainContainer, false)
         this.background.style = { backgroundColor: 'rgba(17, 17, 17, 0.7)' }
     }
-
     initializeMarblesImage(bag) {
         this.inlineContainer = Framework.HtmlElementUI.createElement(40, 40, 'full', '1500', document.createElement('div'), this.background, true)
         this.inlineContainer.style = { overflowY: 'auto', left: this.background.style.left }
@@ -70,17 +65,14 @@ GameClasses.BagUI = class BagUI {
             this.elementsList.push(marbleSmallEle)
         })
     }
-
     showBag() { // 顯示選項
         Framework.HtmlElementUI.attachElement(this.mainContainer)
         this.mainContainer.create()
     }
-
     removeBag() {// 移除選項
         Framework.HtmlElementUI.detachElement(this.mainContainer)
         this.mainContainer.remove()
     }
-
     setDeletetButtonButtonClickEvent(bag) { // 設定確定按鈕的事件
         this.currentBagSize = bag.bagMarbles.length
         this.oldBagSize = bag.bagMarbles.length 
@@ -96,7 +88,6 @@ GameClasses.BagUI = class BagUI {
             })
         }
     }
-
     setCancelButtonClickEvent(reload, callBack, stopMusic) { // 設定取消按鈕的事件
         this.cancelButton.clickEvent = (e) => {
             this.selectedMarbledImageList = []
@@ -115,7 +106,6 @@ GameClasses.BagUI = class BagUI {
             }
         }
     }
-
     deleteMarblesImage(bag) {
         this.selectedMarbledImageList.sort((a, b) => {return b.index - a.index})// 以 index 做反向排序
         this.selectedMarbledImageList.forEach((value) => {

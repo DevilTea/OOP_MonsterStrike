@@ -1,5 +1,4 @@
 //立即執行函式, 並封裝所有變數避免衝突
-
 (function(){
     //動態依序載入JS
     //ref: http://blog.darkthread.net/blogs/darkthreadtw/archive/2009/01/15/4061.aspx
@@ -18,7 +17,6 @@
             }
         }
     }
-
     //陣列和載入JS檔的順序相同, lookFor為在要載入的檔案中, 
     //有用到的全域變數, importJS這個function, 會在找到lookFor的變數後
     //才會繼續loading下一個檔案, 如果沒有需要lookFor, 則以空字串代表

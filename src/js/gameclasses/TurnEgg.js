@@ -15,7 +15,6 @@ GameClasses.TurnEgg = class TurnEgg{
         this.audio
         this.marblesNumberList = []
     }
-
     load() {
         Object.keys(marbleDataList).forEach((key) =>{
             this.marblesNumberList.push(marbleDataList[key].id)
@@ -30,13 +29,11 @@ GameClasses.TurnEgg = class TurnEgg{
             }
         )
     }
-
     initialize() {
         this.backgroundSprite.initTexture()
         this.egg.initTexture()
         this.initializetMenu()
     }
-
     initializetMenu() {
         this.container = Framework.HtmlElementUI.createElement(0, 0, 'full', 'full', document.createElement('div'), undefined, true)
         let background = Framework.HtmlElementUI.createElement(0, 0, 'full', 'full', this.backgroundSprite.texture, this.container, true)
@@ -59,7 +56,6 @@ GameClasses.TurnEgg = class TurnEgg{
             this.NumberOfGem.ele.innerText = '剩下 ' + userPlayInfo.gem + ' 個寶石'
         }
     }
-
     create(bag) {
         Framework.HtmlElementUI.attachElement(this.container)
         this.NumberOfGem.ele.innerText = '剩下 ' + userPlayInfo.gem + ' 個寶石'
@@ -75,12 +71,10 @@ GameClasses.TurnEgg = class TurnEgg{
             }
         }
     }
-
     remove() {
         Framework.HtmlElementUI.detachElement(this.container)
         this.container.remove()
     }
-
     setCancelButtonClickEvent(callBack, createElementList, stopMusic) {
         this.cancelButton.clickEvent = (e) => {
             if(this.currentBagSize != this.oldBagSize) { // 沒有轉蛋 就不需重載
@@ -93,7 +87,6 @@ GameClasses.TurnEgg = class TurnEgg{
             this.remove()
         }
     }
-
     imageShowBigMarble(randomNumber) {   // 顯示抽中的彈珠大圖
         if(this.background.childs.length > 2) {
             this.background.childs.pop()
@@ -106,7 +99,6 @@ GameClasses.TurnEgg = class TurnEgg{
         Framework.HtmlElementUI.attachElement(this.container)
         this.container.create()
     }
-
     getRandomMarble(bag) {
         let number = this.marblesNumberList.length//100//3174
         // for(number in marbleDataList){}

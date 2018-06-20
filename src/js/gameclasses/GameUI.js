@@ -8,7 +8,6 @@ GameClasses.GameUI = class GameUI {
         this.playerInfoUISprites = {UI: undefined, marbleSmallSprites: []}
         this.playerInfoUIHtmlElements = {marbleSmallHtmlElements: []}
     }
-
     loadArrow() {
         this.arrowSprites = [
             new Framework.Sprite(imagePath + 'UI/arrow_bounce.png'),
@@ -17,11 +16,9 @@ GameClasses.GameUI = class GameUI {
             new Framework.Sprite(imagePath + 'UI/arrow_pierce_2.png')
         ]
     }
-
     initializeArrow() {
         Objects.keys(this.arrowSprites).forEach((key) => this.arrowSprites[key].initTexture())
     }
-
     drawArrow(ctx) {
         if(this.arrowOption.canDraw) {
             this.arrowSprites[this.arrowOption.arrowType].position = this.arrowOption.position
@@ -30,7 +27,6 @@ GameClasses.GameUI = class GameUI {
             this.arrowSprites[this.arrowOption.arrowType].draw(ctx)
         }
     }
-
     loadPlayerInfoUI() {
         this.playerInfoUISprites.UI = new Framework.Sprite(imagePath + 'UI/player_info_UI.png')
         this.playerInfoUISprites.UI.position = {x: 540, y: 1708.5}
@@ -44,7 +40,6 @@ GameClasses.GameUI = class GameUI {
             }
         })
     }
-
     initializePlayerInfoUI() {
         this.playerInfoUISprites.UI.initTexture()
         this.playerInfoUISprites.marbleSmallSprites.forEach((marbleSmall, index) => {
@@ -54,7 +49,6 @@ GameClasses.GameUI = class GameUI {
             Framework.HtmlElementUI.attachElement(newHtmlElement)
         })
     }
-
     drawPlayerInfoUI(ctx) {
         ctx.fillStyle = "black"
         ctx.fillRect(170, 1542, 855, 30)

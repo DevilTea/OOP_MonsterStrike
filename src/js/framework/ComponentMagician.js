@@ -6,7 +6,6 @@ Framework.ComponentMagician = class ComponentMagician {
         this.effectQueue = []
         this.currentEffect
     }
-
     addEffect(effectObj, duration, callback, ...args) {
         let effect = {}
         effect.effectDelta = {}
@@ -24,7 +23,6 @@ Framework.ComponentMagician = class ComponentMagician {
         effect.args = args
         this.effectQueue.push(effect)
     }
-
     update() {
         if(this.currentEffect === undefined) {
             if(this.effectQueue.length === 0) {
@@ -46,7 +44,6 @@ Framework.ComponentMagician = class ComponentMagician {
                 //this.component.isDuringEffect = true
             }
         }
-
         if(this.currentEffect.remainingUpdateCount === 1) {
             Object.keys(this.currentEffect.finishStatus).forEach((key) => {
                 if(key === 'position' || key === 'scale' || key === 'rotation' || key === 'opacity') {

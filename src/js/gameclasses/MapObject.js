@@ -6,7 +6,6 @@ GameClasses.MapObject = class MapObject {
         this.matter
         this.component
     }
-
     defineProperties() {
         Object.defineProperty(this, 'position', {
             get : function() {
@@ -34,7 +33,6 @@ GameClasses.MapObject = class MapObject {
                 this.component.rotation = newValue
             }
         })
-
         Object.defineProperty(this, 'opacity', {
             get : function() {
                 return this.component.opacity
@@ -44,16 +42,11 @@ GameClasses.MapObject = class MapObject {
             }
         })
     }
-
     load() {}
-
     initialize() {}
-
     update() {
         this.component.update()
     }
-
     draw(ctx) {}
-
     remove() {}
 }

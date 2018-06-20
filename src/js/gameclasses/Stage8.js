@@ -9,11 +9,9 @@ Stages.Stage8 = class Stage8 extends GameClasses.Stage {
         this.monsterHpRate = 80
         this.monsterDamageRate = 1
     }
-
     static getStageName() {
         return '第八級關卡'
     }
-
     addMap1() {
         let map = new GameClasses.Map()
         this.addMap(map)
@@ -28,7 +26,6 @@ Stages.Stage8 = class Stage8 extends GameClasses.Stage {
         map.addMonster(monster4)
         map.addMonster(monster5)
     }
-
     addMap2() {
         let map = new GameClasses.Map()
         this.addMap(map)
@@ -43,7 +40,6 @@ Stages.Stage8 = class Stage8 extends GameClasses.Stage {
         map.addMonster(monster4)
         map.addMonster(monster5)
     }
-
     addMap3() {
         let map = new GameClasses.Map()
         this.addMap(map)

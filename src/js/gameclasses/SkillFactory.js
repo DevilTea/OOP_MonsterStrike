@@ -3,16 +3,13 @@ GameClasses.SkillFactory = class SkillFactory {
         autoBind(this)
         this.effectSprites = {}
     }
-
     load() {
         this.effectSprites.effect1 = new Framework.Sprite(imagePath + 'effect/effect1.png')
         this.effectSprites.effect2 = new Framework.Sprite(imagePath + 'effect/effect2.png')
     }
-
     createSkill(skillOwner, skillData, callback = () => {}) {
         return new GameClasses.Skill(skillOwner, skillData, this.getSkillSprite(skillData.skillType, skillOwner.element), callback)
     }
-
     static isLaserSkill(skillType) {
         return skillType === GameClasses.skillTypeEnum.LASER_SINGLE_UP || skillType === GameClasses.skillTypeEnum.LASER_SINGLE_DOWN ||
                 skillType === GameClasses.skillTypeEnum.LASER_SINGLE_LEFT || skillType === GameClasses.skillTypeEnum.LASER_SINGLE_RIGHT ||
@@ -34,13 +31,11 @@ GameClasses.SkillFactory = class SkillFactory {
     static isCrossLaserSkill(skillType) {
         return skillType === GameClasses.skillTypeEnum.LASER_CROSS_1 || skillType === GameClasses.skillTypeEnum.LASER_CROSS_2
     }
-
     getSkillSprite(skillType, element) {
         if(SkillFactory.isLaserSkill(skillType)) {
             return this.getLaserSprite(element)
         }
     }
-
     getLaserSprite(element) {
         let laserSprite
         if(element === GameClasses.elementTypeEnum.WATER) {

@@ -14,7 +14,6 @@ Framework.Component = class Component {
         this.hasFirstUpdate = false
         this.lockRotation = false
         this.syncSprite = true
-
         Object.defineProperty(this, 'position', {
             get : function() {
                 return this.componentPosition
@@ -69,7 +68,6 @@ Framework.Component = class Component {
                 }
             }
         })
-
         Object.defineProperty(this, 'label', {
             get: () => {
                 return this.body.label
@@ -85,12 +83,10 @@ Framework.Component = class Component {
         this.matter.addBody(this.body)
         this.hasAddedToWorld = true
     }
-
     removeBodyFromWorld() {
         this.matter.removeBody(this.body)
         this.hasAddedToWorld = false
     }
-
     setBody(property, value) {
         this.matter.setBody(this.body, property, value)
     }

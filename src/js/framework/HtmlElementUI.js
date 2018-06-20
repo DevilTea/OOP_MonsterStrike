@@ -5,33 +5,27 @@ Framework.HtmlElementUI = new (class HtmlElementUI {
         autoBind(this)
         this.attachedHtmlElements = []
     }
-
     createElement(x, y, width, height, ele, parentHtmlElement, onCanvas = true) {
         let newHtmlElement = new HtmlElement(x, y, width, height, ele, parentHtmlElement, onCanvas)
         return newHtmlElement
     }
-
     attachElement(htmlElement) {
         this.attachedHtmlElements.push(htmlElement)
     }
-
     detachElement(htmlElement) {
         let indexToRemove = this.attachedHtmlElements.indexOf(htmlElement)
         if(indexToRemove !== -1) {
             this.attachedHtmlElements.splice(indexToRemove, 1)
         }
     }
-
     removeAll() {
         let toRemove = [...this.attachedHtmlElements]
         this.attachedHtmlElements.forEach((htmlElement) => htmlElement.remove())
         toRemove.forEach((attached) => this.detachElement(attached))
     }
-
     resize() {
         this.attachedHtmlElements.forEach((ele) => ele.resize())
     }
-
     createTestDialog(msg, callback, ...args) {
         let fullContainer = this.createElement(0, 0, 'full', 'full', document.createElement('div'), undefined, false)
         let dialogBackground = this.createElement(140, 360, 800, 600, document.createElement('div'), fullContainer, true)
@@ -44,19 +38,16 @@ Framework.HtmlElementUI = new (class HtmlElementUI {
         dialogText.ele.innerText = msg
         enterButton.style = {border: '2px #999999 solid', borderRadius: '3px', color: '#ffffff', backgroundColor: '#333333'}
         enterButton.ele.innerText = '確認'
-
         fullContainer.clickEvent = (e) => e.stopPropagation()
         fullContainer.mousedownEvent = (e) => e.stopPropagation()
         fullContainer.mouseupEvent = (e) => e.stopPropagation()
         fullContainer.mousemoveEvent = (e) => e.stopPropagation()
-
         dialogBackground.mousedownEvent = (e) => {
             e.preventDefault()
             e = Framework.MouseManager.countCanvasOffset(e)
             mouseOffset.x = dialogBackground.originX - e.x
             mouseOffset.y = dialogBackground.originY - e.y
         }
-
         fullContainer.mousemoveEvent = (e) => {
             if(e.buttons === 1) {
                 e.preventDefault()
@@ -64,20 +55,17 @@ Framework.HtmlElementUI = new (class HtmlElementUI {
                 dialogBackground.position = {x: mouseOffset.x + e.x, y: mouseOffset.y + e.y}
             }
         }
-
         enterButton.clickEvent = (e) => {
             this.detachElement(fullContainer)
             fullContainer.remove()
             Framework.MouseManager.startHandle()
         }
-
         this.attachElement(fullContainer)
         fullContainer.create()
         Framework.MouseManager.stopHandle()
         return fullContainer
     }
 })
-
 class HtmlElement {
     constructor(x, y, width, height, ele, parent, onCanvas) {
         autoBind(this)
@@ -140,7 +128,6 @@ class HtmlElement {
         this.hasCreated = false
         this.onCanvas = onCanvas
         this.isRootElement = Framework.Util.isUndefined(parent)
-
         this.clickEvent = (e) => {}
         this.mousedownEvent = (e) => {}
         this.mouseupEvent = (e) => {}
@@ -149,7 +136,6 @@ class HtmlElement {
         this.addEventListener('mousedown', this.mousedown, false)
         this.addEventListener('mouseup', this.mouseup, false)
         this.addEventListener('mousemove', this.mousemove, false)
-
         if(!this.isRootElement) {
             this.parent.childs.push(this)
         }
@@ -157,27 +143,21 @@ class HtmlElement {
         this.style = {display: 'block', float: 'left', position: 'absolute'}
         this.resize()
     }
-
     addEventListener(eventName, callback, useCapture = false) {
         this.ele.addEventListener(eventName, callback, useCapture)
     }
-
     click(e) {
         this.clickEvent(e)
     }
-
     mouseup(e) {
         this.mouseupEvent(e)
     }
-
     mousedown(e) {
         this.mousedownEvent(e)
     }
-
     mousemove(e) {
         this.mousemoveEvent(e)
     }
-
     create() {
         if(!this.hasCreated) {
             this.hasCreated = true
@@ -191,7 +171,6 @@ class HtmlElement {
             })
         }
     }
-
     remove() {
         if(this.hasCreated) {
             this.hasCreated = false
@@ -206,7 +185,6 @@ class HtmlElement {
             })
         }
     }
-
     resize() {
         let re = this.hasCreated
         let widthRatio
